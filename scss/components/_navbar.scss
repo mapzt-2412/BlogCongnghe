@@ -1,0 +1,14 @@
+.navbar-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $color-primary;
+    color: $color--light;
+    .navbar-title{
+        cursor: pointer;
+        padding: 10px 16px;
+    }
+    .navbar-title.active{
+        background: $color--active;
+    }
+}
