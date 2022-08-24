@@ -1,0 +1,26 @@
+import * as React from "react"
+
+function IconInform(props) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      x="0px"
+      y="0px"
+      width="23px"
+      height="18px"
+      viewBox="0 0 23 18"
+      xmlSpace="preserve"
+      {...props}
+    >
+      <image
+        width={23}
+        height={18}
+        x={0}
+        y={0}
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABNCAQAAAD6SAkhAAAABGdBTUEAALGPC/xhBQAAACBjSFJN AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElN RQfmCBgRBhofyPE1AAADg0lEQVRo3u2b4XnaMBCGP/XJABrBmaDOBmaC0glqNiATlEwAncDJBCQT QCcwG8AGZoPrDyDYINsn6YwUnn5/bWS98ncn6SyALyJKSYfugwRGThWtQvfCF0JTQQfNQvfFByOl ks7KQvfHFSOniuqqvmCk1CxV11eLlAtL1TUL3TcbjEtLNZWF7h8Pwmypuuah+8jBaLfUSdPQfQSN qei5o9tSRFtKQ0MktOrOOQxLLQMnX9I060+elERuKRrTljcL0DRaSx0NxZ7OaBmhpWqG4oPo2tuL w1INQ7FBAEojstSVoSxAGpES0lJGQ1mBfEbKNBhEq6FsQTQtA1qqw1CWIC76JgShaYYtshuN2VDq NZThjUS302MZygQiHAUPpq4hQ4Lv4I1Z5vhkjRWN1GYgEErwG7lU4wyUR7WXaawR7JSjvBnGAWUp 1VQNhHIUTDvx9MK4J6Nc8InA1RrHVytKgM5gP6UIoUrV+Y3Ibeh3+KlGase8W2Mq9mTR9zE7jzDr jRBtJQhOb+SXyHis8ahm1nkoobEcSOrdkp2hmvrhD/Lg3wQA4AULjxkha7tAKSuP7j4H0LTM8Kdj xggRUdLSgqFfprgUW/16K/FtIBaQ9F5A9L2AeOs/SGyKBWRzLyB73wY6ZnaL0s0Oz347PbVuufCG v4yfn39tVUAwqTLVBdkzu0C162Qtr/EEoDGn0vlr64cciEBTSLGiwmm/9y4H8u4fbgCAHFvr4vO7 4+LfBKL2+CMC4mIyqSef1Pt9204FaVawixWEziBaGKVigFRtOxFb1SZEtccIC8GR0Yx7niXiwyhK qGDX1u3VfCOFT0/t0Uyf0rLjtf7TCu0gohieay21VxOMnJZ8b2oSEQgAqLV6wrPtPKReJTHEVr9q gUcIdy0IiJfJDLJftYnuR9xMZsAYY2V7WEB8Y+VvMkpQABijtPnKOMAO0dtky+NUmqDkL0AH2uq6 m4zmjWLdXPA8SteE2PPL6+my75jT2PAs1gmhQYsPtiY7RselWBYbvIpiZbJl60Kz12I3KQfxMhml naXsnix2o7oWx2Rqg6fOO6yymEHuwW5oK+25PuTZX0kQ1vOcTmPHUjKtSb32mDAxfYOOEARQG4w6 ksPGdDgkSpBjcpgYk/YeE6kTRTeT8S8YeeheuaFcZrHbliuEYc5ZrIzuJKQlysFiVfA/wQigaJp3 R8c/LIZr3SGZX/0AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDgtMjRUMTU6MDY6MjYrMDI6MDAt orZZAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA4LTI0VDE1OjA2OjI2KzAyOjAwXP8O5QAAABl0 RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAASUVORK5CYII="
+      />
+    </svg>
+  )
+}
+
+export default IconInform;

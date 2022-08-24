@@ -4,6 +4,7 @@ import IconSearch from "../../assets/icon/IconSearch";
 import IconSignin from "../../assets/icon/IconSignin";
 import IconSignup from "../../assets/icon/IconSignup";
 import Logo from "../../assets/icon/Logo";
+import HotNews from "./HotNews/HotNews";
 import NavBar from "./NavBar/NavBar";
 
 const Header = () => {
@@ -30,7 +31,8 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <NavBar />
+      <NavBar/>
+      <HotNews/>
     </>
   );
 };

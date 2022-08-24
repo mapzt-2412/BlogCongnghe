@@ -1,0 +1,36 @@
+.hotnews-container{
+    display: flex;
+    .hotnews-title{
+        display: flex;
+        align-items: center;
+        background: $color--yellow;
+        padding: 8px 20px;
+        color: $color--light;
+        @include font-17;
+        height: 36px;
+        p{
+            width: 88px;
+            margin: 0px;
+        }
+    }
+    .hotnews-contents{
+        .marquee-container{
+            height: 36px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            .hotnews-content{
+                display: flex;
+                align-items: center;
+                svg{
+                    margin-right: 5px;
+                }
+                a{
+                    margin-right: 18px;
+                    align-items: center;
+                    color: $color--text1;
+                }
+            }
+        }
+    }
+}

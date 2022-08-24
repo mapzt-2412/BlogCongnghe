@@ -1,0 +1,26 @@
+import * as React from "react"
+
+function IconWarning(props) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      x="0px"
+      y="0px"
+      width="11px"
+      height="16px"
+      viewBox="0 0 11 16"
+      xmlSpace="preserve"
+      {...props}
+    >
+      <image
+        width={11}
+        height={16}
+        x={0}
+        y={0}
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAABkCAMAAAAIYWa2AAAABGdBTUEAALGPC/xhBQAAACBjSFJN AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAY1BMVEUAAADTLEXTLEXTLEXT LEXTLEXTLEXTLEXTLEXTLEXTLEXTLEXTLEXTLEXTLEXTLEXTLEXeYXTmiJbbVGjke4vso67319z/ ///ZRlzhbn/plqL0ytH65ej88vPWOVHvsLnxvcW0qmsxAAAAEHRSTlMAQBAgYICvv3Awz++P359Q cXfvVAAAAAFiS0dEFwvWmI8AAAAHdElNRQfmCBgNARXVCiB3AAACvElEQVRYw9XZ24KCIBAAUFAR zTRsKy0r+/+vXLuYIDNcxIfdeV08CTIwsIT886A0Wv5wTBOWcvEKnvlCOc0Y3wg1CubIUMq2vBRI lLnx4Wh48YoXwhIFrMTDi4/ddoiZElGmd9se5TQuUeL/+CfYaOzKpcTQoc+rVMuJIZIVDJE+jW2Y IYrndAo0hBiQgDH9IkmwMSDpGki4IUgebhQrfBvBnZF6H4b8HI6npmnQv6cWpD1fuuYTaCNm/DqH ayOFCTGsI5fGCcmMKbyXjRvajBqnfS0jnQnJg5HnUo0jdzfkuSYZtgd3hOHIzQUpXis9jnQuCH9t eWsghvXx6IK8FnvD2iZP2R5r9N4BmRNyMSN4ItcuSPbeRcMQ+kbQRG49EDyRXZBPlZMFIWNpiCKd O0JCkGJE0ER+TMgBacJHBK1QpNlW25BdAJJ+a1cMOduRb/FIsMq59kGwRP6xI9kXQRPZjtDpLLEG EmHIyYpIBwQskacp2yItpCNGZUWEHcES+WJDCgmhSxEuIQRpc/gQp94FQRJ5mLLXxwX7MkJKHUMi t+e7MAaTkaUlvoLEC5FEOYxaj8BwUOIwsn4Ilsh1P+TPtcc+UKwg8HS7f5fqI4woBpzI9ymLm5MD AtY60pYB7zzlDAESWSlkmwaYd3yGAIncq8jejgAje1WRh96imiFEb6IaUO3H5shmDURP5M6KJHNE T+SjdWDpHNFrnVZFWgcESGTlVaDJFmsIkMjSqICrrGaAiTwu9zf4cK0jYK3T7h9d1x/gpbbUEXRH RoPriP+lDoR4X8hUAJL5IgxAvC9TMgAhvgh4kep5i1lChu8FItgbzx25gK+o/abbjpDg/mwRw6c4 qAgazNXIiCHcqgMemwwS2ecKZ2biGeg5rOAVS1z/FULnXdrwLaO528NT5NvN+6fT4aft7/5n4hdr qlUhI25F5AAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wOC0yNFQxMzowMToyMSswMDowMAA1hPgA AAAldEVYdGRhdGU6bW9kaWZ5ADIwMjItMDgtMjRUMTM6MDE6MjErMDA6MDBxaDxEAAAAGXRFWHRT b2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAABJRU5ErkJggg=="
+      />
+    </svg>
+  )
+}
+
+export default IconWarning;
