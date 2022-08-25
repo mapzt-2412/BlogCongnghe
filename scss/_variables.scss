@@ -9,3 +9,9 @@ $color-primary: linear-gradient(90deg,#234b86,#017389);
 
 $color--yellow: #D3CB2C;
 $color--light: #ffffff;
+$color--dark: #000000;
+
+$color--dark_40: rgba(
+   $color: $color--dark,
+   $alpha: 0.4,
+);

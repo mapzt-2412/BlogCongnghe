@@ -1,0 +1,46 @@
+.main-container{
+    padding: 0px 20px;
+    .ant-col-16{
+        padding-right: 20px;
+    }
+    .slick-dots{
+        li{
+            button{
+                width: 12px;
+                height: 12px;
+                border-radius: 100%;
+                background: $color--yellow;
+            }
+            .slick-active{
+                width: 12px;
+                button{
+                    background: $color--yellow;
+                }
+            }
+        }
+        
+    }
+}
+.carousel-item{
+    height: 480px;
+    .carousel-title{
+        position: absolute;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 0px 24px;
+        @include font-17;
+        bottom: 0px;
+        height: 68px;
+        background: $color--dark_40;
+        color: $color--light;
+        p{
+            display:inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            margin: 0px;
+            max-width: 100ch;
+            text-overflow: ellipsis;
+        }
+    }
+}

@@ -9,7 +9,6 @@ const hotNews = [
     "Triển lãm di động toàn cầu MWC 2022",
     "Samsung cũng là nạn nhân của nhóm tin tặc vừa tấn công NVIDIA - LAPSUS$",
     "Netflix có kế hoạch mua lại Next Games, trị giá khoảng 71 triệu USD",
-    "Netflix có kế hoạch mua lại Next Games, trị giá khoảng 71 triệu USD",
 ]
 const HotNews = () => {
     return (
@@ -22,7 +21,7 @@ const HotNews = () => {
                 <Marquee>
                     {
                         hotNews.map((value)=> (
-                            <div className="hotnews-content" key="value">
+                            <div className="hotnews-content" key={value}>
                                 <IconWarning/>
                                 <Link href={"/"}>{value}</Link>
                             </div>
