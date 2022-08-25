@@ -1,0 +1,80 @@
+.topic-container{
+    .topic-header{
+        display: flex;
+        position: relative;
+    }
+    .topic-title{
+        background: $color-primary;
+        height: 40px;
+        max-width: max-content;
+        padding: 10px 16px;
+        padding-right: 32px;
+        margin-bottom: 24px;
+        border-left: 16px;
+        p{
+            color: $color--light;
+        }
+    }
+    .topic-arrow-top{
+        width: 0; 
+        height: 0; 
+        border-top: 20px solid $color--light; 
+        border-left: 16px solid transparent; 
+        margin-left: -16px;
+    }
+    .topic-arrow-bottom{
+        width: 0; 
+        height: 0; 
+        border-bottom: 20px solid $color--light; 
+        border-left: 16px solid transparent; 
+        margin-left: -16px;
+        margin-top: 20px;
+    }
+    .topic-see-more{
+        position: absolute;
+        right: 0px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        svg{
+            margin-left: 8px;
+        }
+    }
+}
+.topic-content{
+    display: flex;
+}
+.post-card-container.right{
+    margin-right: 0px;
+}
+.post-card-container{
+    margin-right: 20px;
+    margin-bottom: 68px;
+    .post-author{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        @include font-15;
+        .post-time{
+            display: flex;
+            align-items: center;
+            svg{
+                margin-right: 4px;
+            }
+        }
+        .post-author-profile{
+            display: flex;
+            align-items: center;
+            color: $color--text2;
+        }
+    }
+    .post-author-avatar{
+        height: 24px;
+        margin-right: 8px;
+    }
+    .post-duration{
+        color: $color--text1;
+        @include font-15;
+    }
+
+}

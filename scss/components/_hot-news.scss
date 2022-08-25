@@ -6,10 +6,10 @@
         align-items: center;
         background: $color--yellow;
         padding: 8px 20px;
-        color: $color--light;
         @include font-17;
         height: 36px;
         p{
+            color: $color--light;
             width: 88px;
             margin: 0px;
         }

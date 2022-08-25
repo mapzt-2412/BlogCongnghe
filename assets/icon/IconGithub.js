@@ -1,0 +1,26 @@
+import * as React from "react"
+
+function IconGithub(props) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      x="0px"
+      y="0px"
+      width="32px"
+      height="32px"
+      viewBox="0 0 32 32"
+      xmlSpace="preserve"
+      {...props}
+    >
+      <image
+        width={32}
+        height={32}
+        x={0}
+        y={0}
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAMAAABHPGVmAAAABGdBTUEAALGPC/xhBQAAACBjSFJN AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAANlBMVEUAAAAYFhYYFhYYFhYY FhYYFhYYFhYYFhYYFhYYFhYYFhYYFhYYFhYYFhYYFhYYFhYYFhb///+owandAAAAEHRSTlMAMECA cCBgj7/v31AQn6/PXNctsAAAAAFiS0dEEeK1PboAAAAHdElNRQfmCBkSOylwCgGhAAADjklEQVRo 3u2ay3aEIAxAKygCovL/X9vxDSRgiM6qzaIL7eFC3sT5+fmXr0kjhJCy/fztvrK86rXxoVgthxdR To3x+gFpHF5BqMkXxYziIaGTxt+Lbd0DxEggbMeRTIzrqYgNw2G0FEVFSqv2gUZXIhaZ6nRWfYxd ZxWO5iYWYpGerKqZzfBe01TW8FR1yEzJNcMzxscwzS1DPURQKOI545by0B6H2JL1u3cYH+vnKe6J 78YyZiHkpEuQluRYWsqJrj07SWmjJ7jxE4Os/zSQDmf69Z/b6CFuljjvmsNOt7XxLFhd/BwrMEkU XpaL66PRWqOIj8T6QhTmTH4fYl5tpIJuqxFtv8B0mKkS3WoAkYkS4sqgcDMKVVwjLZXpQTynz2mT NezNQVgQkPjig4KDsCAgg8/Fg/IgsryKBa9bBgRGbpjCGvDWTwwI3KoPwh5JHqae0cFVQtMjmWOu hzjkJJdCkJprOA00ovVLX0hnzbtzQCe9oh4WxJHFKK4E+dzLIFT8nH3DPQjmxS6nSf5tM5s6QJQw YuQQGCt76gD3HU60Z/W1Vz+Tec4SsOO9Pr5oEiQT5yBPbv8AshlYfBfi/yFvQDil95CeCnk1TjYI zASvRvwGgXHCKL2n5BYDzz1/RgZ1v0c8LGf8vALtPuZs9WbR2r0IujarV1kE6Vd2rQzwjWJCkC5x v9kgnZ/lMZCVziqLNJC8eESGcWfMYa3w/TwJCqL3K0Vh46e53vbo9OfcrPNvUNDJTGDc+QUKPrkM Bp/4uM7W2CUzVQyWQPW1+Bj1MF1myBuFQuBf0Y5og/78h4Oo/J3pYMmZQ5TMJlXmdG1+FJekp2Pd LT5ErOC5V2jZ74ScrC9IMu++6sAa64jLwwH5/TAxveZcKloH4YCCVEt3NwkD+xLJeulFA3Pnm0E1 UjDGZAdxKcN7i6JBsM4qPPxi5ngkiRfk4gcptB0JFKSB8XE3Lg7d8XwRRO3qsU6Xd5XPFItkKlKg sN0EzTJnNFpmk1ilspLTEy/yec/KL3D5pH4IKV0MLj+mFfkco9ztVFLqjH5KkF4IdsEZtw2oCyL/ +tje1UAoTW5UgfQic9YPOLraBEkWFRBqh6sMG1LRFIL2hgohfpTdJP3gT4TUdtDCVkM0o38OvzMR IIZ3pwlC5hbC/iXGJwZ7U4bsry0fsZ5GrY6Wuw6v/qG5l79AGinziVvJ9iu/XfrL8gt3jvXTddTC jwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMi0wOC0yNVQxNjo1OTo0MSswMjowML2Ui8AAAAAldEVY dGRhdGU6bW9kaWZ5ADIwMjItMDgtMjVUMTY6NTk6NDErMDI6MDDMyTN8AAAAGXRFWHRTb2Z0d2Fy ZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAABJRU5ErkJggg=="
+      />
+    </svg>
+  )
+}
+
+export default IconGithub

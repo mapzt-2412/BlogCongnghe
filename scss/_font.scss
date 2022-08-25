@@ -1,0 +1,37 @@
+@font-face {
+    font-family: 'GoogleSans-Bold';
+    font-style: normal;
+    src: local('GoogleSans Bold'), local('GoogleSans-Bold'),
+        url('../assets/GoogleSan/GoogleSans-Bold.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GoogleSans-Regular';
+    font-style: normal;
+    src: local('GoogleSans Regular'), local('GoogleSans-Regular'),
+        url('../assets/GoogleSan/GoogleSans-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GoogleSans-Medium';
+    font-style: normal;
+    src: local('GoogleSans Medium'), local('GoogleSans-Medium'),
+        url('../assets/GoogleSan/GoogleSans-Medium.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GoogleSans-Light';
+    font-style: normal;
+    src: local('GoogleSans Light'), local('GoogleSans-Light'),
+        url('../assets/GoogleSan/GoogleSans-Light.ttf') format('truetype');
+    font-display: swap;
+}
+
+$font-regular: 'GoogleSans-Regular';
+$font-bold: 'GoogleSans-Bold';
+$font-light: 'GoogleSans-Light';
+$font-medium: 'GoogleSans-Medium';
+

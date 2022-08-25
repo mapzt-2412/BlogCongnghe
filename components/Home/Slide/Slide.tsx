@@ -1,5 +1,5 @@
 import { Carousel } from 'antd';
-import React from 'react';
+import React, { memo } from 'react';
 import Image from 'next/image';
 
 const contentStyle: React.CSSProperties = {
@@ -50,4 +50,4 @@ const Slide = () => {
         </Carousel>
     )
 }
-export default Slide;
+export default memo(Slide);

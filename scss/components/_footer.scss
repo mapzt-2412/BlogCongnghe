@@ -1,0 +1,10 @@
+.footer-container{
+    display: flex;
+    justify-content: center;
+    height: 112px;
+    background: $color--background;
+    padding-top: 24px;
+    .footer-item{
+        margin-right: 40px;
+    }
+}

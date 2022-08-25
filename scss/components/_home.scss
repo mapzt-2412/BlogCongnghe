@@ -1,24 +1,56 @@
+@import "../font";
+
 .main-container{
     padding: 0px 20px;
+    .home-slide{
+        margin-bottom: 56px;
+    }
     .ant-col-16{
-        padding-right: 20px;
+        padding-right: 18px;
     }
     .slick-dots{
         li{
+            width: 12px;
             button{
                 width: 12px;
                 height: 12px;
                 border-radius: 100%;
                 background: $color--yellow;
             }
-            .slick-active{
-                width: 12px;
-                button{
-                    background: $color--yellow;
-                }
+        }
+        li.slick-active{
+            width: 12px;
+            button{
+                background: $color--yellow;
             }
         }
-        
+    }
+    .rightbar-container{
+        background: $color--background;
+        padding: 16px;
+        margin-bottom: 18px;
+        .rightbar-title{
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid $color--text1;
+            p{
+                margin: 0px;
+                @include font-20;
+                font-family: $font-bold ,sans-serif;
+            }
+        }
+        .see-more{
+            text-align: right;
+        }
+    }
+    .trend-item{
+        display: flex;
+        margin-bottom: 16px;
+        .trend-image{
+            width: 122px;
+            height: 75px;
+            margin-right: 16px;
+        }
     }
 }
 .carousel-item{
@@ -33,14 +65,47 @@
         bottom: 0px;
         height: 68px;
         background: $color--dark_40;
-        color: $color--light;
         p{
             display:inline-block;
             white-space: nowrap;
             overflow: hidden;
             margin: 0px;
-            max-width: 100ch;
+            max-width: 75ch;
             text-overflow: ellipsis;
+            color: $color--light;
         }
+    }
+}
+.link{
+    a{
+        color: $color--text3;
+    }
+}
+.tags{
+    display:flex;
+    flex-wrap: wrap;
+    .tag{
+        margin-right: 20px;
+        margin-bottom: 15px
+    }
+}
+.news-item.left{
+    padding-right: 8px;
+    padding-left: 0px; 
+}
+.news-item{
+    padding-left: 8px; 
+    .news-title{
+        padding-left: 8px; 
+    }
+}
+.post-item{
+    display: flex;
+    span{
+        margin-right: 3px;
+    }
+    p{
+        @include font-15;
+        font-family: $font-regular, sans-serif;
     }
 }
