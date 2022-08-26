@@ -30,8 +30,17 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'GoogleSans-Italic';
+    font-style: normal;
+    src: local('GoogleSans Italic'), local('GoogleSans-Italic'),
+        url('../assets/GoogleSan/GoogleSans-Italic.ttf') format('truetype');
+    font-display: swap;
+}
+
 $font-regular: 'GoogleSans-Regular';
 $font-bold: 'GoogleSans-Bold';
 $font-light: 'GoogleSans-Light';
 $font-medium: 'GoogleSans-Medium';
+$font-italic: 'GoogleSans-Italic';
 

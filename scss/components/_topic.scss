@@ -62,19 +62,20 @@
                 margin-right: 4px;
             }
         }
-        .post-author-profile{
-            display: flex;
-            align-items: center;
-            color: $color--text2;
-        }
     }
-    .post-author-avatar{
-        height: 24px;
-        margin-right: 8px;
-    }
+
     .post-duration{
         color: $color--text1;
         @include font-15;
     }
 
+}
+.post-author-profile{
+    display: flex;
+    align-items: center;
+    color: $color--text2;
+}
+.post-author-avatar{
+    height: 24px;
+    margin-right: 8px;
 }
