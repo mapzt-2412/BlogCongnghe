@@ -25,24 +25,6 @@
             }
         }
     }
-    .rightbar-container{
-        background: $color--background;
-        padding: 16px;
-        margin-bottom: 18px;
-        .rightbar-title{
-            padding-bottom: 16px;
-            margin-bottom: 16px;
-            border-bottom: 2px solid $color--text1;
-            p{
-                margin: 0px;
-                @include font-20;
-                font-family: $font-bold ,sans-serif;
-            }
-        }
-        .see-more{
-            text-align: right;
-        }
-    }
     .trend-item{
         display: flex;
         margin-bottom: 16px;
@@ -51,6 +33,24 @@
             height: 75px;
             margin-right: 16px;
         }
+    }
+}
+.rightbar-container{
+    background: $color--background;
+    padding: 16px;
+    margin-bottom: 18px;
+    .rightbar-title{
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid $color--text1;
+        p{
+            margin: 0px;
+            @include font-20;
+            font-family: $font-bold ,sans-serif;
+        }
+    }
+    .see-more{
+        text-align: right;
     }
 }
 .carousel-item{
@@ -86,7 +86,10 @@
     flex-wrap: wrap;
     .tag{
         margin-right: 20px;
-        margin-bottom: 15px
+        margin-bottom: 15px;
+        a{
+            font-family: $font-medium, sans-serif;
+        }
     }
 }
 .news-item.left{

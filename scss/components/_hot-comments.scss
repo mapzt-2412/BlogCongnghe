@@ -1,7 +1,7 @@
 .hot-comment-content{
     display: flex;
     text-align: justify;
-    @include font_14;
+    @include font-14;
     svg{
         width: 24px;
         height: 24px;
@@ -11,7 +11,7 @@
 .hot-comment-reply{
     display: flex;
     justify-content: flex-end;
-    @include font_14;
+    @include font-14;
     span{
         color: $color--text4;
         font-family: $font-italic,  sans-serif;

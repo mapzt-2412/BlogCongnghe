@@ -1,4 +1,16 @@
+@mixin font-8 {
+  font-size: 8px;
+  line-height: 18px;
+}
+@mixin font-12 {
+  font-size: 12px;
+  line-height: 18px;
+}
 @mixin font-14 {
+  font-size: 14px;
+  line-height: 18px;
+}
+@mixin font-14-21 {
   font-size: 14px;
   line-height: 21px;
 }
@@ -8,7 +20,7 @@
 }
 @mixin font-16 {
   font-size: 16px;
-  line-height: 24px;
+  line-height: 32px;
 }
 @mixin font-17 {
   font-size: 17px;
@@ -17,6 +29,10 @@
 @mixin font-20 {
   font-size: 20px;
   line-height: 24px;
+}
+@mixin font-21 {
+  font-size: 21px;
+  line-height: 32px;
 }
 @mixin font-24 {
   font-size: 24px;

@@ -6,11 +6,17 @@
 
 body{
     font-family: $font-regular, sans-serif;
-}
-p{
-    color: $color--text2;
-    font-family: $font-medium, sans-serif;
-}
-a{
-    font-family: $font-regular, sans-serif;
+    p{
+        color: $color--text2;
+        font-family: $font-medium, sans-serif;
+    }
+    a{
+        font-family: $font-regular, sans-serif;
+    }
+    .italic{
+        font-family: $font-italic, sans-serif;
+    }
+    .hide{
+        display: none;
+    }
 }

@@ -2,7 +2,7 @@
     display: flex;
     margin-bottom: 32px;
     span{
-        @include font_15;
+        @include font-15;
     }
     svg{
         margin-right: 4px;
@@ -13,7 +13,7 @@
     justify-content: space-between;
     border-bottom: 1px solid $color--text1;
     p{
-        @include font_20;
+        @include font-20;
         font-family: $font-bold, sans-serif;
         margin-bottom: 18px;
     }

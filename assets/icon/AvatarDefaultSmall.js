@@ -3,8 +3,8 @@ import * as React from "react"
 function AvatarDefaultSmall(props) {
   return (
     <svg
-      width={24}
-      height={24}
+      width={props.width ? props.width : 24}
+      height={props.height ? props.height : 24}
       viewBox="0 0 86 86"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
