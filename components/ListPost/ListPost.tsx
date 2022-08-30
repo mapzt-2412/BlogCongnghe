@@ -45,12 +45,6 @@ const data = [
 const ListPost = () => {
   return (
     <div className="list-post-container">
-      <div className="list-post-header">
-        <IconHome />
-        <span>
-           / Technology
-        </span>
-      </div>
       <div className="list-post-content">
         <div className="list-post-content-header">
           <div className="list-post-topic">

@@ -3,6 +3,8 @@ import ListPost from "../components/ListPost/ListPost";
 import { Col, Row } from "antd";
 import HotTags from "../components/Home/RightBar/HotTags";
 import HotComments from "../components/Home/RightBar/HotComments";
+import IconHome from "../assets/icon/IconHome";
+
 const tags = [
   {
     title: "#IOS",
@@ -65,6 +67,12 @@ const ListTopicByPost = () => {
     <div className="main-container">
       <Row>
         <Col span={16}>
+        <div className="list-post-header">
+          <IconHome />
+            <span>
+              / Technology
+            </span>
+          </div>
           <ListPost />
         </Col>
         <Col span={8}>

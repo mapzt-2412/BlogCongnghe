@@ -1,0 +1,67 @@
+.list-short-video-wrapper{
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    .create-short-video{
+        background: $color-primary;
+        color: $color--light;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        svg{
+            margin-bottom: 15px;
+        }
+    }
+    .short-video{
+        position: relative;
+        margin: 0px 8px;
+        width: 135px;
+        height: 225px;
+        border-radius: 10px;
+        img{
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .video-react{
+            cursor: pointer;
+            border-radius: 10px;
+            position: absolute;
+            background: none;
+            video{
+                z-index: -1;
+                border-radius: 10px;
+                outline: none;
+                border: none;
+                object-fit: cover;
+            }
+        }
+        &-avatar{
+            position: absolute;
+            top: 8px;
+            left: 8px;
+        }
+        &-author{
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            color: $color--light;
+        }
+        .video-react-control-bar{
+            display: none;
+        }
+        .video-react-button{
+            display: none;
+        }
+    }
+}
+.carousel-next{
+    text-align: right;
+    margin-top: 40px;
+    margin-bottom: 50px;
+    margin-right: 80px;
+    svg{
+        cursor: pointer;
+    }
+}
