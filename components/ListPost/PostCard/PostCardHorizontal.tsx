@@ -2,8 +2,10 @@ import React from "react";
 import { memo, FC } from "react";
 import Image from 'next/image';
 import AvatarDefaultSmall from "../../../assets/icon/AvatarDefaultSmall";
-import IconLike from './../../../assets/icon/IconLike';
-import IconComment from './../../../assets/icon/IconComment';
+import IconLike from '../../../assets/icon/IconLike';
+import IconComment from '../../../assets/icon/IconComment';
+import { SliceString } from '../../../libs/common';
+import { stringLengthTitle, stringLengthDescription } from '../../../libs/commonConstants';
 
 
 interface IPostCardProps{
@@ -28,7 +30,8 @@ const PostCardHorizontal: FC<IPostCardProps> = ({ data }) => {
                 <div className="post-card-horizontal-title">
                     <p>{ data.title }</p>
                     <div className="post-card-horizontal-desc">
-                    { data.description }
+                        
+                    {  SliceString(data.description,stringLengthDescription) }
                 </div>
                 </div>
                 <div className="post-card-horizontal-footer">

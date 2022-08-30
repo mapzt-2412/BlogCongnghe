@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react';
 import Link from "next/link";
-import IconNext from "./../../../assets/icon/IconNext"
-import PostCard from './PostCard';
+import IconNext from "./../../../assets/icon/IconNext";
+import PostCard from '../../ListPost/PostCard/PostCard';
 
 interface ITopicProps {
     data: {

@@ -65,11 +65,11 @@ const comments = [
 const ListTopicByPost = () => {
   return (
     <div className="main-container">
+      <div className="list-post-header">
+        <Path data={{content: ["Technology"]}}/>
+      </div>
       <Row>
         <Col span={16}>
-        <div className="list-post-header">
-          <Path data={{content: ["Technology"]}}/>
-        </div>
           <ListPost />
         </Col>
         <Col span={8}>

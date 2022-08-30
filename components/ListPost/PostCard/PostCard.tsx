@@ -2,6 +2,8 @@ import React, { FC, memo } from 'react';
 import Image from 'next/image';
 import AvatarDefaultSmall from '../../../assets/icon/AvatarDefaultSmall';
 import IconTimming from '../../../assets/icon/IconTimming';
+import { SliceString } from '../../../libs/common';
+import { stringLengthTitle, stringLengthDescription } from '../../../libs/commonConstants';
 import moment from 'moment';
 
 interface IPostCardProps {
@@ -22,7 +24,7 @@ const PostCard: FC<IPostCardProps> = ({ data, index }) => {
                 <Image src={data?.image} width={280} height={175} layout="responsive" alt='post-image'/>
             </div>
             <div className="post-title">
-                <p> { data?.title } </p>
+                <p> { SliceString(data?.title,stringLengthTitle) } </p>
             </div>
             <div className="post-author">
                 <div className="post-author-profile">
