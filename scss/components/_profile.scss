@@ -1,0 +1,53 @@
+.profile-container{
+    margin: 0px 10%;
+    .profile-user-info{
+        background: $color--background;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        margin-bottom: 56px;
+        &-avatar{
+            margin-bottom: 24px;
+        }
+        p{
+            margin: 0px;
+        }
+        .profile-user-contact{
+            display: flex;
+            &-item{
+                margin-right: 34px;
+                margin-bottom: 34px;
+            }
+        }
+        .profile-user-post{
+            display: flex;
+            &-item{
+                padding: 0px 24px;
+                border-left: 1px solid $color--border1;
+            }
+            &-item.first{
+                border: none;
+            }
+        }
+    }
+}
+.profile-user-content{
+    display: flex;
+    .profile-menu{
+        width: 20%;
+        margin-right: 18px;
+        .ant-menu{
+            background: $color--background;
+            &-item-selected{
+                background: $color--active1;
+                color: $color--dark;
+            }
+            &-item-active{
+                background: $color--active1;
+                color: $color--dark;
+            }
+        }
+    }
+}

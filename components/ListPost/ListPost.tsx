@@ -1,7 +1,6 @@
 import React from "react";
 import { memo } from "react";
 import IconCardSort from "../../assets/icon/IconCardSort";
-import IconHome from "../../assets/icon/IconHome";
 import IconListSort from "../../assets/icon/IconListSort";
 import PostCardHorizontal from "./PostCardHorizontal/PostCardHorizontal";
 import { Button } from 'antd';
@@ -62,9 +61,9 @@ const ListPost = () => {
         </div>
       </div>
       <div className="list-post-footer">
-                <Button type="primary" ghost>
-                    Xem thêm
-                </Button>
+        <Button type="primary" ghost>
+            Xem thêm
+         </Button>
             </div>
     </div>
   );

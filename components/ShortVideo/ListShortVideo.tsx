@@ -3,8 +3,6 @@ import React from "react";
 import { memo, useRef } from "react";
 import IconAddShortVideo from './../../assets/icon/IconAddShortVideo';
 import IconNext from './../../assets/icon/IconNext';
-import Image from 'next/image';
-import { Player } from 'video-react';
 import ShortVideoCard from "./ShortVideoCard";
 
 const ListShortVideo = ({ data }) => {
@@ -33,7 +31,7 @@ const ListShortVideo = ({ data }) => {
                     }
                 </div>
         </Carousel>
-        <div className="carousel-next" onClick={() => ref.current.next()}> <IconNext/> </div>
+        <div className="carousel-next" onClick={() => ref?.current.next()}> <IconNext/> </div>
         </>
     )
 }

@@ -1,13 +1,6 @@
 .post-detail-container{
     width: 50%;
     margin: auto;
-    .post-detail-header{
-        display: flex;
-        margin-bottom: 48px;
-        .post-topic{
-            color: $color--text1;
-        }
-    }
     .post-detail-title{
         @include font-21;
         font-family: $font-medium, sans-serif;
@@ -53,10 +46,6 @@
             text-align: justify;
         }
     }
-}
-.slash{
-    color: $color--text1;
-    margin: 0px 4px;
 }
 .interactive{
     height: 40px;
@@ -165,4 +154,16 @@
 }
 .comment-container{
     margin-bottom: 50px;
+}
+.path-container{
+    display: flex;
+    margin-top: -15px;
+    margin-bottom: 35px;
+    .path-title{
+        color: $color--text1;
+    }
+}
+.slash{
+    color: $color--text1;
+    margin: 0px 4px;
 }

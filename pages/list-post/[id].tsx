@@ -1,9 +1,9 @@
 import React from "react";
-import ListPost from "../components/ListPost/ListPost";
+import ListPost from "../../components/ListPost/ListPost";
 import { Col, Row } from "antd";
-import HotTags from "../components/Home/RightBar/HotTags";
-import HotComments from "../components/Home/RightBar/HotComments";
-import IconHome from "../assets/icon/IconHome";
+import HotTags from "../../components/Home/RightBar/HotTags";
+import HotComments from "../../components/Home/RightBar/HotComments";
+import Path from "../../components/Path";
 
 const tags = [
   {
@@ -68,11 +68,8 @@ const ListTopicByPost = () => {
       <Row>
         <Col span={16}>
         <div className="list-post-header">
-          <IconHome />
-            <span>
-              / Technology
-            </span>
-          </div>
+          <Path data={{content: ["Technology"]}}/>
+        </div>
           <ListPost />
         </Col>
         <Col span={8}>

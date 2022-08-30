@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import IconHome from "../../assets/icon/IconHome";
 import HotTags from "../../components/Home/RightBar/HotTags";
 import Recommend from "../../components/Home/RightBar/Recommend";
 import Interactive from "../../components/Interactive/Interactive";
@@ -7,6 +6,7 @@ import ListComment from "../../components/Interactive/Comment/ListComment";
 import Image from "next/image";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import { Button } from "antd";
+import Path from "../../components/Path";
 
 const trends = [
   {
@@ -80,11 +80,7 @@ const data = {
 const PostDetail = () => {
   return (
     <div className="post-detail-container">
-      <div className="post-detail-header">
-        <IconHome />
-        <span className="post-topic"><span className="slash">/</span>Technology</span>
-        <span className="post-title"><span className="slash">/</span>{data.title}</span>
-      </div>
+      <Path data={{title: ["Technology"], content: data.title}}/>
       <div className="post-detail-title">
         <p>{data.title}</p>
       </div>

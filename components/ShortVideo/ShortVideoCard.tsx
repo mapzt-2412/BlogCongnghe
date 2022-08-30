@@ -6,14 +6,10 @@ import AvatarDefaultSmall from "./../../assets/icon/AvatarDefaultSmall";
 const ShortVideoCard = ({ value }) => {
   const ref = useRef(null);
   const handleMouseEnter = () => {
-    if(ref){
-        ref?.current.play();
-    }
+    ref?.current.play();
   };
   const handleMouseLeave = () => {
-    if(ref){
-        ref?.current.pause();
-    }
+    ref?.current.pause();
   };
   return (
     <div

@@ -1,7 +1,6 @@
 .list-short-video-wrapper{
     display: flex !important;
     flex-wrap: wrap;
-    justify-content: center;
     .create-short-video{
         background: $color-primary;
         color: $color--light;
@@ -17,7 +16,7 @@
     .short-video{
         position: relative;
         margin: 0px 8px;
-        width: 135px;
+        width: 8.87%;
         height: 225px;
         border-radius: 10px;
         img{
