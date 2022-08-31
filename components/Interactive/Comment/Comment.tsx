@@ -1,6 +1,6 @@
 import React, { memo, useState, useRef } from "react";
 import AvatarDefaultSmall from "../../../assets/icon/AvatarDefaultSmall";
-import { FormatDate } from "../../../libs/common";
+import { formatDate } from "../../../libs/common";
 import Image from "next/image";
 import { Input } from "antd";
 
@@ -20,7 +20,7 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
                 handleInteractiveLastChild(message, author);
             }else{
                 setIsShowInput(true);
-                setTimeout(() => refInput.current.focus(), 0);
+                setTimeout(() => refInput?.current.focus(), 0);
                 if(comment === ""){
                     setCmtAuthor(`@${author} `);
                 }
@@ -31,7 +31,7 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
         setComment(e.target.value)
     }
     const handleKeyDown = (e) => {
-        if(event.keyCode === 8 && cmtAuthor !== "" && comment === ""){
+        if(e.keyCode === 8 && cmtAuthor !== "" && comment === ""){
             setCmtAuthor("");
         }
     }
@@ -48,15 +48,15 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
             <div className="comment-content">
               <div className="comment-info">
                 <p>{data.userName}</p>
-                <span className="italic">{FormatDate(data.time)}</span>
+                <span className="italic">{formatDate(data.time)}</span>
               </div>
               <p>{ data.content }</p>
             </div>
         </div>
         <div className="comment-interactive">
-            <p onClick={() => handleInteractive("like")}>Thích</p>
+            <p>Thích</p>
             <p onClick={() => handleInteractive("reply", data.userName)}>Phản hồi</p>
-            <p onClick={() => handleInteractive("share")}>Chia sẻ</p>
+            <p>Chia sẻ</p>
         </div>
             {   
                 data.reply?.length > 1 && !isShowReply ?
@@ -67,8 +67,8 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
                     </div>
                   </>
                 : 
-                    data.reply?.map((secondValue)=>(
-                    <div className="child-level-comment comment">
+                    data.reply?.map((secondValue, index)=>(
+                    <div className="child-level-comment comment" key={index}>
                       <Comment data={ secondValue } level={CmtLevel + 1} handleInteractiveLastChild={handleInteractive}/>
                     </div>
                   ))

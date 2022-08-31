@@ -6,8 +6,14 @@ import IconSignup from "../../assets/icon/IconSignup";
 import Logo from "../../assets/icon/Logo";
 import HotNews from "./HotNews/HotNews";
 import NavBar from "./NavBar/NavBar";
+import { useRouter } from 'next/router';
+import { ROUTE_SHORTVIDEO } from "../../libs/constants";
 
 const Header = () => {
+  const pathName = useRouter().pathname;
+  if(pathName === ROUTE_SHORTVIDEO + "/[id]"){
+    return null;
+  }
   return (
     <>
       <div className="header-container">

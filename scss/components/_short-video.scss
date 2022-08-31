@@ -1,0 +1,87 @@
+.short-video-container{
+    display: flex;
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    .short-video-content{
+        position: relative;
+        width: 60%;
+        height: 100%;
+        background-color: $color--dark;
+        .video{
+            position: absolute;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            video{
+                display: block;
+                cursor: pointer;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+    }
+    .short-video-button{
+        position: absolute;
+        width: 60%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        button{
+            z-index: 3;
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-radius: 100%;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .close-button{
+            background-color: $color--text2;
+            top: 40px;
+            left: 60px;
+        }
+        .pre-button{
+            top: 45%;
+            left: 60px;
+        }
+        .next-button{
+            top: 45%;
+            right: 60px;
+        }
+        .play-button{
+            width: auto;
+            height: auto;
+            background: none;
+        }
+    }
+    .short-video-info{
+        width: 40%;
+        padding: 24px 18px;
+        overflow: scroll;
+        overflow-x: hidden;
+        .short-video-author{
+            margin-bottom: 15px;
+            display: flex;
+            p{
+                margin: 0px;
+                color: $color--blue;
+            }
+            &-avatar{
+                margin-right: 12px;
+            }
+        }
+        .short-video-title{
+            margin-bottom: 50px;
+        }
+        .short-video-comment{
+            margin-top: 15px;
+            border-top: 1px solid $color--text1;
+        }
+    }
+}

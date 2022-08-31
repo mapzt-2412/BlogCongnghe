@@ -1,5 +1,5 @@
 import moment from 'moment';
-export const FormatDate = (date) => {
+export const formatDate = (date) => {
     return moment(date, "YYYYMMDD").fromNow();
 }
 

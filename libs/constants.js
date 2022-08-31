@@ -1,6 +1,7 @@
 export const ROUTE_HOME = '/';
 export const ROUTE_ABOUT = '/about';
 export const ROUTE_NEWSFEEDS = '/news-feeds';
+export const ROUTE_SHORTVIDEO = '/short-video';
 export const ROUTE_TREND = '/trend';
 export const ROUTE_NEWS = '/news';
 export const ROUTE_RECOMMEND = '/recommend';

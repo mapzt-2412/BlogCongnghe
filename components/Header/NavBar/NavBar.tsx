@@ -41,7 +41,6 @@ const NavBar = () => {
     ];
     
     const router = useRouter();
-
     return (
         <div className="navbar-container">
             {

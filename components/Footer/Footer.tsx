@@ -5,8 +5,14 @@ import IconYouTube from './../../assets/icon/IconYoutube';
 import IconInsta from './../../assets/icon/IconInsta';
 import IconTwitter from './../../assets/icon/IconTwitter';
 import IconGithub from './../../assets/icon/IconGithub';
+import { useRouter } from 'next/router';
+import { ROUTE_SHORTVIDEO } from "../../libs/constants";
 
 const Footer = () => {
+    const pathName = useRouter().pathname;
+    if(pathName === ROUTE_SHORTVIDEO + "/[id]"){
+        return null;
+    }
     return (
         <div className="footer-container">
             <div className="footer-item">
