@@ -57,13 +57,13 @@ const Profile = (props) => {
         }
     ]
     return (
-        <div className="profile-container">
+        <div className="medium-container">
             <Path data={{ title: ["Trang cá nhân"], content: id}}/>
             <div className="profile-user-info">
                 <div className="profile-user-info-avatar">
                 {
                     props.avatar ? 
-                    <Image src={ avatar } width={104} height={104} layout="responsive" alt="avatar"/> :
+                    <Image src={ props.avatar } width={104} height={104} layout="responsive" alt="avatar"/> :
                     <AvatarDefaultSmall width={104} height={104} white/>
 
                 }

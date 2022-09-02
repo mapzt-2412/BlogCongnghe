@@ -26,6 +26,10 @@
   font-size: 17px;
   line-height: 24px;
 }
+@mixin font-18 {
+  font-size: 17px;
+  line-height: 21.6px;
+}
 @mixin font-20 {
   font-size: 20px;
   line-height: 24px;
