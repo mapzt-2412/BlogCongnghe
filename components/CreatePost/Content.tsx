@@ -18,7 +18,7 @@ const Content = () => {
     const id = genHexString(7);
     useEffect(() => {
       editorRef.current = {
-        ClassicEditor: require("./Editor/build/ckeditor")
+        ClassicEditor: require("./Editor/ckeditor")
       };
       setEditorLoaded(true);
     }, []);
