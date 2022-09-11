@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "antd": "^4.22.7",
+    "chart.js": "^3.9.1",
     "moment": "^2.29.4",
     "next": "12.2.5",
     "react": "18.2.0",
+    "react-chartjs-2": "^4.3.1",
+    "react-data-grid": "^7.0.0-beta.16",
     "react-dom": "18.2.0",
     "react-fast-marquee": "^1.3.5",
     "sass": "^1.54.5",
@@ -22,6 +25,7 @@
   "devDependencies": {
     "@types/node": "^18.7.13",
     "@types/react": "^18.0.17",
+    "antd-colorpicker": "^1.0.0",
     "eslint": "8.22.0",
     "eslint-config-next": "12.2.5"
   }

@@ -1,0 +1,62 @@
+.chart-container{
+    position: relative;
+    .ant-radio-button-wrapper{
+        padding: 16px;
+        margin-right: 16px;
+        height: 100%;
+        border: none;
+    }
+    .ant-radio-button-wrapper:not(:first-child)::before{
+        background-color: $color--light;
+    }
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled){
+        background: $color--background;
+        border-color: $color--background;
+    }
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover{
+        background: $color--background;
+        border-color: $color--background;
+    }
+    .modal-chart-content{
+        margin-top: 60px;
+    }
+    .modal-chart-button{
+        &-back{
+            top: -56px;
+            position: absolute;
+            left: 0px;
+        }
+        &-next{
+            top: -56px;
+            position: absolute;
+            right: 0px;
+        }
+    }
+}
+.char-wrapper{
+    .ant-modal-content{
+        width: 80%;
+    }
+}
+.chart-data-form{
+    margin-top: 16px;
+    table,td {
+        border: 1px solid;
+    }
+    table{
+        input{
+            border: none;
+        }
+        .table-blank{
+            background-color: $color--text1;
+        }
+    }
+}
+.color-picker{
+    display: flex;
+    align-items: center;
+    div{
+        cursor: pointer;
+        margin-right: 5px;
+    }
+}

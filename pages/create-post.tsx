@@ -1,5 +1,5 @@
 import { Select, Input, Row, Col } from "antd";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import Path from "../components/Path";
 import IconContent from './../assets/icon/IconContent';
 import IconRating from './../assets/icon/IconRating';
@@ -11,6 +11,7 @@ import IconQuestion from './../assets/icon/IconQuestion';
 import IconLink from './../assets/icon/IconLink';
 import IconCancel from './../assets/icon/IconCancel';
 import Content from "../components/CreatePost/Content";
+import Chart from "../components/CreatePost/Chart";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -31,37 +32,17 @@ const topic = [
   "REVIEWS",
 ];
 
-const memu =[
-  {
-    lable: <IconContent/>,
-    title: "Nội dung",
-  },
-  {
-    lable: <IconMovie/>,
-    title: "Video",
-  },
-  {
-    lable: <IconPoll/>,
-    title: "Bình chọn",
-  },
-  {
-    lable: <IconTable/>,
-    title: "Bảng",
-  },
-  {
-    lable: <IconMap/>,
-    title: "Bảng đồ",
-  },
-  {
-    lable: <IconQuestion/>,
-    title: "Câu hỏi",
-  },
-  {
-    lable: <IconRating/>,
-    title: "Đánh giá",
-  },
-]
 const CreatePost = () => {
+  const [isModalChartVisible, setIsModalChartVisible] = useState(false);
+  const [data, setData] = useState([]);
+
+  const addData = (data) => {
+    setData(pre => [...pre, data]);
+  }
+  const showModal = () => {
+    setIsModalChartVisible(true);
+  }
+
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
   };
@@ -69,10 +50,46 @@ const CreatePost = () => {
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
+  const memu =[
+    {
+      lable: <IconContent/>,
+      title: "Nội dung",
+      callBack: () => addData({
+        lable: <Content/>,
+        title: "Nội dung",
+      }),
+    },
+    {
+      lable: <IconMovie/>,
+      title: "Video",
+    },
+    {
+      lable: <IconPoll/>,
+      title: "Bình chọn",
+    },
+    {
+      lable: <IconTable/>,
+      title: "Bảng",
+      callBack: () => showModal(),
+    },
+    {
+      lable: <IconMap/>,
+      title: "Bảng đồ",
+    },
+    {
+      lable: <IconQuestion/>,
+      title: "Câu hỏi",
+    },
+    {
+      lable: <IconRating/>,
+      title: "Đánh giá",
+    },
+  ]
   return (
     <div className="medium-container">
       <Path data={{ content: "Tạo bài viết" }} />
       <div className="create-post-container">
+      <Chart isModalChartVisible={isModalChartVisible} setIsModalChartVisible={setIsModalChartVisible} addData={addData}/>
       <div className="create-post-content">
         <div className="create-post-content-item">
           <div className="create-post-content-left">Chủ đề</div>
@@ -128,13 +145,17 @@ const CreatePost = () => {
             <TextArea rows={4} placeholder="Mô tả sẽ được xuất hiện trong kết quả tìm kiếm" maxLength={200} />
             </div>
         </div>
-        <div className="create-post-content-item item">
-          <div className = "create-post-content-title">
-            Nội dung
-          </div>
-          <Content/>
-          <div className="delete-item"> <IconCancel/> </div>
-        </div>
+        {
+          data.map(( value, index) => (
+            <div className="create-post-content-item item" key={index}>
+              <div className = "create-post-content-title">
+                { value.title }
+              </div>
+              { value.lable }
+              <div className="delete-item"> <IconCancel/> </div>
+            </div>
+          ))
+        }
       </div>
         <div className="create-post-memu">
             <div className="create-post-memu-title">
@@ -147,7 +168,7 @@ const CreatePost = () => {
                     (
                       <Col className="create-post-memu-item" span={12} key={index}>
                         <div className="memu-item-icon-wrapper">
-                          <div className="memu-item-icon" >{ value.lable }</div>
+                          <div className="memu-item-icon" onClick={value.callBack}>{ value.lable }</div>
                           <p>{value.title}</p>
                         </div>
                     </Col>

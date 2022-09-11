@@ -3,7 +3,6 @@ import { memo, useRef, useEffect, useState } from "react";
 
 const Content = () => {
     const editorRef = useRef();
-    const { ClassicEditor } = editorRef.current || {};
     const [editorLoaded, setEditorLoaded] = useState(false);
     
     function genHexString(len) {
@@ -16,6 +15,7 @@ const Content = () => {
     }
     
     const id = genHexString(7);
+
     useEffect(() => {
       editorRef.current = {
         ClassicEditor: require("./Editor/ckeditor")
@@ -24,8 +24,8 @@ const Content = () => {
     }, []);
 
     useEffect(()=>{
-      if(ClassicEditor){
-        ClassicEditor
+      if(editorRef.current.ClassicEditor){
+        editorRef.current.ClassicEditor
 				.create( document.querySelector( `.editor-${id}` ), {
 					licenseKey: '',
 				} )
@@ -39,7 +39,7 @@ const Content = () => {
 					console.error( error );
 				} );
       }
-    },[ClassicEditor, id])
+    },[editorRef, id, editorLoaded])
   return (
     <div className = "editor-content-wrapper">
     {editorLoaded ? (
