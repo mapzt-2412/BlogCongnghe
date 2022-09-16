@@ -12,9 +12,14 @@ import IconLink from './../assets/icon/IconLink';
 import IconCancel from './../assets/icon/IconCancel';
 import Content from "../components/CreatePost/Content";
 import Chart from "../components/CreatePost/Chart";
-import MapBox from "../components/CreatePost/MapBox";
+import dynamic from 'next/dynamic';
+
 const { Option } = Select;
 const { TextArea } = Input;
+
+const MapBox = dynamic(() => import('../components/CreatePost/Map'), {
+  ssr: false
+});
 
 const topic = [
   "TECHNOLOGY",
