@@ -2,7 +2,7 @@ import { Input } from "antd";
 import React, { memo, useState, useEffect } from "react";
 import { Colorpicker, ColorPickerValue } from 'antd-colorpicker'
 
-const EditDataChart = ({setData, data}) => {
+const TableDataOneCol = ({setData, data}) => {
   const [chartName, setChartName] = useState("");
   const [dataTable, setDataTable] = useState({});
   const [dataset, setDataset] = useState({});
@@ -30,7 +30,6 @@ const EditDataChart = ({setData, data}) => {
       ...color,
       [name]: colorHex.rgb,
     })
-    console.log(color)
   }
   const handleChangeInput = (e) => {
    let data;
@@ -129,12 +128,9 @@ const EditDataChart = ({setData, data}) => {
               <td className="table-blank">
                 <div className="table-blank"></div>
               </td>
-              <td onClick={() => handleRenderRow(1)}>
-                <Input placeholder="Nhập tên cho các cột" onChange={handleChangeDataset}  name={`dataset${1}`}/>
+              <td>
+                <Input placeholder="Nhập tên cho cột" onChange={handleChangeDataset} name={`dataset${1}`}/>
               </td>
-              {renderRow(row - 2).map((value) => (
-                <>{value}</>
-              ))}
             </tr>
           </thead>
           <tbody>
@@ -147,7 +143,7 @@ const EditDataChart = ({setData, data}) => {
               </td>
               {renderRow(row - 2).map((_,index) => (
                 <>{
-                  <td onClick={() => handleRenderRow(index + 2)}>
+                  <td>
                      <Input name={`input${index + 2}`} onChange ={handleChangeInput} id={1}/>
                   </td>
                 }</>
@@ -174,9 +170,7 @@ const EditDataChart = ({setData, data}) => {
                   Hãy chọn màu cho biểu đồ
                   </div>
                   }
-                  
                   </td>
-                  
               ))}
             </tr>
           </tbody>
@@ -185,4 +179,4 @@ const EditDataChart = ({setData, data}) => {
     </div>
   );
 };
-export default memo(EditDataChart);
+export default memo(TableDataOneCol);

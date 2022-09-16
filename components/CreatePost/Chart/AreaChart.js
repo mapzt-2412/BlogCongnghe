@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,6 +7,7 @@ import {
   LineElement,
   Title,
   Tooltip,
+  Filler,
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
@@ -18,6 +19,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
+  Filler,
   Legend
 );
 
@@ -31,10 +33,11 @@ const findValueBykey = (obj, key) => {
   }
 }
 
- function LineChart({dataChart}){
+
+const AreaChart = ({dataChart}) => {
   const [dataset, setDataset] = useState([]);
 
-  const setDatasetFunction = useCallback(() => {
+  const setDatasetFunction = () => {
     const newDataset = [];
     Object.values(dataChart.datasets).map((value,index) => {
       newDataset.push(
@@ -48,7 +51,7 @@ const findValueBykey = (obj, key) => {
     }
     )
     setDataset(newDataset);
-  },[])
+  }
   useEffect(() => {
     setDatasetFunction();
   },[setDatasetFunction])
@@ -61,7 +64,7 @@ const findValueBykey = (obj, key) => {
       },
       title: {
         display: true,
-        text: dataChart.chartName,
+        text: dataChart.chartName ? dataChart.chartName : "Biểu đồ",
       },
     },
   };
@@ -73,4 +76,5 @@ const findValueBykey = (obj, key) => {
   }
   return <Line options={options} data={data} />;
 }
-export default memo(LineChart)
+
+export default memo(AreaChart);

@@ -40,6 +40,9 @@
 }
 .chart-data-form{
     margin-top: 16px;
+    button{
+        margin-bottom: 16px;
+    }
     table,td {
         border: 1px solid;
     }
@@ -58,5 +61,12 @@
     div{
         cursor: pointer;
         margin-right: 5px;
+    }
+}
+.chart-detail-wrapper{
+    display: flex;
+    justify-content: center;
+    .chart-detail{
+        width: 60%;
     }
 }

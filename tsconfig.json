@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -25,7 +25,8 @@
   },
   "include": [
     "src",
-    "declarations.d.ts"
+    "declarations.d.ts",
+    "file.ts"
   ],
   "exclude": [
     "node_modules"

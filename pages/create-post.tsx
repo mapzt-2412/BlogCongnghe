@@ -12,7 +12,7 @@ import IconLink from './../assets/icon/IconLink';
 import IconCancel from './../assets/icon/IconCancel';
 import Content from "../components/CreatePost/Content";
 import Chart from "../components/CreatePost/Chart";
-
+import MapBox from "../components/CreatePost/MapBox";
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -34,7 +34,7 @@ const topic = [
 
 const CreatePost = () => {
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
 
   const addData = (data) => {
     setData(pre => [...pre, data]);
@@ -50,6 +50,11 @@ const CreatePost = () => {
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
+
+  const handleDelete = (index) => {
+    const result = data.filter((value,i) => i !== index);
+    setData(result);
+  }
   const memu =[
     {
       lable: <IconContent/>,
@@ -75,6 +80,10 @@ const CreatePost = () => {
     {
       lable: <IconMap/>,
       title: "Bảng đồ",
+      callBack: () => addData({
+        lable: <MapBox/>,
+        title: "Bản đồ",
+      }),
     },
     {
       lable: <IconQuestion/>,
@@ -152,7 +161,7 @@ const CreatePost = () => {
                 { value.title }
               </div>
               { value.lable }
-              <div className="delete-item"> <IconCancel/> </div>
+              <div className="delete-item" onClick = {() => handleDelete(index) }> <IconCancel/> </div>
             </div>
           ))
         }
