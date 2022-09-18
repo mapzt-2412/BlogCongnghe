@@ -4,7 +4,7 @@ import { memo, useRef, useEffect, useState } from "react";
 const Content = () => {
     const editorRef = useRef();
     const [editorLoaded, setEditorLoaded] = useState(false);
-    
+    const [data, setData] = useState();
     function genHexString(len) {
       const hex = '0123456789ABCDEF';
       let output = '';
@@ -28,6 +28,11 @@ const Content = () => {
         editorRef.current.ClassicEditor
 				.create( document.querySelector( `.editor-${id}` ), {
 					licenseKey: '',
+          autosave: {
+            save( editor ) {
+                return setData( editor.getData() );
+            }
+        },
 				} )
 				.then( editor => {
 					window.editor = editor;

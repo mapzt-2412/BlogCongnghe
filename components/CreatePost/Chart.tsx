@@ -24,6 +24,7 @@ interface IChartProps {
   handlEditTable?: (data) => void,
   dataTable?: object,
   type?: string,
+  isEdit?: boolean;
 }
 
 const options = [
@@ -41,6 +42,7 @@ const Chart : FC<IChartProps> = ({
   dataTable,
   handlEditTable,
   type,
+  isEdit,
 }) => {
   const [typeChart, setTypeChart] = useState(type? type :"");
   const [isType, setIsType] = useState(type? true : false);
@@ -126,6 +128,7 @@ const Chart : FC<IChartProps> = ({
                 data={data}
                 typeChart={typeChart}
                 isOK={isOK}
+                isEdit={isEdit}
               />
             )}
           </div>

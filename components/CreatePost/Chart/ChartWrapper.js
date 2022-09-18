@@ -27,7 +27,7 @@ const ChartWrapper = ({ type, dataTable }) => {
   };
   return (
     <>
-      <Chart isModalChartVisible={isModalChartVisible} setIsModalChartVisible={setIsModalChartVisible} dataTable={data} handlEditTable={handlEditTable} type={type}/>
+      <Chart isModalChartVisible={isModalChartVisible} setIsModalChartVisible={setIsModalChartVisible} dataTable={data} handlEditTable={handlEditTable} type={type} isEdit={true}/>
       <Button onClick={editTable}>Chỉnh sửa biểu đồ</Button>
       <div className="chart-detail-wrapper">
         <div className="chart-detail">

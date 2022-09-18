@@ -1,8 +1,8 @@
 import { Input, Button } from "antd";
-import React, { memo, useState, useEffect } from "react";
+import React, { memo, useState, useEffect, useCallback } from "react";
 import { Colorpicker, ColorPickerValue } from "antd-colorpicker";
 
-const TableData = ({ setData, typeChart, data, isOK }) => {
+const TableData = ({ setData, typeChart, data, isOK, isEdit }) => {
   const [chartName, setChartName] = useState(data?.chartName);
   const [dataTable, setDataTable] = useState(data?.dataTables);
   const [dataset, setDataset] = useState(data?.datasets);
@@ -13,38 +13,40 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
   const [col, setCol] = useState(2);
 
   useEffect(() => {
-    setData(pre => {
+    setData((pre) => {
       return {
-      ...pre,
-      chartName: chartName,
-      datasets: dataset,
-      lables: lable,
-      dataTables: dataTable,
-      colors: color,
-      }
+        ...pre,
+        chartName: chartName,
+        datasets: dataset,
+        lables: lable,
+        dataTables: dataTable,
+        colors: color,
+      };
     });
   }, [dataset, lable, dataTable, color, chartName, setData]);
-  
+
   useEffect(() => {
     if (typeChart === "doughnut-chart") {
       setIsMultiCol(false);
     }
   }, [typeChart]);
-  
-  useEffect(() => {
-    if(isOK){
-      handleReset();
-    }
-  },[isOK, handleReset])
 
   useEffect(() => {
-    if(Object.keys(dataset).length !== 0){
-      setRow(1 + Object.keys(dataset).length)
+    if (isOK) {
+      handleReset();
     }
-    if(Object.keys(lable).length !==0 ){
-      setCol(1 + Object.keys(lable).length)
+  }, [isOK, handleReset]);
+
+  useEffect(() => {
+    if(isEdit){
+      if (Object.keys(dataset).length !== 0) {
+        setRow(1 + Object.keys(dataset).length);
+      }
+      if (Object.keys(lable).length !== 0) {
+        setCol(1 + Object.keys(lable).length);
+      }
     }
-  },[dataset, lable])
+  }, [dataset, lable, isEdit]);
 
   const handleChangeChartName = (e) => {
     setChartName(e.target.value);
@@ -58,25 +60,25 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
   };
 
   const handleChangeInput = (e) => {
-    if(e.target.value == +e.target.value){
+    if (e.target.value == +e.target.value) {
       let data;
-    for (const entry of Object.entries(dataTable)) {
-      const [key, value] = entry;
-      if (key === e.target.name) {
-        data = value;
+      for (const entry of Object.entries(dataTable)) {
+        const [key, value] = entry;
+        if (key === e.target.name) {
+          data = value;
+        }
       }
-    }
-    if (data) {
-      setDataTable({
-        ...dataTable,
-        [e.target.name]: { ...data, [e.target.id]: e.target.value },
-      });
-    } else {
-      setDataTable({
-        ...dataTable,
-        [e.target.name]: { [e.target.id]: e.target.value },
-      });
-    }
+      if (data) {
+        setDataTable({
+          ...dataTable,
+          [e.target.name]: { ...data, [e.target.id]: e.target.value },
+        });
+      } else {
+        setDataTable({
+          ...dataTable,
+          [e.target.name]: { [e.target.id]: e.target.value },
+        });
+      }
     }
   };
 
@@ -94,7 +96,7 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
     });
   };
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setChartName("");
     setDataTable({});
     setDataset({});
@@ -108,8 +110,8 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
       lables: {},
       dataTables: {},
       colors: {},
-      });
-  }
+    });
+  }, [setData]);
   const renderRow = (length) => {
     let data = [];
     for (let i = 0; i < length; i++) {
@@ -118,7 +120,7 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
           <Input
             placeholder="Nhập tên cho các cột"
             onChange={handleChangeDataset}
-            value={dataset ? dataset[`dataset${i + 2}`] : ""} 
+            value={dataset ? dataset[`dataset${i + 2}`] : ""}
             name={`dataset${i + 2}`}
           />
         </td>
@@ -146,26 +148,28 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
             onChange={handleChangeInput}
             name={`input${i}`}
             id={index + 2}
-            value={dataTable[`input${i}`] ? dataTable[`input${i}`][index + 2] : ""}
+            value={
+              dataTable[`input${i}`] ? dataTable[`input${i}`][index + 2] : ""
+            }
           />
         </td>
       );
     }
-    if(!isMultiCol){
+    if (!isMultiCol) {
       data.push(
         <td>
-                    <div className="color-picker">
-                      <Colorpicker
-                        popup
-                        onChange={(color) =>
-                          handleChangeColor(color, `color${index + 2}`)
-                        }
-                        name={`color${index + 2}`}
-                        value={color ? color[`color${index + 2}`] : ""}
-                      />
-                      Hãy chọn màu cho biểu đồ
-                    </div>
-                  </td>
+          <div className="color-picker">
+            <Colorpicker
+              popup
+              onChange={(color) =>
+                handleChangeColor(color, `color${index + 2}`)
+              }
+              name={`color${index + 2}`}
+              value={color ? color[`color${index + 2}`] : ""}
+            />
+            Hãy chọn màu cho biểu đồ
+          </div>
+        </td>
       );
     }
     return data;
@@ -202,7 +206,7 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
         onChange={handleChangeChartName}
       />
       <div className="chart-data-form">
-       <Button onClick={handleReset}>Clear data</Button>
+        <Button onClick={handleReset}>Clear data</Button>
         <table>
           <thead>
             <tr>
@@ -220,9 +224,9 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
               {isMultiCol ? (
                 renderRow(row - 2).map((value) => <>{value}</>)
               ) : (
-              <td className="table-blank">
-                <div className="table-blank"></div>
-              </td>
+                <td className="table-blank">
+                  <div className="table-blank"></div>
+                </td>
               )}
             </tr>
           </thead>
@@ -237,12 +241,18 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
                 />
               </td>
               <td>
-                <Input name={`input${1}`} onChange={handleChangeInput} value={dataTable[`input${1}`] ? dataTable[`input${1}`][`1`] : ""} id={1} />
+                <Input
+                  name={`input${1}`}
+                  onChange={handleChangeInput}
+                  value={
+                    dataTable[`input${1}`] ? dataTable[`input${1}`][`1`] : ""
+                  }
+                  id={1}
+                />
               </td>
-                {
-                  !isMultiCol && (
-                    <td>
-                <div className="color-picker">
+              {!isMultiCol && (
+                <td>
+                  <div className="color-picker">
                     <Colorpicker
                       popup
                       onChange={(color) =>
@@ -254,8 +264,7 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
                     Hãy chọn màu cho biểu đồ
                   </div>
                 </td>
-                  )
-                }
+              )}
               {renderRow(row - 2).map((_, index) => (
                 <>
                   {
@@ -263,7 +272,11 @@ const TableData = ({ setData, typeChart, data, isOK }) => {
                       <Input
                         name={`input${index + 2}`}
                         onChange={handleChangeInput}
-                        value={dataTable[`input${index + 2}`] ? dataTable[`input${index + 2}`][`1`] : ""}
+                        value={
+                          dataTable[`input${index + 2}`]
+                            ? dataTable[`input${index + 2}`][`1`]
+                            : ""
+                        }
                         id={1}
                       />
                     </td>

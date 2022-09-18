@@ -1,0 +1,15 @@
+.vote-container{
+    button{
+        width: 90%;
+    }
+    .vote-wrapper{
+        width: 90%;
+        margin-bottom: 20px;
+        button{
+            position: absolute;
+            border: none;
+            width: fit-content;
+        }
+
+    }
+}

@@ -84,6 +84,37 @@
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.4.1.tgz#75b4c27948c81e88ccd3a8902047bcd797f38d32"
   integrity sha512-ej5oVy6lykXsvieQtqZxCOaLT+xD4+QNarq78cIYISHmZXshCvROLudpQN3lfL8G0NL7plMSSK+zlyvCaIJ4Iw==
 
+"@dnd-kit/accessibility@^3.0.0":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/accessibility/-/accessibility-3.0.1.tgz#3ccbefdfca595b0a23a5dc57d3de96bc6935641c"
+  integrity sha512-HXRrwS9YUYQO9lFRc/49uO/VICbM+O+ZRpFDe9Pd1rwVv2PCNkRiTZRdxrDgng/UkvdC3Re9r2vwPpXXrWeFzg==
+  dependencies:
+    tslib "^2.0.0"
+
+"@dnd-kit/core@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/core/-/core-5.0.3.tgz#028d7e543e9fd3756f9cb857b34f818d73020810"
+  integrity sha512-IribcBLsaPqHdYLpc5xG0TqwYIaD+65offdEYxoKh38WDjzRxUjDmrt7hj9oa/ooUKL0epux20u+mBTd92i/zw==
+  dependencies:
+    "@dnd-kit/accessibility" "^3.0.0"
+    "@dnd-kit/utilities" "^3.1.0"
+    tslib "^2.0.0"
+
+"@dnd-kit/sortable@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/sortable/-/sortable-6.0.1.tgz#08d046efa85c546fd21979836b007d6fea1001f9"
+  integrity sha512-FGpRHBcflpwWpSP8bMJ4zNcDywDXssZDJBwGYuHd1RqUU/+JX43pEU0u0OHw06LabEZMOLBbyWoIaZJ0abCOEA==
+  dependencies:
+    "@dnd-kit/utilities" "^3.1.0"
+    tslib "^2.0.0"
+
+"@dnd-kit/utilities@^3.1.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/utilities/-/utilities-3.2.0.tgz#b3e956ea63a1347c9d0e1316b037ddcc6140acda"
+  integrity sha512-h65/pn2IPCCIWwdlR2BMLqRkDxpTEONA+HQW3n765HBijLYGyrnTCLa2YQt8VVjjSQD6EfFlTE6aS2Q/b6nb2g==
+  dependencies:
+    tslib "^2.0.0"
+
 "@eslint/eslintrc@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-1.3.0.tgz#29f92c30bb3e771e4a2048c95fa6855392dfac4f"
@@ -161,11 +192,6 @@
     suggestions "^1.6.0"
     xtend "^4.0.1"
 
-"@mapbox/mapbox-gl-language@^0.10.0":
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-language/-/mapbox-gl-language-0.10.1.tgz#44d19d24205a10a9f27ddd78c55446fe48b94705"
-  integrity sha512-i5+N+FrgR5v8NY4+B+uzFl1Q4gR2OaGoKWgKiayL1bE5715svnx4r4ADTczbZSemI9o426tDKfjAtc3HC2GMCw==
-
 "@mapbox/mapbox-gl-supported@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-supported/-/mapbox-gl-supported-1.5.0.tgz#f60b6a55a5d8e5ee908347d2ce4250b15103dc8e"
@@ -175,11 +201,6 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-supported/-/mapbox-gl-supported-2.0.1.tgz#c15367178d8bfe4765e6b47b542fe821ce259c7b"
   integrity sha512-HP6XvfNIzfoMVfyGjBckjiAOQK9WfX0ywdLubuPMPv+Vqf5fj0uCbgBQYpiqcWZT6cbyyRnTSXDheT1ugvF6UQ==
-
-"@mapbox/mapbox-gl-traffic@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-traffic/-/mapbox-gl-traffic-1.0.2.tgz#afb120633a397a6c539865db2bde5c5933dad96b"
-  integrity sha512-HeUljK/CibQIL/srbErxKNZYWie4N2F377AEvDyXeAP1qyYTP5VNklTaQ/wZjOyZ/qbPN2kStjwQR3UUP+AG7g==
 
 "@mapbox/mapbox-sdk@^0.11.0":
   version "0.11.0"
@@ -364,6 +385,14 @@
   dependencies:
     tslib "^2.4.0"
 
+"@thaddeusjiang/react-sortable-list@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@thaddeusjiang/react-sortable-list/-/react-sortable-list-0.0.5.tgz#af41d4b68e832df0278dbd5c3c7f0f4fc0056d42"
+  integrity sha512-muTNA4NlkVJtL+Ln/yMFHfgy9QiyFq0V5RH1TePvYfambuhQYcoMBRnkPekCJID0dea1xuf2xXNtgMgBFE8jMg==
+  dependencies:
+    "@dnd-kit/core" "^5.0.3"
+    "@dnd-kit/sortable" "^6.0.1"
+
 "@types/hammerjs@^2.0.41":
   version "2.0.41"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.41.tgz#f6ecf57d1b12d2befcce00e928a6a097c22980aa"
@@ -451,14 +480,6 @@
   dependencies:
     "@typescript-eslint/types" "5.34.0"
     eslint-visitor-keys "^3.3.0"
-
-"@urbica/react-map-gl@^1.16.2":
-  version "1.16.2"
-  resolved "https://registry.yarnpkg.com/@urbica/react-map-gl/-/react-map-gl-1.16.2.tgz#f75f4a7f9172dcdaf92482034937279650e89889"
-  integrity sha512-qJE8/wAw3BH5Ys98vZuTwk9m7OLFcHllAzx9QNjPScgIMwtW5ZQSgfo2Xp1CWT3onY3t6stdLNop9jYAXZRtEw==
-  optionalDependencies:
-    "@mapbox/mapbox-gl-language" "^0.10.0"
-    "@mapbox/mapbox-gl-traffic" "^1.0.2"
 
 acorn-jsx@^5.3.2:
   version "5.3.2"
@@ -3418,7 +3439,7 @@ tslib@^1.8.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.4.0:
+tslib@^2.0.0, tslib@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
