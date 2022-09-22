@@ -2,6 +2,7 @@ import { Select, Input, Row, Col } from "antd";
 import React, { memo, useState } from "react";
 import Path from "../components/Path";
 import IconContent from "./../assets/icon/IconContent";
+import IconAddDraft from "./../assets/icon/IconAddDraft";
 import IconRating from "./../assets/icon/IconRating";
 import IconMovie from "./../assets/icon/IconMovie";
 import IconTable from "./../assets/icon/IconTable";
@@ -42,6 +43,7 @@ const topic = [
 
 const CreatePost = () => {
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
+  const [isModalContentVisible, setIsModalContentVisible] = useState(false);
   const [isModalVoteVisible, setIsModalVoteVisible] = useState(false);
   const [data, setData] = useState<SortableItemProps[]>([]);
   const [content, setContent] = useState<any[]>()
@@ -54,6 +56,9 @@ const CreatePost = () => {
   };
   const showModalVote = () => {
     setIsModalVoteVisible(true);
+  };
+  const showModalContent = () => {
+    setIsModalContentVisible(true);
   };
 
   const onChange = (value: string) => {
@@ -72,11 +77,7 @@ const CreatePost = () => {
     {
       lable: <IconContent />,
       title: "Nội dung",
-      callBack: () =>
-        addData({
-          lable: <Content />,
-          title: "Nội dung",
-        }),
+      callBack: () => showModalContent(),
     },
     {
       lable: <IconMovie />,
@@ -156,6 +157,11 @@ const CreatePost = () => {
         <Vote
           isModalVoteVisible={isModalVoteVisible}
           setIsModalVoteVisible={setIsModalVoteVisible}
+          addData={addData}
+        />
+        <Content
+          isModalContentVisible={isModalContentVisible}
+          setIsModalContentVisible={setIsModalContentVisible}
           addData={addData}
         />
         <div className="create-post-content">
@@ -244,6 +250,9 @@ const CreatePost = () => {
               </li>
             ))}
           </ul>
+          <div className="create-post-content-item add-content">
+              <IconAddDraft/>
+          </div>
         </div>
         <div className="create-post-memu">
           <div className="create-post-memu-title">THÊM TIỆN ÍCH</div>

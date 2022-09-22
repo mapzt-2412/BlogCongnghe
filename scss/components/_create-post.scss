@@ -19,6 +19,16 @@
             right: -48px;
             position: absolute;
         }
+        
+    }
+    .create-post-content-item.add-content{
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        height: 56px;
+        border: 1px dashed #CCCCCC;
+        border-radius: 5px;
+        margin-top: 16px;
     }
     .create-post-content-item.item{
         flex-direction: column;

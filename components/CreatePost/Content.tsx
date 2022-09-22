@@ -1,7 +1,8 @@
 import React from "react";
-import { memo, useRef, useEffect, useState } from "react";
+import { memo, useRef, useEffect, useState, useMemo } from "react";
+import { Modal, Row, Col, Radio, Button, RadioChangeEvent } from "antd";
 
-const Content = () => {
+const Content = ({isModalContentVisible, setIsModalContentVisible, addData}) => {
     const editorRef = useRef();
     const [editorLoaded, setEditorLoaded] = useState(false);
     const [data, setData] = useState();
@@ -14,11 +15,11 @@ const Content = () => {
       return output;
     }
     
-    const id = genHexString(7);
+    const id = useMemo(() => genHexString(7),[]);
 
     useEffect(() => {
       editorRef.current = {
-        ClassicEditor: require("./Editor/ckeditor")
+        ClassicEditor: require("./editor/ckeditor")
       };
       setEditorLoaded(true);
     }, []);
@@ -30,7 +31,8 @@ const Content = () => {
 					licenseKey: '',
           autosave: {
             save( editor ) {
-                return setData( editor.getData() );
+                console.log(editor.getData())
+                return setData(editor.getData());
             }
         },
 				} )
@@ -45,7 +47,46 @@ const Content = () => {
 				} );
       }
     },[editorRef, id, editorLoaded])
+
+    console.log(data)
+    const handleOk = () => {
+      // if(editor){
+      //   editor.destroy()
+      //   .then( () => {
+      //     addData({
+      //       title: "Nội dung",
+      //       lable: <div dangerouslySetInnerHTML={{ __html: `${data}` }} />,
+      //     })
+      //     setIsModalContentVisible(false);
+      //   })
+      //   .catch( error => {
+      //       console.log( error );
+      //   } );
+      // }
+      addData({
+        title: "Nội dung",
+        lable: <div dangerouslySetInnerHTML={{ __html: `${data}` }} />,
+      })
+      setIsModalContentVisible(false);
+
+    }
+    const handleCancel = () => {
+      // if(editor){
+      //   editor.destroy()
+      //   .then( () => setIsModalContentVisible(false))
+      //   .catch( error => {
+      //       console.log( error );
+      //   } );
+      // }
+      setIsModalContentVisible(false)
+    }
   return (
+    <Modal
+        visible={isModalContentVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={1000}
+      >
     <div className = "editor-content-wrapper">
     {editorLoaded ? (
         <div className={`editor-${id}`}></div>
@@ -53,6 +94,7 @@ const Content = () => {
         <div>Editor loading</div>
       )}
     </div>
+    </Modal>
   );
 };
 export default memo(Content);

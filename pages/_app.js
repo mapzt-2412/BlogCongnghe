@@ -6,11 +6,15 @@ import '../scss/style.scss'
 import 'antd/dist/antd.css';
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import Head from "next/head"
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
       <Header/>
+      <Head>
+      <link rel="stylesheet" href="path/to/assets/content-styles.css" type="text/css"/>
+      </Head>
       <Component {...pageProps} />
       <Footer/>
     </>
