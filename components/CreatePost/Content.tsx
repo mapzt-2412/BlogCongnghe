@@ -1,8 +1,16 @@
 import React from "react";
-import { memo, useRef, useEffect, useState, useMemo } from "react";
+import { FC, memo, useRef, useEffect, useState, useMemo } from "react";
 import { Modal, Row, Col, Radio, Button, RadioChangeEvent } from "antd";
+import EditorWrapper from "./editor/EditorWrapper";
 
-const Content = ({isModalContentVisible, setIsModalContentVisible, addData}) => {
+interface IContentProps {
+  isModalContentVisible: boolean | undefined,
+  setIsModalContentVisible: (data) => void,
+  dataContent?: string;
+  addData?: (data) => void,
+  handlEditContent?: (data) => void,
+}
+const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVisible, addData, handlEditContent, dataContent}) => {
     const editorRef = useRef();
     const [editorLoaded, setEditorLoaded] = useState(false);
     const [data, setData] = useState();
@@ -25,7 +33,7 @@ const Content = ({isModalContentVisible, setIsModalContentVisible, addData}) => 
     }, []);
 
     useEffect(()=>{
-      if(editorRef.current.ClassicEditor){
+      if(editorRef.current.ClassicEditor && isModalContentVisible){
         editorRef.current.ClassicEditor
 				.create( document.querySelector( `.editor-${id}` ), {
 					licenseKey: '',
@@ -38,46 +46,50 @@ const Content = ({isModalContentVisible, setIsModalContentVisible, addData}) => 
 				} )
 				.then( editor => {
 					window.editor = editor;
+          if(dataContent){
+            editor.setData(dataContent);
+          }
 				} )
 				.catch( error => {
 					console.error( 'Oops, something went wrong!' );
 					console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
 					console.warn( 'Build id: 1lzzqnayetqo-tsu3xzcc1f0' );
 					console.error( error );
-				} );
+				});
       }
-    },[editorRef, id, editorLoaded])
+    },[editorRef, id, editorLoaded, isModalContentVisible])
 
-    console.log(data)
     const handleOk = () => {
-      // if(editor){
-      //   editor.destroy()
-      //   .then( () => {
-      //     addData({
-      //       title: "Nội dung",
-      //       lable: <div dangerouslySetInnerHTML={{ __html: `${data}` }} />,
-      //     })
-      //     setIsModalContentVisible(false);
-      //   })
-      //   .catch( error => {
-      //       console.log( error );
-      //   } );
-      // }
-      addData({
-        title: "Nội dung",
-        lable: <div dangerouslySetInnerHTML={{ __html: `${data}` }} />,
-      })
-      setIsModalContentVisible(false);
-
+      if(editor){
+        editor.destroy()
+        .then( () => {
+          if(handlEditContent){
+            handlEditContent(data)
+          }else{
+            addData({
+              title: "Nội dung",
+              lable: <EditorWrapper dataContent={data}/>,
+            })
+          }
+          if(editor){
+            editor.setData("")
+          }
+          setIsModalContentVisible(false);
+    
+        })
+        .catch( error => {
+            console.log( error );
+        } );
+      }
     }
     const handleCancel = () => {
-      // if(editor){
-      //   editor.destroy()
-      //   .then( () => setIsModalContentVisible(false))
-      //   .catch( error => {
-      //       console.log( error );
-      //   } );
-      // }
+      if(editor){
+        editor.destroy()
+        .then( () => setIsModalContentVisible(false))
+        .catch( error => {
+            console.log( error );
+        } );
+      }
       setIsModalContentVisible(false)
     }
   return (
