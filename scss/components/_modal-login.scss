@@ -1,0 +1,58 @@
+.modal-logo {
+    display: flex;
+   justify-content: center;
+}
+
+.modal-title {
+    display: flex;
+   justify-content: center;
+   @include font-21;
+   font-family: $font-bold, sans-serif;
+   margin-top: 32px;
+}
+
+.modal-username {
+    margin-bottom: 16px;
+    p {
+        margin-bottom: 0;
+        @include font-14;
+        font-family: $font-regular, sans-serif;
+        color: $color--text2;
+    }
+}
+
+.modal-password {
+    display: flex;
+    justify-content: right;
+    a{
+        color: $color--text5;
+    }
+}
+
+.modal-btn-signin {
+    display: flex;
+   justify-content: center;
+   margin: 32px 0 16px 0;
+   button {
+    width: 142px;
+    height: 40px;
+    background-color: $color--button-primary;
+    color: $color--light;
+    border: none;
+    @include font-16;
+    font-family: $font-medium, sans-serif;
+   }
+}
+
+.modal-signup {
+    display: flex;
+   justify-content: center;
+   p {
+    @include font-14;
+    font-family: $font-regular, sans-serif;
+   }
+    span {
+        color: $color--text5;
+        cursor: pointer;
+    }
+}
