@@ -10,3 +10,24 @@ export const SliceString = (string , end) => {
         return string.slice(0, end) + " ...";
     }
 }
+
+export const saveToken = (token) => {
+    localStorage.setItem('token', token)
+    location.reload();
+}
+export const deleteToken = () => {
+    if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+        location.reload();
+    }
+}
+
+export const getToken = () => {
+    if (typeof window !== 'undefined') {
+        const token = localStorage.getItem('token');
+        if(token){
+            return token
+        }
+        return false
+    }
+}

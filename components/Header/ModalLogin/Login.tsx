@@ -1,8 +1,12 @@
-import { Input, Modal } from "antd";
+import { Input, Modal, notification } from "antd";
 import React, { memo } from "react";
 import Logo from "../../../assets/icon/Logo";
+import PropertiesService from "../../../services/properties.service";
+import { saveToken } from "../../../libs/common";
 
-const Login = ({setTab, setData}) => {
+import { GoogleLogin } from '@react-oauth/google';
+
+const Login = ({setTab, setData, data}) => {
     const handleChange = (event) => {
         setData((pre) => {
             return {
@@ -10,6 +14,17 @@ const Login = ({setTab, setData}) => {
                 [event.target.name]: event.target.value,
             }
         })
+    }
+    const login = () => {
+      PropertiesService.login(data).then((data) => {
+        alert("Đăng nhập thành công");
+        saveToken(data.data.token)});
+    }
+    const responseGoogle = (credentialResponse) => {
+      PropertiesService.loginWithGoogle({googleToken : credentialResponse.credential}).then((data) => {
+        alert("Đăng nhập thành công");
+        saveToken(data.data.token)
+      })
     }
   return (
     <>
@@ -21,7 +36,7 @@ const Login = ({setTab, setData}) => {
       </div>
       <div className="modal-username">
         <p>Tên đăng nhập</p>
-        <Input placeholder="Tên đăng nhập" onChange={handleChange} name ={"userName"} />
+        <Input placeholder="Tên đăng nhập" onChange={handleChange} name ={"username"} />
       </div>
       <div className="modal-username">
         <p>Mật khẩu</p>
@@ -30,8 +45,16 @@ const Login = ({setTab, setData}) => {
       <div className="modal-password">
         <a href="#">Quên mật khẩu?</a>
       </div>
+      <GoogleLogin
+  onSuccess={credentialResponse => {
+    responseGoogle(credentialResponse);
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>
       <div className="modal-btn-signin">
-        <button>ĐĂNG NHẬP</button>
+        <button onClick={login}>ĐĂNG NHẬP</button>
       </div>
       <div className="modal-signup">
         <p>

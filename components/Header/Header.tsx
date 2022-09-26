@@ -1,20 +1,24 @@
-import { Input } from "antd";
-import React, { memo } from "react";
+import { Input,  Dropdown, Menu, Space} from "antd";
+import React, { memo, useEffect } from "react";
 import { useState } from "react";
 import IconSearch from "../../assets/icon/IconSearch";
 import IconSignin from "../../assets/icon/IconSignin";
 import IconSignup from "../../assets/icon/IconSignup";
+import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import Logo from "../../assets/icon/Logo";
 import HotNews from "./HotNews/HotNews";
 import NavBar from "./NavBar/NavBar";
 import { useRouter } from 'next/router';
 import { ROUTE_SHORTVIDEO } from "../../libs/constants";
-import ReactModalLogin from "react-modal-login";
 import ModalLogin from "./ModalLogin/ModalLogin";
+import { getToken, deleteToken } from "../../libs/common";
+import PropertiesService from "../../services/properties.service";
+import Link from "next/link";
 
 const Header = (props) => {
-
+  const [data, setData] = useState();
   const [tab,setTab] = useState("");
+  const [token,setToken] = useState();
   const [isModalLoginVisible, setIsModalLoginVisible] = useState(false)
   // const [loginError, setLoginError] = useState<string | undefined>()
  
@@ -27,7 +31,16 @@ const Header = (props) => {
   if(pathName === ROUTE_SHORTVIDEO + "/[id]"){
     return null;
   }
-
+  useEffect(() => {
+    if(getToken()){
+      setToken(getToken())
+    }
+  },[])
+  useEffect(()=>{
+    if(token){
+        PropertiesService.getProfile(token).then(data => setData(data.data.data))
+    }
+},[token])
   // const openModal = (initialTab) => {
   //   console.log("openModal()");
 
@@ -37,6 +50,24 @@ const Header = (props) => {
   //     showModal: true,
   //   });
   // };
+  const handleClick = () => {
+    deleteToken();
+  }
+  const menu = (
+    <Menu
+    onClick={handleClick}
+      items={[
+        {
+          key: '1',
+          label: (
+          <div>
+          Đăng xuất
+        </div>
+        ),
+        }
+      ]}
+    />
+  );
   return (
     <>
       <div className="header-container">
@@ -51,18 +82,27 @@ const Header = (props) => {
           </div>
         </div>
         <div className="header-profile">
-          <div className="header-button header-login">
+          {
+            token ? 
+            <Dropdown overlay={menu} placement="bottom">
+              <Space>
+            <Link href={`/${data?.username}`}><AvatarDefaultSmall width={32} height={32}/></Link> 
+            </Space>
+            </Dropdown>
+            : (
+              <div>
+            <div className="header-button header-login" onClick={() => toggleModal("Login")}>
             <IconSignin />
-            <button onClick={() => toggleModal("Login")}>
-              Đăng nhập
-            </button>
+            Đăng nhập
           </div>
-          <div className="header-button">
+          <div className="header-button" onClick={() => toggleModal("Register")}>
             <IconSignup />
-            <button onClick={() => toggleModal("Register")}>
-              Đăng ký
-            </button>
+            Đăng ký
           </div>
+          </div>
+            )
+          }
+          
         </div>
       </div>
       <NavBar/>

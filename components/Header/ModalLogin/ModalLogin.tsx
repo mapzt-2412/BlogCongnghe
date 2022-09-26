@@ -24,7 +24,7 @@ const ModalLogin: FC<IModalLoginProps> = ({
   const handleOk = () => {
     setIsModalLoginVisible(false);
   };
-
+  
   const handleCancel = () => {
     setIsModalLoginVisible(false);
   };
@@ -35,10 +35,10 @@ const ModalLogin: FC<IModalLoginProps> = ({
   console.log(data);
 const renderContent = (tab) => {
     if(tab === "Login") {
-        return <Login setTab={setTab} setData={setData}/>
+        return <Login setTab={setTab} setData={setData} data={data}/>
     }
     else if(tab === "Register") {
-        return <Register />
+        return <Register setTab={setTab}/>
     }
 }
   return (
@@ -52,6 +52,7 @@ const renderContent = (tab) => {
         {
             renderContent(tab)
         }
+        
       </Modal>
     </>
   );

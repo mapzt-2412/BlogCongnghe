@@ -1,27 +1,42 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import Path from "../components/Path";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { Rate, Menu } from 'antd';
 import AvatarDefaultSmall from "../assets/icon/AvatarDefaultSmall";
 import ListPost from "../components/ListPost/ListPost";
+import PropertiesService from "../services/properties.service";
+import { getToken } from "../libs/common";
 
 const Profile = (props) => {
     const { id } = useRouter().query;
     const [value, setValue] = useState(3);
-    
+    const [token, setToken] = useState();
+    const [data, setData] = useState();
+    useEffect(() => {
+        if(getToken()){
+          setToken(getToken())
+        }
+      },[])
+
+    useEffect(()=>{
+        if(token){
+            PropertiesService.getProfile(token).then(data => setData(data.data.data))
+        }
+        
+    },[token])
+
     const onChange = (key: string) => {
         console.log(key);
       };
-    
     const contact = [
         {
             title: "Email:",
-            value: "vphlinh1994@gmail.com",
+            value: data?.email,
         },
         {
             title: "Điện thoại:",
-            value: "090 123 4567",
+            value: data?.phone ? data?.phone : "Chưa có thông tin",
         },
     ]
     const info = [
@@ -68,7 +83,7 @@ const Profile = (props) => {
 
                 }
                 </div>
-                <p>VÕ PHƯƠNG HOÀNG LINH</p>
+                <p>{data?.username}</p>
                 <Rate defaultValue={value} disabled={true} />
                 <div className="profile-user-contact">
                     {

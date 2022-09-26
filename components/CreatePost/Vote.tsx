@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { memo } from "react";
 import { Input, Modal, Button } from "antd";
 import IconCancel from "../../assets/icon/IconCancel";
+import VoteWrapper from "./Vote/VoteWrapper"
 
 const Vote = ({isModalVoteVisible, setIsModalVoteVisible, addData }) => {
     const renderVote = (index) =>  {
@@ -25,6 +26,10 @@ const Vote = ({isModalVoteVisible, setIsModalVoteVisible, addData }) => {
     }
 
     const handleOk = () => {
+        addData({
+            lable: <VoteWrapper data={data}/>,
+            title: "Bình chọn",
+          });
         setIsModalVoteVisible(false);
     }
     const handleCancel = () => {
@@ -42,7 +47,6 @@ const Vote = ({isModalVoteVisible, setIsModalVoteVisible, addData }) => {
                 newList.push(listVote[i])
             }
         }
-        
         setListVote(newList);
     }
     return (
