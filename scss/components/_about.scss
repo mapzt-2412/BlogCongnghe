@@ -1,0 +1,31 @@
+.about-item{
+    cursor: pointer;
+    width: 25%;
+}
+.full-screen-container{
+    display:flex;
+    p{
+        margin-top: 45px;
+        margin-left: 48px;
+        position: absolute;
+        color: $color--light;
+        z-index: 100;
+    }
+}
+.about-container{
+    width: 100%;
+    padding: 0 10%;
+    display: flex;
+    border-bottom: 8px solid $color--orange;
+}
+.about-left{
+    width: 900px;
+}
+.about-right{
+    width: 30%;
+    background: $color--orange;
+    p{
+        margin: 62px 32px;
+        position: static;
+    }
+}

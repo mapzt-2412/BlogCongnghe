@@ -5,22 +5,13 @@ import IconCancel from "../../assets/icon/IconCancel";
 import VoteWrapper from "./Vote/VoteWrapper"
 
 const Vote = ({isModalVoteVisible, setIsModalVoteVisible, addData }) => {
-    const renderVote = (index) =>  {
-        return (
-            <div className="vote-wrapper" key={index}>
-                    <p>{ `Lựa chọn ${index + 1 }`}</p>
-                    <Input placeholder = "Nhập nội dung cho lựa chọn này" onChange={(e) => handleChangeInput(e)} name={`input${index + 1}`}/>
-                    <Button onClick = { () => deleteVote(index)}> <IconCancel/> </Button>
-                </div>
-        )
-    }
         
-    const [listVote, setListVote] = useState([renderVote]);
+    const [listVote, setListVote] = useState({"input1": ""});
     const [data, setData] = useState();
-
+    
     const handleChangeInput = (e) => {
-        setData({
-            ...data,
+        setListVote({
+            ...listVote,
             [e.target.name]: [e.target.value]
         })
     }
@@ -37,14 +28,15 @@ const Vote = ({isModalVoteVisible, setIsModalVoteVisible, addData }) => {
     }
 
     const addNewVote = () => {
-        setListVote([...listVote,renderVote])
+        console.log(listVote)
+        setListVote({...listVote,[`input${Math.random()}`]:"", })
     }
+
     const deleteVote = (index) => {
-        const newList = [] 
-        for(let i = 0; i < listVote.length; i++ ) {
+        const newList = {}; 
+        for(let i = 0; i < Object.values(listVote).length; i++ ) {
             if(i !== index){
-                console.log(listVote.length)
-                newList.push(listVote[i])
+                newList={...newList, [`input${i+1}`]:listVote[`input${i+1}`],}
             }
         }
         setListVote(newList);
@@ -54,7 +46,13 @@ const Vote = ({isModalVoteVisible, setIsModalVoteVisible, addData }) => {
         <Modal title="Tạo bình chọn" visible={isModalVoteVisible} onOk={handleOk} onCancel={handleCancel}>
             <div className="vote-container">
         {
-            listVote.map((value,index)=> value(index))
+            Object.keys(listVote).map((value,index)=> (
+                <div className="vote-wrapper" key={index}>
+                    <p>{ `Lựa chọn ${index + 1 }`}</p>
+                    <Input placeholder = "Nhập nội dung cho lựa chọn này" value={listVote[value]} onChange={(e) => handleChangeInput(e)} name={value}/>
+                    <Button onClick = { () => deleteVote(index)}> <IconCancel/> </Button>
+                </div>
+            ))
         }
         <Button onClick={addNewVote}>Thêm lựa chọn mới</Button>
         </div>

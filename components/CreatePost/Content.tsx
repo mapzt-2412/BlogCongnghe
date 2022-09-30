@@ -33,13 +33,12 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
     }, []);
 
     useEffect(()=>{
-      if(editorRef.current.ClassicEditor && isModalContentVisible){
-        editorRef.current.ClassicEditor
+      if(editorRef?.current.ClassicEditor && isModalContentVisible){
+        editorRef?.current.ClassicEditor
 				.create( document.querySelector( `.editor-${id}` ), {
 					licenseKey: '',
           autosave: {
             save( editor ) {
-                console.log(editor.getData())
                 return setData(editor.getData());
             }
         },
@@ -57,19 +56,22 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
 					console.error( error );
 				});
       }
-    },[editorRef, id, editorLoaded, isModalContentVisible])
+    },[editorRef, id, editorLoaded, isModalContentVisible, dataContent])
 
     const handleOk = () => {
       if(editor){
         editor.destroy()
         .then( () => {
           if(handlEditContent){
+            console.log(data)
             handlEditContent(data)
           }else{
-            addData({
+            if(addData && data){
+              addData({
               title: "Nội dung",
               lable: <EditorWrapper dataContent={data}/>,
             })
+          }
           }
           if(editor){
             editor.setData("")

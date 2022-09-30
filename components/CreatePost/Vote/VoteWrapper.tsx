@@ -5,8 +5,8 @@ const VoteWrapper = ({ data }) => {
     return (
         <>
         {
-            Object.values(data).map((value) => 
-            <div className="vote-item">
+            Object.values(data).map((value, index) => 
+            <div className="vote-item" key ={index}>
                 { value }
             </div>
             )
