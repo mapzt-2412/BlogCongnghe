@@ -16,16 +16,62 @@
     width: 100%;
     padding: 0 10%;
     display: flex;
+}
+.about-container.page1{
     border-bottom: 8px solid $color--orange;
+    .about-right{
+        background: $color--orange;
+    }
+}
+.about-container.page2{
+    border-bottom: 8px solid $color--orange1;
+    .about-right{
+        background: $color--orange1;
+    }
+}
+.about-container.page3{
+    border-bottom: 8px solid $color--pink;
+    .about-right{
+        background: $color--pink;
+    }
+}
+.about-container.page4{
+    border-bottom: 8px solid $color--blue1;
+    .about-right{
+        background: $color--blue1;
+    }
 }
 .about-left{
+    padding: 50px 68px;
     width: 900px;
 }
 .about-right{
-    width: 30%;
-    background: $color--orange;
+    position: relative;
+    width: 34%;
     p{
         margin: 62px 32px;
         position: static;
     }
 }
+.about-next-button{
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    cursor: pointer;
+}
+.about-button-pre{
+    cursor: pointer;
+}
+.about-item.page1.show{
+    background: $color--orange;
+    position: relative;
+    animation-name: page1;
+    animation-duration: 1s;
+}
+.hidden{
+    visibility: hidden;
+}
+@keyframes page1 {
+    from {left:0px;}
+    to {left:65%;}
+  }

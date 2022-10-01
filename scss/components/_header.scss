@@ -40,5 +40,13 @@
         .header-login{
             border-right: 1px solid $color--border;
         }
+        .header-create-post{
+            background: $color--blue;
+            height: 40px;
+            border-radius: 3px;
+            margin-left: 16px;
+            color: $color--light;
+            @include font-14;
+        }
     }
 }
