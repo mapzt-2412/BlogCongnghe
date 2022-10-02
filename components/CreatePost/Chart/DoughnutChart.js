@@ -30,7 +30,7 @@ const DoughnutChart = ({ dataChart }) => {
         }
       )
     }
-    )
+  )
     setDataset(newDataset);
   },[colors, dataChart.dataTables, dataChart.datasets])
 
