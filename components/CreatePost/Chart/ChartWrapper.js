@@ -1,14 +1,15 @@
-import { memo, useState, useCallback } from "react";
+import { memo, useState, useCallback, useEffect } from "react";
 import { Button } from "antd";
 import Chart from "../Chart";
 import LineChart from "./LineChart";
 import AreaChart from "./AreaChart";
 import DoughnutChart from "./DoughnutChart";
 
-const ChartWrapper = ({ type, dataTable }) => {
+const ChartWrapper = ({ type, dataTable, isModal }) => {
   const [data, setData] = useState(dataTable);
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
-  
+
+  console.log(data)
   const handlEditTable = useCallback ((data) => {
     setData(data)
   },[])
@@ -28,7 +29,11 @@ const ChartWrapper = ({ type, dataTable }) => {
   return (
     <>
       <Chart isModalChartVisible={isModalChartVisible} setIsModalChartVisible={setIsModalChartVisible} dataTable={data} handlEditTable={handlEditTable} type={type} isEdit={true}/>
-      <Button onClick={editTable}>Chỉnh sửa biểu đồ</Button>
+      {
+        !isModal && (
+          <Button onClick={editTable}>Chỉnh sửa biểu đồ</Button>
+        )
+      }
       <div className="chart-detail-wrapper">
         <div className="chart-detail">
           {renderChart()}

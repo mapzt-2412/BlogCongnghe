@@ -44,10 +44,12 @@
 .about-left{
     padding: 50px 68px;
     width: 900px;
+    height: 500px;
 }
 .about-right{
     position: relative;
     width: 34%;
+    height: 500px;
     p{
         margin: 62px 32px;
         position: static;
@@ -75,3 +77,7 @@
     from {left:0px;}
     to {left:65%;}
   }
+
+.unactive{
+    cursor: not-allowed;
+}

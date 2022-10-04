@@ -44,8 +44,8 @@ const AreaChart = ({dataChart}) => {
         {
           label: value,
           data: findValueBykey(dataChart.dataTables, `input${index + 1}`),
-          borderColor: `rgba(${Object.values(findValueBykey(dataChart.colors, `color${index + 1}`)).join(',')})`,
-          backgroundColor: `rgba(${Object.values(findValueBykey(dataChart.colors, `color${index + 1}`)).join(',')})`,
+          borderColor: dataChart.colors[index].border,
+          backgroundColor: dataChart.colors[index].background,
         }
       )
     }

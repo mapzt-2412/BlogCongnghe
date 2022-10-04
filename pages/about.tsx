@@ -6,6 +6,7 @@ import AboutPage1 from "../components/About/AboutPage1";
 const About = () => {
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [active, setActive] = useState([1])
     const handleClick = (page) => {
         setLoading(true);
         setTimeout(() => setPage(page), 1000)

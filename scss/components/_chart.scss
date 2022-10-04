@@ -1,5 +1,12 @@
 .chart-container{
     position: relative;
+    .chart-title{
+        display: flex;
+        justify-content: center;
+        @include font-21;
+        margin-top: 8px;
+        font-family: $font-bold, sans-serif;
+    }
     .ant-radio-button-wrapper{
         padding: 16px;
         margin-right: 16px;
@@ -18,7 +25,7 @@
         border-color: $color--background;
     }
     .modal-chart-content{
-        margin-top: 60px;
+        margin-top: 24px;
     }
     .modal-chart-button{
         &-back{
@@ -51,6 +58,7 @@
             border: none;
         }
         .table-blank{
+            width: 20px;
             background-color: $color--text1;
         }
     }
@@ -69,4 +77,70 @@
     .chart-detail{
         width: 60%;
     }
+}
+.modal-chart-input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    p{
+        margin-bottom: 0px;
+        margin-right: 16px;
+        display: flex;
+        align-items: center;
+    }
+    .modal-chart-input-col{
+        display: flex;
+    }
+    .modal-chart-input-row{
+        display: flex;
+    }
+}
+.modal-chart-type{
+    margin-bottom: 16px;
+    .type-item{
+        padding: 10px;
+        background: $color--background;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .type-item:hover{
+        background: $color--border;
+    }
+    .type-item.active{
+        background: $color--border;
+    }
+}
+.modal-chart-button{
+    background: $color--blue;
+    padding: 10px 24px;
+    max-width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    cursor: pointer;
+    p{
+        margin-bottom: 0px;
+        margin-left: 8px;
+        @include font-16;
+        color: $color--light;
+    }
+}
+.modal-chart-button.next{
+    margin-left: 24px;
+    svg{
+        transform: rotate(180deg);
+    }
+}
+.modal-chart-button.disable{
+    cursor: not-allowed;
+}
+.modal-chart-button-wrapper{
+    margin-top: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
