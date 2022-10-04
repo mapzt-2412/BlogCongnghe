@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Quản lý nội dung",
+    "childrens": [
+      {
+        "title": "Bài viết nháp"
+      },
+      {
+        "title": "Bài viết đã đăng"
+      },
+      {
+        "title": "Bảng tin đã đăng"
+      }
+    ]
+  },
+  {
+    "title": "Quản lý tài khoản",
+    "childrens": [
+      {
+        "title": "Thông tin cá nhân"
+      },
+      {
+        "title": "Đổi mật khẩu"
+      },
+      {
+        "title": "Người theo dõi"
+      },
+      {
+        "title": "Người đang theo dõi"
+      },
+      {
+        "title": "Bookmark"
+      }
+    ]
+  },
+  {
+    "title": "Quản lý cấp bậc",
+    "childrens": [
+      {
+        "title": "Trạng thái"
+      }
+    ]
+  }
+]

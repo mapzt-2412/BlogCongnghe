@@ -7,6 +7,7 @@ import AvatarDefaultSmall from "../assets/icon/AvatarDefaultSmall";
 import ListPost from "../components/ListPost/ListPost";
 import PropertiesService from "../services/properties.service";
 import { getToken } from "../libs/common";
+import Follower from '../components/Follower/Follower';
 
 const Profile = (props) => {
     const { id } = useRouter().query;
@@ -115,7 +116,8 @@ const Profile = (props) => {
                     />
                 </div>
                 <div className="profile-list-post">
-                    <ListPost />
+                    {/* <ListPost /> */}
+                    {/* <Follower/> */}
                 </div>
             </div>
         </div>

@@ -1,0 +1,57 @@
+.list-post-content-header {
+    .search-field {
+        justify-content: right;
+        width: 280px;
+        height: 36px;
+        border-radius: 10px;
+        border: $color--border;
+    }
+}
+
+.list-post-content {
+    .list-post-content-center {
+        .followerCard-Group {
+            display: flex;
+            .followerCard {
+                display: flex;
+                justify-content: space-between;
+                width: 50%;
+                background-color: $color--background1;
+                padding: 16px;
+                margin: 16px;
+                .followerCard-info {
+                    display: flex;
+                    .followerCard-details {
+                        margin-left: 8px;
+                        .details-name {
+                            @include font-14;
+                            font-family: $font-medium, sans-serif;
+                            margin: 8px 0 8px 0;
+                        }
+                        p {
+                            @include font-14;
+                            font-family: $font-regular, sans-serif;
+                            color: $color--text2;
+                            span {
+                                color: $color--text1;
+                                @include font-14;
+                                font-family: $font-regular, sans-serif;
+                            }
+                        }
+                    }
+                }
+                .btn-subcribe {
+                    width: 100px;
+                    height: 32px;
+                    background-color: $color--button-primary;
+                    color: $color--light;
+                    border: none;
+                    @include font-14;
+                    font-family: $font-regular, sans-serif;
+                    border-radius: 20px;
+                }
+            }
+        }
+        
+    }
+}

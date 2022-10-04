@@ -120,7 +120,6 @@ const ListPost = () => {
             )}
           />
           }
-          
         </div>
       </div>
       <div className="list-post-footer">
