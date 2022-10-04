@@ -1,12 +1,5 @@
 .chart-container{
     position: relative;
-    .chart-title{
-        display: flex;
-        justify-content: center;
-        @include font-21;
-        margin-top: 8px;
-        font-family: $font-bold, sans-serif;
-    }
     .ant-radio-button-wrapper{
         padding: 16px;
         margin-right: 16px;
@@ -39,6 +32,13 @@
             right: 0px;
         }
     }
+}
+.modal-title{
+    display: flex;
+    justify-content: center;
+    @include font-21;
+    margin-top: 8px;
+    font-family: $font-bold, sans-serif;
 }
 .char-wrapper{
     .ant-modal-content{

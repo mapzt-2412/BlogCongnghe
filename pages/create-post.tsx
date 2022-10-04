@@ -11,12 +11,16 @@ import IconMap from "./../assets/icon/IconMap";
 import IconQuestion from "./../assets/icon/IconQuestion";
 import IconLink from "./../assets/icon/IconLink";
 import IconCancel from "./../assets/icon/IconCancel";
+import IconSaveDraft from "./../assets/icon/IconSaveDraft";
+import IconUploadArticle from "./../assets/icon/IconUploadArticle";
 import Content from "../components/CreatePost/Content";
 import Chart from "../components/CreatePost/Chart";
 import dynamic from "next/dynamic";
 import Quiz from "../components/CreatePost/Quiz";
 import Vote from "../components/CreatePost/Vote";
 import { SortableList, ItemRenderProps, SortableItemProps } from "@thaddeusjiang/react-sortable-list";
+import UploadVideo from "../components/CreatePost/UploadVideo";
+import ModalConfirm from "../components/ModalConfirm/ModalConfirm";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -45,6 +49,8 @@ const CreatePost = () => {
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
   const [isModalContentVisible, setIsModalContentVisible] = useState(false);
   const [isModalVoteVisible, setIsModalVoteVisible] = useState(false);
+  const [isModalVideoVisible, setIsModalVideoVisible] = useState(false);
+  const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
   const [data, setData] = useState<SortableItemProps[]>([]);
   const [content, setContent] = useState<any[]>()
 
@@ -59,6 +65,12 @@ const CreatePost = () => {
   };
   const showModalContent = () => {
     setIsModalContentVisible(true);
+  };
+  const showModalVideo = () => {
+    setIsModalVideoVisible(true);
+  };
+  const showModalConfirm = () => {
+    setIsModalConfirmVisible(true);
   };
 
   const onChange = (value: string) => {
@@ -82,6 +94,7 @@ const CreatePost = () => {
     {
       lable: <IconMovie />,
       title: "Video",
+      callBack: () => showModalVideo(),
     },
     {
       lable: <IconPoll />,
@@ -163,6 +176,15 @@ const CreatePost = () => {
           isModalContentVisible={isModalContentVisible}
           setIsModalContentVisible={setIsModalContentVisible}
           addData={addData}
+        />
+        <UploadVideo
+          isModalVideoVisible={isModalVideoVisible}
+          setIsModalVideoVisible={setIsModalVideoVisible}
+          addData={addData}
+        />
+        <ModalConfirm
+          isModalConfirmVisible={isModalConfirmVisible}
+          setIsModalConfirmVisible={setIsModalConfirmVisible}
         />
         <div className="create-post-content">
           <div className="create-post-content-item">
@@ -252,6 +274,17 @@ const CreatePost = () => {
           </ul>
           <div className="create-post-content-item add-content">
               <IconAddDraft/>
+          </div>
+          <p className="add-content-description">{"(Thêm tiện ích bằng cách chọn các thành phần ở bên phải vào khung trên)"}</p>
+          <div className="create-post-content-list-button">
+            <div className="create-post-content-button save-draft" onClick ={showModalConfirm}>
+                <IconSaveDraft/>
+                <p>LƯU BẢN NHÁP</p>
+            </div>
+            <div className="create-post-content-button save-article">
+                <IconUploadArticle/>
+                <p>ĐĂNG BÀI VIẾT</p>
+            </div>
           </div>
         </div>
         <div className="create-post-memu">

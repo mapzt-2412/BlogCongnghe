@@ -73,3 +73,48 @@
     display: flex;
     align-items: center;
 }
+.create-post-content-button{
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 11px 24px;
+    border: 1px solid $color--blue;
+    border-radius: 3px;
+    margin-left: 24px;
+    cursor: pointer;
+    svg{
+        margin-right: 4px;
+    }
+    p{
+        margin-bottom: 0px;
+        margin-top: 2px;
+    }
+}
+.save-draft{
+    p{
+        color: $color--blue;
+    }
+}
+.save-article{
+    background: $color--blue;
+    p{
+        color: $color--light;
+    }
+}
+.create-post-content-list-button{
+    margin-top: 64px;
+    width: 85%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.add-content-description{
+    width: 85%;
+    font-family: $font-regular, sans-serif;
+    @include font-14;
+    display: flex;
+    justify-content: center;
+    color: $color--text1;
+    margin-top: 15px;
+}
