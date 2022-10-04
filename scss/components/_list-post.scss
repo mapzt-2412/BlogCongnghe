@@ -15,7 +15,7 @@
     
     p{
         @include font-20;
-        font-family: $font-bold, sans-serif;
+        font-family: $font-medium, sans-serif;
         margin-bottom: 18px;
     }
     .list-post-sort{
@@ -79,6 +79,7 @@
 }
 .list-post-sort{
     display:flex;
+    justify-content: end;
     svg{
         cursor: pointer;
     }

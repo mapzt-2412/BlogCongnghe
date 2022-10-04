@@ -50,4 +50,25 @@
             }
         }
     }
+    .dashboard-detail {
+        background-color: $color--background;
+        padding: 24px;
+        height: fit-content;
+    }
+    .profile-list-post {
+        width: 100%;
+    }
+}
+
+.sidebar-item {
+    .sidebar-title {
+        margin-bottom: 16px;
+        font-family: $font-medium, sans-serif;
+        // .sidebar-content {
+        //     a .plain {
+        //         margin-bottom: 16px;
+        //         color: $color--text2;
+        //     }
+        // }
+    }
 }
