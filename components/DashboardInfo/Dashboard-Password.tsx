@@ -4,14 +4,14 @@ import React, { memo } from "react";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
 
-const DashboardInfo = () => {
+const DashboardPassword = () => {
   const onSearch = (value: string) => console.log(value);
   return (
     <div className="list-post-container">
       <div className="list-post-content">
         <div className="list-post-content-header">
           <div className="list-post-topic">
-            <p>THÔNG TIN CÁ NHÂN</p>
+            <p>ĐỔI MẬT KHẨU</p>
           </div>
           {/* <div className="list-post-sort search-field">
             <Search
@@ -48,20 +48,16 @@ const DashboardInfo = () => {
               <button className="btn-subcribe">Theo dõi</button>
             </div> */}
             <div className="dashboard-info-username">
-              <p>Họ và tên</p>
-              <Input />
+              <p>Mật khẩu hiện tại</p>
+              <Input.Password type="password" className="dashboard-password" />
             </div>
             <div className="dashboard-info-username">
-              <p>Ngày sinh</p>
-              <Input />
+              <p>Mật khẩu mới</p>
+              <Input.Password type="password" className="dashboard-password" />
             </div>
             <div className="dashboard-info-username">
-              <p>Điện thoại</p>
-              <Input />
-            </div>
-            <div className="dashboard-info-username">
-              <p>Địa chỉ</p>
-              <Input />
+              <p>Xác nhận mật khẩu mới</p>
+              <Input.Password type="password" className="dashboard-password" />
             </div>
           </div>
           <div className="dashboard-info-btn">
@@ -78,4 +74,4 @@ const DashboardInfo = () => {
   );
 };
 
-export default memo(DashboardInfo);
+export default memo(DashboardPassword);
