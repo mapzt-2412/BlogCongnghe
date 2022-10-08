@@ -1,0 +1,44 @@
+.list-post-container {
+    .list-post-content {
+        .dashboard-info-center {
+            width: 50%;
+            margin-top: 24px;
+            .dashboard-info {
+                margin: auto;
+                justify-content: center;
+                .dashboard-info-username {
+                    display: flex;
+                    margin-top: 24px;
+                    justify-content: space-between;
+                    p {
+                        margin-right: 24px;
+                        margin-bottom: 0;
+                        @include font-14;
+                        font-family: $font-regular, sans-serif;
+                        color: $color--text2;
+                    }
+                    input {
+                        width: 75%;
+                        justify-content: right;
+                    }
+                    .dashboard-password {
+                        width: 60%;
+                        justify-content: right;
+                    }
+                }
+            }
+            .dashboard-info-btn {
+                margin: 32px 0 16px 0;
+                button {
+                    width: 142px;
+                    height: 40px;
+                    background-color: $color--button-primary;
+                    color: $color--light;
+                    border: none;
+                    @include font-16;
+                    font-family: $font-medium, sans-serif;
+                   }
+            }
+        }
+    }
+}
