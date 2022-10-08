@@ -8,9 +8,10 @@ interface IContentProps {
   setIsModalContentVisible: (data) => void,
   dataContent?: string;
   addData?: (data) => void,
+  addDataContent?: (data) => void,
   handlEditContent?: (data) => void,
 }
-const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVisible, addData, handlEditContent, dataContent}) => {
+const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVisible, addData, handlEditContent, dataContent, addDataContent}) => {
     const editorRef = useRef();
     const [editorLoaded, setEditorLoaded] = useState(false);
     const [data, setData] = useState();
@@ -71,6 +72,12 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
               title: "Nội dung",
               lable: <EditorWrapper dataContent={data}/>,
             })
+            addDataContent(
+              {
+                type: "content",
+                data: data,
+              }
+            );
           }
           }
           if(editor){

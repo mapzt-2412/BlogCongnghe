@@ -89,7 +89,7 @@ const Header = (props) => {
           </div>
         </div>
         <div className="header-profile">
-          {/* {!token ? (
+          {token ? (
             <>
               <div className="header-button header-login">
                 <Dropdown overlay={menu} placement="bottom">

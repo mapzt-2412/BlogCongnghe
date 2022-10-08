@@ -1,0 +1,17 @@
+.upload-video-wrapper{
+    margin-top: 24px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: $color--background;
+    .upload-video-button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+.ant-upload{
+    width: 100%;
+}

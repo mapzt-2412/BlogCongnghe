@@ -14,6 +14,7 @@ const Profile = (props) => {
     const [value, setValue] = useState(3);
     const [token, setToken] = useState();
     const [data, setData] = useState();
+    const [key, setKey] = useState("1");
     useEffect(() => {
         if(getToken()){
           setToken(getToken())
@@ -27,8 +28,8 @@ const Profile = (props) => {
         
     },[token])
 
-    const onChange = (key: string) => {
-        console.log(key);
+    const handleClick = (key) => {
+        setKey(key.key);
       };
     const contact = [
         {
@@ -113,11 +114,16 @@ const Profile = (props) => {
                         defaultSelectedKeys={['1']}
                         defaultOpenKeys={['sub1']}
                         items={menuItems}
+                        onClick={handleClick}
                     />
                 </div>
                 <div className="profile-list-post">
-                    {/* <ListPost /> */}
-                    {/* <Follower/> */}
+                    {
+                        key === "1" && <ListPost />
+                    }
+                    {
+                        key === "2" && <Follower/>
+                    }
                 </div>
             </div>
         </div>

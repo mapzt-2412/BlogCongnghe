@@ -5,6 +5,7 @@ import IconTimming from '../../../assets/icon/IconTimming';
 import { SliceString } from '../../../libs/common';
 import { stringLengthTitle, stringLengthDescription } from '../../../libs/commonConstants';
 import moment from 'moment';
+import vi from "moment/locale/vi";
 
 interface IPostCardProps {
     data: {
@@ -21,7 +22,7 @@ const PostCard: FC<IPostCardProps> = ({ data, index }) => {
     return (
         <div className={'post-card-container ' + (index === 2 ? "right" : "" ) }>
             <div className="post-card-image">
-                <Image src={data?.image} width={280} height={175} layout="responsive" alt='post-image'/>
+                <Image src={data?.thumbnail} width={280} height={175} layout="responsive" alt='post-image'/>
             </div>
             <div className="post-title">
                 <p> { SliceString(data?.title,stringLengthTitle) } </p>
@@ -36,13 +37,13 @@ const PostCard: FC<IPostCardProps> = ({ data, index }) => {
                         <AvatarDefaultSmall/>
                     }
                     </div>
-                    { data?.author }
+                    { data?.author.nickname }
                 </div>
                 <div className="post-time">
                     <IconTimming/>
                     <div className="post-duration">
                         {
-                            moment(data?.time, "YYYYMMDD").fromNow()
+                            moment(data?.createdAt, "YYYYMMDD").locale("vi", vi).fromNow()
                         }
                     </div>
                 </div>
