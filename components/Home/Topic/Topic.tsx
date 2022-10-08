@@ -1,21 +1,19 @@
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useState, useEffect } from 'react';
 import Link from "next/link";
 import IconNext from "./../../../assets/icon/IconNext";
 import PostCard from '../../ListPost/PostCard/PostCard';
+import PropertiesService from "../../../services/properties.service";
 
-interface ITopicProps {
-    data: {
-        topic: string;
-        data: Array<any>;
-    };
-} 
-
-const Topic: FC<ITopicProps> = ({ data }) => {
+const Topic = ({ data }) => {
+    const [articles, setArticles] = useState();
+    useEffect(() => {
+        PropertiesService.getArticlesByTopic(data?.name).then((data) => setArticles(data.data.data))
+    },[]) 
     return (
         <div className="topic-container">
             <div className="topic-header">
                 <div className="topic-title">
-                        <p>{ data?.topic }</p>
+                        <p>{ data?.name }</p>
                     </div>
                     <div className="topic-arrow-top"></div>
                     <div className="topic-arrow-bottom"></div>
@@ -29,7 +27,7 @@ const Topic: FC<ITopicProps> = ({ data }) => {
                 </div>
                 <div className="topic-content">  
                     {
-                        data?.data.map((value, index) => (
+                        articles?.map((value, index) => (
                             <PostCard data={value} key={index} index={index}/>
                         ))
                     }

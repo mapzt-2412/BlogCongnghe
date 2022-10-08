@@ -32,6 +32,7 @@ interface IChartProps {
   isModalChartVisible: boolean | undefined;
   setIsModalChartVisible: (data) => void;
   addData?: (data) => void;
+  addDataContent?: (data) => void;
   handlEditTable?: (data) => void;
   dataTable?: object;
   type?: string;
@@ -54,6 +55,7 @@ const Chart: FC<IChartProps> = ({
   handlEditTable,
   type,
   isEdit,
+  addDataContent,
 }) => {
   const [typeChart, setTypeChart] = useState(type ? type : "");
   const [isType, setIsType] = useState(type ? true : false);
@@ -82,6 +84,12 @@ const Chart: FC<IChartProps> = ({
         ),
         title: "Biểu đồ",
       });
+      addDataContent(
+        {
+          type: "chart",
+          data: {...data, typeChart: typeChart},
+        }
+      );
       setTypeChart("");
       setIsType(false);
       setPage(1);

@@ -6,13 +6,15 @@ import { FC } from 'react';
 interface ITagsProps {
     tags: Array<any>;
 }
+
 const HotTags: FC<ITagsProps> = ({ tags }) => {
+  console.log(tags)
     return (
         <RightBar title="TAG NỔI BẬT">
             <div className="tags">
-              {tags.map((value, index) => (
+              {tags?.map((value, index) => (
                 <div className="link tag" key={index}>
-                  <Link href={value.link}>{value.title}</Link>
+                  <Link  href="/">{value.name}</Link>
                 </div>
               ))}
             </div>

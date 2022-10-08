@@ -1,6 +1,7 @@
 import { Select, Input, Row, Col } from "antd";
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect, useRef } from "react";
 import Path from "../components/Path";
+import PropertiesService from "./../services/properties.service";
 import IconContent from "./../assets/icon/IconContent";
 import IconAddDraft from "./../assets/icon/IconAddDraft";
 import IconRating from "./../assets/icon/IconRating";
@@ -20,7 +21,9 @@ import Quiz from "../components/CreatePost/Quiz";
 import Vote from "../components/CreatePost/Vote";
 import { SortableList, ItemRenderProps, SortableItemProps } from "@thaddeusjiang/react-sortable-list";
 import UploadVideo from "../components/CreatePost/UploadVideo";
+import UploadImage from "../components/CreatePost/UploadImage";
 import ModalConfirm from "../components/ModalConfirm/ModalConfirm";
+import { getToken } from "../libs/common";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -29,21 +32,6 @@ const MapBox = dynamic(() => import("../components/CreatePost/Map"), {
   ssr: false,
 });
 
-const topic = [
-  "TECHNOLOGY",
-  "PROGRAMMING",
-  "CRYPTOCURRENCY",
-  "PYTHON",
-  "JAVASCRIPT",
-  "BLOCKCHAIN",
-  "GAMING",
-  "AI",
-  "REACT",
-  "SECURITY",
-  "SOFTWARE DEVELOPMENT",
-  "MACHINE LEARNING",
-  "REVIEWS",
-];
 
 const CreatePost = () => {
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
@@ -52,11 +40,33 @@ const CreatePost = () => {
   const [isModalVideoVisible, setIsModalVideoVisible] = useState(false);
   const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
   const [data, setData] = useState<SortableItemProps[]>([]);
-  const [content, setContent] = useState<any[]>()
+  const [dataContent, setDataContent] = useState([]);
+  const [reqData, setReqData] = useState();
+  const [content, setContent] = useState<any[]>();
+  const [topic, setTopic] = useState([]);
+  const [tag, setTag] = useState([]);
 
+  useEffect (() => {
+    PropertiesService.getTopics().then((data) => setTopic(data.data.data));
+    PropertiesService.getTags().then((data) => setTag(data.data.data))
+  },[])
+
+  const handleSubmit = (data) => {
+    PropertiesService.createArticle(data,  getToken()).then((data) => console.log(data))
+  }
   const addData = (data) => {
     setData((pre) => [...pre, data]);
   };
+  const addDataContent = (data) => {
+    setDataContent((pre) => [...pre, data])
+  }
+  useEffect(() => {
+    setReqData({
+      ...reqData,
+      content: JSON.stringify(dataContent),
+    })
+  },[dataContent])
+
   const showModalChart = () => {
     setIsModalChartVisible(true);
   };
@@ -73,10 +83,30 @@ const CreatePost = () => {
     setIsModalConfirmVisible(true);
   };
 
-  const onChange = (value: string) => {
-    console.log(`selected ${value}`);
+  const handleChangeTopic = (value: string) => {
+    setReqData({
+      ...reqData,
+      topicId: value,
+    })
   };
-
+  const handleChangeTag = (value: string) => {
+    setReqData({
+      ...reqData,
+      tags: value,
+    })
+  };
+  const handleChangeInput = (event) => {
+    setReqData({
+      ...reqData,
+      [event.target.name]: event.target.value,
+    })
+  }
+  const handleChangeThumbnail = (value) => {
+    setReqData({
+      ...reqData,
+      thumbnail: value,
+    })
+  }
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
@@ -85,6 +115,7 @@ const CreatePost = () => {
     const result = data.filter((value, i) => i !== index);
     setData(result);
   };
+  
   const memu = [
     {
       lable: <IconContent />,
@@ -158,6 +189,16 @@ const CreatePost = () => {
     draggedItem = null;
   };
 
+  const handleKeyDown = (event) => {
+    if(event.keyCode == 13){
+      let tag = reqData?.tags ? reqData?.tags  : [];
+      tag.push(event.target.value);
+      setReqData({
+        ...reqData,
+        tags: tag,
+      })
+    }
+  }
   return (
     <div className="medium-container">
       <Path data={{ content: "Tạo bài viết" }} />
@@ -166,21 +207,25 @@ const CreatePost = () => {
           isModalChartVisible={isModalChartVisible}
           setIsModalChartVisible={setIsModalChartVisible}
           addData={addData}
+          addDataContent={addDataContent}
         />
         <Vote
           isModalVoteVisible={isModalVoteVisible}
           setIsModalVoteVisible={setIsModalVoteVisible}
           addData={addData}
+          addDataContent={addDataContent}
         />
         <Content
           isModalContentVisible={isModalContentVisible}
           setIsModalContentVisible={setIsModalContentVisible}
           addData={addData}
+          addDataContent={addDataContent}
         />
         <UploadVideo
           isModalVideoVisible={isModalVideoVisible}
           setIsModalVideoVisible={setIsModalVideoVisible}
           addData={addData}
+          addDataContent={addDataContent}
         />
         <ModalConfirm
           isModalConfirmVisible={isModalConfirmVisible}
@@ -194,7 +239,7 @@ const CreatePost = () => {
                 showSearch
                 placeholder="Chọn chủ đề cho bài viết của bạn"
                 optionFilterProp="children"
-                onChange={onChange}
+                onChange={handleChangeTopic}
                 onSearch={onSearch}
                 style={{ width: "100%" }}
                 filterOption={(input, option) =>
@@ -204,8 +249,8 @@ const CreatePost = () => {
                 }
               >
                 {topic.map((value, index) => (
-                  <Option value={value} key={index}>
-                    {value}
+                  <Option value={value.id} key={index}>
+                    {value.name}
                   </Option>
                 ))}
               </Select>
@@ -219,11 +264,13 @@ const CreatePost = () => {
                 allowClear
                 placeholder="Hãy gắn tag cho bài viết của bạn"
                 style={{ width: "100%" }}
-                onChange={onChange}
+                onChange={handleChangeTag}
+                onKeyDown={handleKeyDown}
+                value={reqData?.tags}
               >
-                {topic.map((value, index) => (
-                  <Option value={value} key={index}>
-                    {value}
+                {tag.map((value, index) => (
+                  <Option value={value?.name} key={index}>
+                    {value?.name}
                   </Option>
                 ))}
               </Select>
@@ -236,6 +283,8 @@ const CreatePost = () => {
                 rows={2}
                 placeholder="Vui lòng nhập tiêu đề"
                 maxLength={200}
+                name="title"
+                onChange = {handleChangeInput}
               />
             </div>
           </div>
@@ -245,8 +294,16 @@ const CreatePost = () => {
               <TextArea
                 rows={4}
                 placeholder="Mô tả sẽ được xuất hiện trong kết quả tìm kiếm"
+                name="description"
                 maxLength={200}
+                onChange = {handleChangeInput}
               />
+            </div>
+          </div>
+          <div className="create-post-content-item">
+            <div className="create-post-content-left">Ảnh bìa</div>
+            <div className="create-post-content-right">
+              <UploadImage handleChangeThumbnail={handleChangeThumbnail}/>
             </div>
           </div>
           <ul onDragOver={(e) => e.preventDefault}>
@@ -281,7 +338,7 @@ const CreatePost = () => {
                 <IconSaveDraft/>
                 <p>LƯU BẢN NHÁP</p>
             </div>
-            <div className="create-post-content-button save-article">
+            <div className="create-post-content-button save-article" onClick={() => handleSubmit(reqData)}>
                 <IconUploadArticle/>
                 <p>ĐĂNG BÀI VIẾT</p>
             </div>

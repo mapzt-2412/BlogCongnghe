@@ -1,11 +1,12 @@
 import Slide from "./Slide/Slide";
 import {Row, Col} from "antd";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Topic from "./Topic/Topic";
 import HotTags from "./RightBar/HotTags";
 import Trends from "./RightBar/Trends";
 import News from "./RightBar/News";
 import Recommend from "./RightBar/Recommend";
+import PropertiesService from "../../services/properties.service"
 
 const trends = [
     {
@@ -135,7 +136,14 @@ const data = [
 ]
 
 const Home = () => {
-
+    const [article, setArticle] = useState();
+    const [tags, setTags] = useState();
+    const [topics, setTopics] = useState();
+    useEffect(() => {
+        PropertiesService.getArticles().then((data) => console.log(data))
+        PropertiesService.getTags().then((data) => setTags(data.data.data))
+        PropertiesService.getTopics().then((data) => setTopics(data.data.data))
+    },[])
     return (
         <div className="main-container">
             <Row>
@@ -144,7 +152,7 @@ const Home = () => {
                         <Slide />
                     </div>
                     {
-                        data.map((value, index) => (
+                        topics?.map((value, index) => (
                             <Topic data={value} key={index}/> 
                         ))
                     }

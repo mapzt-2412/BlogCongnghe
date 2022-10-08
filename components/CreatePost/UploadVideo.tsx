@@ -1,30 +1,49 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { Button, message, Upload, Modal } from 'antd';
 import IconMovie from "../../assets/icon/IconMovie";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
+import { getToken } from "../../libs/common";
 import type { UploadProps } from 'antd';
-const props: UploadProps = {
-    name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+
+const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , addDataContent}) => {
+  const [videoUrl, setVideoUrl] = useState();
+  const props: UploadProps = {
+    name: 'media',
+    action: process.env.REACT_APP_API_URL + "/articles/media",
     headers: {
-      authorization: 'authorization-text',
+      authorization: "Bearer " + getToken(),
+
     },
     onChange(info) {
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList);
       }
       if (info.file.status === 'done') {
+        setVideoUrl(info.file.response.data)
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
   };
-
-const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData}) => {
     const handleCancel = () => {
         setIsModalVideoVisible(false);
       };
+    const handleSubmit = () => {
+      addData({
+        title: "video",
+        lable: (
+        <video controls>
+            <source src={videoUrl}/>
+        </video>
+          ),
+      })
+      addDataContent({
+        title: "video",
+        data: videoUrl,
+      })
+      setIsModalVideoVisible(false);
+    };
     return (
         <Modal 
         visible={isModalVideoVisible}
@@ -42,11 +61,11 @@ const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData}) => 
             </div>
             </Upload>
             <div className="modal-chart-button-wrapper">
-                <div className={`modal-chart-button`} >
+                <div className={`modal-chart-button`} onClick={handleSubmit}>
                     <IconUploadArticle />
                     <p>Tiếp tục</p>
                 </div>
-                </div>
+            </div>
         </Modal>
     )
 }

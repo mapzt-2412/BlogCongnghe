@@ -13,6 +13,7 @@ const EditorWrapper = ({ dataContent }) => {
     const showModalContent = () => {
         setIsModalContentVisible(true);
     };
+
     return (
         <div className="editor-wrapper">
             <Content

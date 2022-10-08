@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import HotTags from "../../components/Home/RightBar/HotTags";
 import Recommend from "../../components/Home/RightBar/Recommend";
 import Interactive from "../../components/Interactive/Interactive";
@@ -7,6 +7,9 @@ import Image from "next/image";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import { Button } from "antd";
 import Path from "../../components/Path";
+import PropertiesService from "../../services/properties.service";
+import { useRouter } from 'next/router';
+import AreaChart from "../../components/createPost/Chart/AreaChart";
 
 const trends = [
   {
@@ -78,11 +81,28 @@ const data = {
 };
 
 const PostDetail = () => {
+  const { id } = useRouter().query;
+  const [data, setData] = useState();
+  const [content, setContent] = useState();
+  useEffect(() => {
+    if(id){
+      PropertiesService.getArticleById(id).then((data) => {
+        setData(data.data.data);
+        setContent(JSON.parse(data.data.data.content))
+      } )
+    }
+  },[id])
+  console.log(content)
+  const renderContent = (type , data) => {
+    if(type === "chart"){
+      return <AreaChart dataChart = {data}/>
+    }
+  }
   return (
     <div className="post-detail-container">
-      <Path data={{title: ["Technology"], content: data.title}}/>
+      <Path data={{title: ["Technology"], content: data?.title}}/>
       <div className="post-detail-title">
-        <p>{data.title}</p>
+        <p>{data?.title}</p>
       </div>
       <div className="post-detail-author">
         <div className="post-author-profile">
@@ -99,29 +119,33 @@ const PostDetail = () => {
               <AvatarDefaultSmall />
             )}
           </div>
-          {data?.author}
+          {data?.author.name}
             <Button type="primary">
                 + Theo dõi
             </Button>
         </div>
         <div className="post-detail-time">
             <span>Ngày đăng: </span>
-            <p>{ data.time }</p>
+            <p>{ data?.time }</p>
         </div>
         <div className="post-detail-time">
             <span>Bình luận: </span>
-            <p>{ data.comment }</p>
+            <p>{ data?.comment }</p>
         </div>        
       </div>
       <div className="post-detail-content">
-        <Image src={data.image} width={654} height={300} layout="responsive" alt="post-image"/>
+        <Image src={data?.image} width={654} height={300} layout="responsive" alt="post-image"/>
         <div className="post-detail-main-content">
-            <p>
-                {data.content}
-            </p>
+            {
+              content?.map((value) => 
+              <>
+              {renderContent(value.type, value.data)}
+              </>
+              )
+            }
         </div>
-        <HotTags tags={tags}/>
-        <Interactive like={data.like} share={data.share} comment={data.comment}/>
+        <HotTags tags={data?.tags ? data?.tags : []}/>
+        <Interactive like={data?.like} share={data?.share} comment={data?.comment}/>
       </div>
       <ListComment/>
       <Recommend posts={trends}/>
