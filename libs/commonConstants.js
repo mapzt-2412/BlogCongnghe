@@ -29,3 +29,47 @@ export const color = [
         background: 'rgba(255, 159, 64, 0.5)',
     },
   ]
+
+  export const report = [
+    {
+        value: "Nội dung kích dục",
+        type: "aphrodisiac",
+    },
+    {
+        value: "Bán hàng trái phép",
+        type: "illegal sales"
+    },
+    {
+        value: "Spam",
+        type: "spam"
+    },
+
+    {
+        value: "Bạo lực",
+        type: "Violent"
+    },
+    {
+        value: "Quấy rối",
+        type: "Trouble"
+    },
+    {
+        value: "Tự tử hoặc tự gây thương tích",
+        type: "Suicide"
+    },
+    {
+        value: "Thông tin sai sự thật",
+        type: "False"
+    },
+    {
+        value: "Ngôn từ gây thù ghét",
+        type: "Hate"
+    },
+    {
+        value: "Khủng bố",
+        type: "Terrorism"
+    },
+    {
+        value: "Vấn đề khác",
+        type: "Other"
+    },
+  ]

@@ -60,5 +60,11 @@ class PropertiesService {
     userFollow(data, token){
         return http.post(`/users/follow`, JSON.stringify(data),  {headers: {'Authorization': "Bearer " + token}} )
     }
+    getBookMark(token){
+        return http.get(`/users/bookmark` ,  {headers: {'Authorization': "Bearer " + token}})
+    }
+    sendReport(data, token){
+        return http.post(`/users/report-article`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
+    }
 }
 export default new PropertiesService();

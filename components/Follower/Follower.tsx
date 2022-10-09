@@ -22,7 +22,7 @@ const Follower = ({type}) => {
       <div className="list-post-content">
         <div className="list-post-content-header">
           <div className="list-post-topic">
-            <p>NGƯỜI THEO DÕI (10)</p>
+            <p>NGƯỜI THEO DÕI ({data?.length})</p>
           </div>
           <div className="list-post-sort search-field">
             <Search

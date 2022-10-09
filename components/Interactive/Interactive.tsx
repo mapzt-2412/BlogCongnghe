@@ -7,13 +7,20 @@ import IconShare from "../../assets/icon/IconShare";
 import PropertiesService from "../../services/properties.service";
 import {getToken} from "../../libs/common";
 import { URL } from "../../libs/constants";
+import { report } from "../../libs/commonConstants";
 import { FacebookShareButton } from "react-share";
+import { Modal, Radio, Select, Input, Button  } from 'antd';
+
+const { Option } = Select;
 
 const Interactive = ({dataInteractive , id }) => {
   const [like, setLike] = useState(dataInteractive?.isLike);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [likeNum, setLikeNum] = useState(dataInteractive?.interactives?.likeNum);
   const [bookmark, setBookmark] = useState(dataInteractive?.isBookmark);
   const [callApi, setCallApi] = useState(false);
+  const [reportContent, setReportContent] = useState("");
+  const [placement, SetPlacement] = useState('');
   const [data, setData ] = useState({
     like: like,
     bookmark: bookmark,
@@ -73,7 +80,26 @@ const Interactive = ({dataInteractive , id }) => {
       setCallApi(true);
     }
   }
-  
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const placementChange = (e: RadioChangeEvent) => {
+    SetPlacement(e.target.value);
+  };
+  const handleChangeInput = (e) => {
+    setReportContent(e.target.value);
+  };
+  const handleReport = () => {
+    PropertiesService.sendReport({articleId: id, description: reportContent, type: placement}, getToken()).then((data) => {
+      alert("Báo cáo thành công");
+      handleCancel();
+    })
+    
+  }
   return (
     <div className="interactive-container">
       <button className={"interactive "} onClick={()=> handleInteractive("like")}>
@@ -95,6 +121,30 @@ const Interactive = ({dataInteractive , id }) => {
       <button className="interactive" onClick={()=> handleInteractive("bookmark")}>
         {bookmark ? "Đã đánh dấu" : "Đánh dấu"}
       </button>
+      <button className="interactive" onClick={showModal}>
+        Báo cáo
+      </button>
+      <Modal title="Báo cáo" visible={isModalOpen} onCancel={handleCancel} footer={false}>
+        <h2>Hãy chọn vấn đề</h2>
+        <p>Nếu bạn nhận thấy ai đó đang gặp nguy hiểm, đừng chần chừ mà hãy tìm ngay sự giúp đỡ trước khi báo cáo với chúng tôi.</p>
+        <Radio.Group value={placement} onChange={placementChange}>
+          {
+            report?.map((value,index) => 
+            <Radio.Button value={value.type}>{value.value}</Radio.Button>)
+          }
+        </Radio.Group>
+        {
+          placement !== "" &&
+          <>
+          <Input placeholder="Nhập nội dung báo cáo" value={reportContent} onChange={handleChangeInput}/>
+          <div className="interactive-report">
+              <Button onClick={handleReport}>
+                Gửi báo cáo
+              </Button>
+          </div>
+          </>
+        }
+      </Modal>
     </div>
   );
 };

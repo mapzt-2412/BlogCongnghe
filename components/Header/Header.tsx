@@ -115,8 +115,7 @@ const Header = (props) => {
               </div>
               </Link>
             </>
-          ) :  */}
-          (
+          ) : (
             <>
               <div
                 className="header-button header-login"

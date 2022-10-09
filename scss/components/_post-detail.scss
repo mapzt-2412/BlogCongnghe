@@ -176,3 +176,18 @@
     display: flex;
     align-items: center;
 }
+.ant-radio-group {
+    display: flex;
+    flex-direction: column;
+
+    label{
+        height: auto;
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+}
+.interactive-report{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}

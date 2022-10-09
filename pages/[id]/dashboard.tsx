@@ -18,6 +18,7 @@ const Dashboard = () => {
   const [token, setToken] = useState();
   const [key, setKey] = useState("2");
   const [data, setData] = useState();
+  const [dataBookmark, setDataBookmark] = useState();
 
   useEffect(() => {
       if(getToken()){
@@ -28,9 +29,9 @@ const Dashboard = () => {
   useEffect(()=>{
       if(token){
           PropertiesService.getArticleByUser(token).then(data => setData(data.data.data))
+          PropertiesService.getBookMark(token).then(data => setDataBookmark(data.data.data))
       }
   },[token])
-
   const onChange = (key: string) => {
       setKey(key);
     };
@@ -54,7 +55,7 @@ const Dashboard = () => {
 
         <div className="profile-list-post">
           {
-            key === "2" && <ListPost data={data?.listPost} id={"Bài viết đã đăng"}/>
+            key === "2" && <ListPost data={data} id={"Bài viết đã đăng"}/>
           }
           {
             key === "4" && <DashboardInfo />
@@ -68,7 +69,9 @@ const Dashboard = () => {
           {
             key === "7" && <Follower type={"3"} />
           }
-          {/* <Follower/> */}
+          {
+            key === "8" && <ListPost data={dataBookmark} id={"Bài viết đã đăng"}/>
+          }
         </div>
       </div>
     </div>
