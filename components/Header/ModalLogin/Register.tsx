@@ -49,11 +49,11 @@ const Register = ({ setTab }) => {
         <div className="modal-btn-signin">
           <button onClick={register}>ĐĂNG KÝ</button>
         </div>
-        <div className="modal-signup">
+        {/* <div className="modal-signup">
           <p>
             Chưa có tài khoản? <span>Đăng ký</span>
           </p>
-        </div>
+        </div> */}
       </>
     );
   };
