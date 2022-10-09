@@ -119,3 +119,10 @@
     color: $color--text1;
     margin-top: 15px;
 }
+.video-upload{
+    display: flex;
+    justify-content: center;
+    video{
+        height: 500px;
+    }
+}

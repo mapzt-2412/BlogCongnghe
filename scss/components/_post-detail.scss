@@ -49,11 +49,12 @@
 }
 .interactive{
     height: 40px;
-    padding: 0px 16px;
+    padding: 0px 16px !important;
     display: flex;
     align-items: center;
     border: none;
     margin-right: 16px;
+    background: $color--background !important;
     cursor: pointer;
     @include font-16;
     svg{
@@ -63,6 +64,9 @@
         color: $color--dark;
         margin-right: 4px;
     }
+}
+.interactive.active{
+    background: $color--blue;
 }
 .interactive-container{
     display: flex;
@@ -84,6 +88,7 @@
         margin-right: 16px;
     }
     .comment-content{
+        width: 100%;
         padding: 16px;
         background: $color--background;
         border-radius: 3px;
@@ -166,4 +171,8 @@
 .slash{
     color: $color--text1;
     margin: 0px 4px;
+}
+.react-share__ShareButton{
+    display: flex;
+    align-items: center;
 }

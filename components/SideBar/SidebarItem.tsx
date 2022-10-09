@@ -1,8 +1,14 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function SidebarItem({ item }) {
-  // const [open, setOpen] = useState(false)
+export default function SidebarItem({ item, onChange, count }) {
+  const [key, setKey] = useState("2")
+  useEffect(() => {
+    if(count !== "undefine"){
+      setKey(count)
+    }
+  },[count])
+  console.log(key )
   if (item.childrens) {
     return (
       <div className="sidebar-item">
@@ -12,7 +18,7 @@ export default function SidebarItem({ item }) {
         </div>
         <div className="sidebar-content">
           {item.childrens.map((child, index) => (
-            <SidebarItem key={index} item={child} />
+            <SidebarItem key={index} item={child} onChange={onChange} count={key}/>
           ))}
           <br></br>
           {/* <hr></hr> */}
@@ -22,12 +28,10 @@ export default function SidebarItem({ item }) {
   }else{
     return (
       <>
-        <a href={item.path || "#"} className="plain" style={{color: "#333", marginLeft: 16}}>
+        <div className={"plain " + (key === item.key && "active")} style={{color: "#333"}} onClick={() => onChange(item.key)}>
             {/* { item.icon && <i className={item.icon}></i> } */}
             {item.title}
-        </a>
-        <br></br>
-        <br></br>
+        </div>
       </>
     )
 }

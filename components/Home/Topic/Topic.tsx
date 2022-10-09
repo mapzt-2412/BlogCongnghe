@@ -17,7 +17,7 @@ const Topic = ({ data }) => {
                     </div>
                     <div className="topic-arrow-top"></div>
                     <div className="topic-arrow-bottom"></div>
-                    <Link href="/">
+                    <Link href={`/list-post/${data?.name}`}>
                         <div className="topic-see-more">
                             Xem thêm
                             <IconNext/>
@@ -28,7 +28,9 @@ const Topic = ({ data }) => {
                 <div className="topic-content">  
                     {
                         articles?.map((value, index) => (
-                            <PostCard data={value} key={index} index={index}/>
+                            <>
+                                <PostCard data={value} key={index} index={index}/>
+                            </>
                         ))
                     }
                 </div>

@@ -25,7 +25,7 @@ const UploadImage = ({ handleChangeThumbnail }) => {
   };
   return (
     <Upload {...props}>
-    <Button>Click to Upload</Button>
+    <Button>Nhấn để chọn ảnh</Button>
   </Upload>
   )
  

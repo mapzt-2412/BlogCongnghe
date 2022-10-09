@@ -8,13 +8,14 @@ interface ITagsProps {
 }
 
 const HotTags: FC<ITagsProps> = ({ tags }) => {
-  console.log(tags)
     return (
         <RightBar title="TAG NỔI BẬT">
             <div className="tags">
               {tags?.map((value, index) => (
                 <div className="link tag" key={index}>
-                  <Link  href="/">{value.name}</Link>
+                  {
+                    value && <Link href="/">{`#${value}`}</Link>
+                  }
                 </div>
               ))}
             </div>

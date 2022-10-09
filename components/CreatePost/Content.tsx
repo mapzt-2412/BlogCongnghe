@@ -3,6 +3,81 @@ import { FC, memo, useRef, useEffect, useState, useMemo } from "react";
 import { Modal, Row, Col, Radio, Button, RadioChangeEvent } from "antd";
 import EditorWrapper from "./editor/EditorWrapper";
 
+// class MyUploadAdapter {
+//   constructor( loader ) {
+//       // CKEditor 5's FileLoader instance.
+//       this.loader = loader;
+
+//       // URL where to send files.
+//       this.url = process.env.REACT_APP_API_URL + "/articles/media";
+//   }
+
+//   // Starts the upload process.
+//   upload() {
+//       return new Promise( ( resolve, reject ) => {
+//           this._initRequest();
+//           this._initListeners( resolve, reject );
+//           this._sendRequest();
+//       } );
+//   }
+
+//   // Aborts the upload process.
+//   abort() {
+//       if ( this.xhr ) {
+//           this.xhr.abort();
+//       }
+//   }
+
+//   // Example implementation using XMLHttpRequest.
+//   _initRequest() {
+//       const xhr = this.xhr = new XMLHttpRequest();
+
+//       xhr.open( 'POST', this.url, true );
+//       xhr.responseType = 'json';
+//   }
+
+//   // Initializes XMLHttpRequest listeners.
+//   _initListeners( resolve, reject ) {
+//       const xhr = this.xhr;
+//       const loader = this.loader;
+//       const genericErrorText = 'Couldn\'t upload file:' + ` ${ loader.file.name }.`;
+
+//       xhr.addEventListener( 'error', () => reject( genericErrorText ) );
+//       xhr.addEventListener( 'abort', () => reject() );
+//       xhr.addEventListener( 'load', () => {
+//           const response = xhr.response;
+
+//           if ( !response || response.error ) {
+//               return reject( response && response.error ? response.error.message : genericErrorText );
+//           }
+
+//           // If the upload is successful, resolve the upload promise with an object containing
+//           // at least the "default" URL, pointing to the image on the server.
+//           resolve( {
+//               default: response.url
+//           } );
+//       } );
+
+//       if ( xhr.upload ) {
+//           xhr.upload.addEventListener( 'progress', evt => {
+//               if ( evt.lengthComputable ) {
+//                   loader.uploadTotal = evt.total;
+//                   loader.uploaded = evt.loaded;
+//               }
+//           } );
+//       }
+//   }
+
+//   // Prepares the data and sends the request.
+//   _sendRequest() {
+//       const data = new FormData();
+
+//       data.append( 'upload', this.loader.file );
+
+//       this.xhr.send( data );
+//   }
+// }
+
 interface IContentProps {
   isModalContentVisible: boolean | undefined,
   setIsModalContentVisible: (data) => void,
@@ -26,6 +101,12 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
     
     const id = useMemo(() => genHexString(7),[]);
 
+    // function MyCustomUploadAdapterPlugin( editor ) {
+    //   editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+    //       console.log(editor.plugins)
+    //       return new MyUploadAdapter( loader );
+    //   };
+    // }  
     useEffect(() => {
       editorRef.current = {
         ClassicEditor: require("./editor/ckeditor")
@@ -41,7 +122,7 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
           autosave: {
             save( editor ) {
                 return setData(editor.getData());
-            }
+            },
         },
 				} )
 				.then( editor => {

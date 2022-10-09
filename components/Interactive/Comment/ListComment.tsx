@@ -1,63 +1,34 @@
 import { Input } from "antd";
-import React, { memo, useRef } from "react";
-import Comment from "./Comment"
+import React, { memo, useRef, useState, useEffect } from "react";
+import Comment from "./Comment";
+import { useRouter } from 'next/router';
+import PropertiesService from "../../../services/properties.service";
+import { getToken } from "../../../libs/common";
 
-const data = [
-  {
-    userName: "_vphlinh",
-    avatar: null,
-    time: 20220801,
-    content:
-      "Build thì dù các cửa hàng giờ đều hỗ trợ khách từ A đến Z, tuy nhiên thì người đi build cũng cần có chút kiến thức để tránh bị vẽ vời, mất thêm tiền mà không cần thiết.",
-    reply: [
-      {
-        userName: "_vphlinh",
-        avatar: null,
-        time: 20220801,
-        content:
-          "Build thì dù các cửa hàng giờ đều hỗ trợ khách từ A đến Z, tuy nhiên thì người đi build cũng cần có chút kiến thức để tránh bị vẽ vời, mất thêm tiền mà không cần thiết.",
-      },
-      {
-        userName: "_vphlinh",
-        avatar: null,
-        time: 20220801,
-        content:
-          "Build thì dù các cửa hàng giờ đều hỗ trợ khách từ A đến Z, tuy nhiên thì người đi build cũng cần có chút kiến thức để tránh bị vẽ vời, mất thêm tiền mà không cần thiết.",
-      },
-      {
-        userName: "vn_ninja",
-        avatar: null,
-        time: 20220801,
-        content:
-          "@_vphlinh Thằng em tôi mua vỏ 3 củ, tản nước 3 củ, thêm 3 cái quạt cũng 3 củ. Và rất nhiều cái linh tinh. Cây thì cũ không thay, thay ram 16G 2400 lên 16G 3200. 16G kia mang về vứt xó.",
-        reply: [
-          {
-            userName: "_vphlinh",
-            avatar: null,
-            time: 20220801,
-            content:
-              "Build thì dù các cửa hàng giờ đều hỗ trợ khách từ A đến Z, tuy nhiên thì người đi build cũng cần có chút kiến thức để tránh bị vẽ vời, mất thêm tiền mà không cần thiết.",
-          },
-          {
-            userName: "_vphlinh",
-            avatar: null,
-            time: 20220801,
-            content:
-              "Build thì dù các cửa hàng giờ đều hỗ trợ khách từ A đến Z, tuy nhiên thì người đi build cũng cần có chút kiến thức để tránh bị vẽ vời, mất thêm tiền mà không cần thiết.",
-          },
-        ],
-      },
-    ],
-  },
-];
-const ListComment = () => {
+const ListComment = ({ comment, setComment}) => {
+  const { id } = useRouter().query;
+  const [data,setData] = useState({});
+  const handleChangeInput = (e) => {
+    setData({...data, comment: e.target.value})
+  }
+  useEffect(() => {
+    if(id){ 
+      setData({...data, articleId: id})
+    }
+  },[id])
+  const handleKeyDown = (e) => {
+    if(e.keyCode === 13){
+      PropertiesService.commentArticle(data, getToken()).then((data) => setComment((pre) => [...pre, data.data.data]))
+      setData({...data, comment: ""});
+    }
+  }
   return (
     <div className="comment-container">
       <div className="comment-input">
-        <Input placeholder="Viết bình luận" id={"comment-input"}/>
+        <Input placeholder="Viết bình luận" id={"comment-input"} value={data?.comment} onChange={handleChangeInput} onKeyDown={handleKeyDown}/>
       </div>
       <div className="list-comment">
-        {data.map((value, index) => (
+        {comment?.map((value, index) => (
           <Comment data={ value } key={index}/>
         ))}
       </div>

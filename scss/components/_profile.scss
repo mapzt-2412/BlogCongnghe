@@ -72,3 +72,10 @@
         // }
     }
 }
+.plain{
+    padding: 10px 16px;
+    cursor: pointer;
+}
+.plain.active{
+    background: $color--border;
+}

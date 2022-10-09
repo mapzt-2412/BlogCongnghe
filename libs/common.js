@@ -1,6 +1,7 @@
 import moment from 'moment';
+import vi from "moment/locale/vi";
 export const formatDate = (date) => {
-    return moment(date, "YYYYMMDD").fromNow();
+    return moment.utc(date).locale("vi", vi).fromNow();
 }
 
 export const SliceString = (string , end) => {

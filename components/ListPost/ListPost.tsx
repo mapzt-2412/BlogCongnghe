@@ -1,5 +1,5 @@
 import React from "react";
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 import IconCardSort from "../../assets/icon/IconCardSort";
 import IconListSort from "../../assets/icon/IconListSort";
 import IconCardSortActive from "../../assets/icon/IconCardSortActive";
@@ -7,77 +7,9 @@ import IconListSortActive from "../../assets/icon/IconListSortActive";
 import PostCardHorizontal from "./PostCard/PostCardHorizontal";
 import PostCard from "./PostCard/PostCard";
 import { Button, Card, List  } from "antd";
+import PropertiesService from "../../services/properties.service";
 
-const data = [
-  {
-    title:
-      "Đây là các mẫu ốp lưng Pela thân thiện với môi trường dành cho dòng Google ...",
-    description:
-      "Thương hiệu sản xuất ốp ",
-    author: "_vphlinh",
-    image: "/slide1.jpg",
-    time: "20220620",
-    like: 218,
-    comment: 10,
-  },
-  {
-    title:
-      "Đây là các mẫu ốp lưng Pela thân thiện với môi trường dành cho dòng Google ...",
-    description:
-      "Thương hiệu sản xuất ốp lưng điện thoại thân thiện với môi trường - Pela vừa mới ra mắt những mẫu ốp lưng mới dành cho các mẫu điện thoại Pixel 6 và Pixel 6 Pro, có giá bán từ 38 USD (khoảng gần 870.000 đồng), với 4 phiên bản màu sắc khác nhau, bao gồm:",
-    author: "_vphlinh",
-    image: "/slide2.jpg",
-    time: "20220620",
-    like: 218,
-    comment: 10,
-  },
-  {
-    title:
-      "Đây là các mẫu ốp lưng Pela thân thiện với môi trường dành cho dòng Google ...aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    description:
-      "Thương hiệu sản xuất ốp lưng điện thoại thân thiện với môi trường - Pela vừa mới ra mắt những mẫu ốp lưng mới dành cho các mẫu điện thoại Pixel 6 và Pixel 6 Pro, có giá bán từ 38 USD (khoảng gần 870.000 đồng), với 4 phiên bản màu sắc khác nhau, bao gồm:",
-    author: "_vphlinh",
-    image: "/slide3.jpg",
-    time: "20220620",
-    like: 218,
-    comment: 10,
-  },
-  {
-    title:
-      "Đây là các mẫu ốp lưng Pela thân thiện với môi trường dành cho dòng Google ...",
-    description:
-      "Thương hiệu sản xuất ốp lưng điện thoại thân thiện với môi trường - Pela vừa mới ra mắt những mẫu ốp lưng mới dành cho các mẫu điện thoại Pixel 6 và Pixel 6 Pro, có giá bán từ 38 USD (khoảng gần 870.000 đồng), với 4 phiên bản màu sắc khác nhau, bao gồm:",
-    author: "_vphlinh",
-    image: "/slide1.jpg",
-    time: "20220620",
-    like: 218,
-    comment: 10,
-  },
-  {
-    title:
-      "Đây là các mẫu ốp lưng Pela thân thiện với môi trường dành cho dòng Google ...",
-    description:
-      "Thương hiệu sản xuất ốp lưng điện thoại thân thiện với môi trường - Pela vừa mới ra mắt những mẫu ốp lưng mới dành cho các mẫu điện thoại Pixel 6 và Pixel 6 Pro, có giá bán từ 38 USD (khoảng gần 870.000 đồng), với 4 phiên bản màu sắc khác nhau, bao gồm:",
-    author: "_vphlinh",
-    image: "/slide2.jpg",
-    time: "20220620",
-    like: 218,
-    comment: 10,
-  },
-  {
-    title:
-      "Đây là các mẫu ốp lưng Pela thân thiện với môi trường dành cho dòng Google ...",
-    description:
-      "Thương hiệu sản xuất ốp lưng điện thoại thân thiện với môi trường - Pela vừa mới ra mắt những mẫu ốp lưng mới dành cho các mẫu điện thoại Pixel 6 và Pixel 6 Pro, có giá bán từ 38 USD (khoảng gần 870.000 đồng), với 4 phiên bản màu sắc khác nhau, bao gồm:",
-    author: "_vphlinh",
-    image: "/slide3.jpg",
-    time: "20220620",
-    like: 218,
-    comment: 10,
-  },
-];
-
-const ListPost = () => {
+const ListPost = ({data, id}) => {
   const [isList , setList] = useState(true);
   const changeLayout = () => {
     setList(!isList);
@@ -87,7 +19,7 @@ const ListPost = () => {
       <div className="list-post-content">
         <div className="list-post-content-header">
           <div className="list-post-topic">
-            <p>TECHNOLOGY</p>
+            <p>{id}</p>
           </div>
           <div className="list-post-sort">
             <div onClick={changeLayout}>
@@ -106,7 +38,7 @@ const ListPost = () => {
         <div className="list-post-content-center">
           {
             isList ? 
-            data.map((value, index) => (
+            data?.map((value, index) => (
               <PostCardHorizontal data={value} key={index} />
             ))
             :

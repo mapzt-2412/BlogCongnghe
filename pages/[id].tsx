@@ -14,6 +14,7 @@ const Profile = (props) => {
     const [value, setValue] = useState(3);
     const [token, setToken] = useState();
     const [data, setData] = useState();
+    const [listPost, setListPost] = useState();
     const [key, setKey] = useState("1");
     useEffect(() => {
         if(getToken()){
@@ -24,9 +25,10 @@ const Profile = (props) => {
     useEffect(()=>{
         if(token){
             PropertiesService.getProfile(token).then(data => setData(data.data.data))
+            PropertiesService.getArticleByUser(token).then(data => setListPost(data.data.data))
         }
-        
     },[token])
+
 
     const handleClick = (key) => {
         setKey(key.key);
@@ -119,10 +121,13 @@ const Profile = (props) => {
                 </div>
                 <div className="profile-list-post">
                     {
-                        key === "1" && <ListPost />
+                        key === "1" && <ListPost data={listPost} id={"Danh sách bài viết"}/>
                     }
                     {
-                        key === "2" && <Follower/>
+                        key === "2" && <Follower type={"2"}/>
+                    }
+                    {
+                        key === "3" && <Follower type={"3"}/>
                     }
                 </div>
             </div>

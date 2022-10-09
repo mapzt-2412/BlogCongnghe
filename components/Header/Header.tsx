@@ -17,6 +17,7 @@ import Link from "next/link";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
 
 const Header = (props) => {
+  const router = useRouter()
   const [data, setData] = useState();
   const [tab, setTab] = useState("");
   const [token, setToken] = useState();
@@ -53,8 +54,13 @@ const Header = (props) => {
   //     showModal: true,
   //   });
   // };
-  const handleClick = () => {
-    deleteToken();
+  const handleClick = ({key}) => {
+    console.log(key)
+    if(key === "2"){
+      deleteToken();
+    }else if(key === "1"){
+      router.push(`/${data?.username}/dashboard`)
+    }
   };
   const menu = (
     <Menu
@@ -100,12 +106,14 @@ const Header = (props) => {
                   </Space>
                 </Dropdown>
               </div>
+              <Link href={"/create-post"}>
               <div
                 className="header-button header-create-post"
               >
                 <IconUploadArticle/>
                 Tạo bài viết
               </div>
+              </Link>
             </>
           ) : (
             <>

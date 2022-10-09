@@ -1,20 +1,28 @@
-import React, { memo } from "react";
-import { ROUTE_TREND } from "../../../libs/constants";
+import React, { memo, useState, useEffect } from "react";
+import { ROUTE_LISTPOST } from "../../../libs/constants";
 import RightBar from "./RightBar";
 import { Col, Row } from 'antd';
 import Image from 'next/image';
 import Link from "next/link";
+import PropertiesService from "../../../services/properties.service";
+import { SliceString } from '../../../libs/common';
+import { stringLengthTitle, stringLengthDescription } from '../../../libs/commonConstants';
 
 const News = ({ news}) => {
+  const [data, setData] = useState();
+  useEffect(()=>{
+    PropertiesService.getArticlesByTopic("News").then((data) => setData(data.data.data))
+  },[])
+  console.log(data)
   return (
     <RightBar title="TIN TỨC">
       <Row>
-        {news.map((value, index) => (
+        {data?.map((value, index) => (
           <Col span={12} key={index}>
             <div className={"news-item " + (index % 2 === 0 ? "left" : "")}>
               <div className="news-image">
                 <Image
-                  src={value.image}
+                  src={value.thumbnail}
                   height={120}
                   width={191}
                   layout="responsive"
@@ -22,14 +30,14 @@ const News = ({ news}) => {
                 />
               </div>
               <div className="news-title">
-                <p>{value.title}</p>
+                <p>{SliceString(value.title, stringLengthTitle)}</p>
               </div>
             </div>
           </Col>
         ))}
       </Row>
       <div className="link see-more">
-        <Link href={ROUTE_TREND}>Xem thêm</Link>
+        <Link href={ROUTE_LISTPOST + `/News`}>Xem thêm</Link>
       </div>
     </RightBar>
   );

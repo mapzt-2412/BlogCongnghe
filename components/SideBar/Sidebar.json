@@ -3,13 +3,16 @@
     "title": "Quản lý nội dung",
     "childrens": [
       {
-        "title": "Bài viết nháp"
+        "title": "Bài viết nháp",
+        "key" : "1"
       },
       {
-        "title": "Bài viết đã đăng"
+        "title": "Bài viết đã đăng",
+        "key" : "2"
       },
       {
-        "title": "Bảng tin đã đăng"
+        "title": "Bảng tin đã đăng",
+        "key" : "3"
       }
     ]
   },
@@ -17,19 +20,24 @@
     "title": "Quản lý tài khoản",
     "childrens": [
       {
-        "title": "Thông tin cá nhân"
+        "title": "Thông tin cá nhân",
+        "key" : "4"
       },
       {
-        "title": "Đổi mật khẩu"
+        "title": "Đổi mật khẩu",
+        "key" : "5"
       },
       {
-        "title": "Người theo dõi"
+        "title": "Người theo dõi",
+        "key" : "6"
       },
       {
-        "title": "Người đang theo dõi"
+        "title": "Người đang theo dõi",
+        "key" : "7"
       },
       {
-        "title": "Bookmark"
+        "title": "Bookmark",
+        "key" : "8"
       }
     ]
   },
@@ -37,7 +45,8 @@
     "title": "Quản lý cấp bậc",
     "childrens": [
       {
-        "title": "Trạng thái"
+        "title": "Trạng thái",
+        "key" : "9"
       }
     ]
   }

@@ -6,30 +6,34 @@ import Path from "../../components/Path";
 import SidebarItem from "../../components/SideBar/SidebarItem";
 import Sidebar from "../../components/SideBar/Sidebar.json";
 import ListPost from "../../components/ListPost/ListPost";
+import { getToken } from "../../libs/common";
+import PropertiesService from "../../services/properties.service";
+import DashboardInfo from "../../components/DashboardInfo/Dashboard-Info";
+import DashboardPassword from "../../components/DashboardInfo/Dashboard-Password";
+import Follower from '../../components/Follower/Follower';
 
 const Dashboard = () => {
   const { id } = useRouter().query;
   const [value, setValue] = useState(3);
   const [token, setToken] = useState();
+  const [key, setKey] = useState("2");
   const [data, setData] = useState();
-  //   const [Sidebar, setSidebar] = useState();
 
-  // useEffect(() => {
-  //     if(getToken()){
-  //       setToken(getToken())
-  //     }
-  //   },[])
+  useEffect(() => {
+      if(getToken()){
+        setToken(getToken())
+      }
+    },[])
 
-  // useEffect(()=>{
-  //     if(token){
-  //         PropertiesService.getProfile(token).then(data => setData(data.data.data))
-  //     }
+  useEffect(()=>{
+      if(token){
+          PropertiesService.getArticleByUser(token).then(data => setData(data.data.data))
+      }
+  },[token])
 
-  // },[token])
-
-  // const onChange = (key: string) => {
-  //     console.log(key);
-  //   };
+  const onChange = (key: string) => {
+      setKey(key);
+    };
 
 
   return (
@@ -44,12 +48,26 @@ const Dashboard = () => {
                     /> */}
 
           {Sidebar.map((item, index) => (
-            <SidebarItem key={index} item={item} />
+            <SidebarItem key={index} item={item} onChange={onChange} count={key}/>
           ))}
         </div>
 
         <div className="profile-list-post">
-          <ListPost />
+          {
+            key === "2" && <ListPost data={data?.listPost} id={"Bài viết đã đăng"}/>
+          }
+          {
+            key === "4" && <DashboardInfo />
+          }
+          {
+            key === "5" && <DashboardPassword />
+          }
+          {
+            key === "6" && <Follower type={"2"} />
+          }
+          {
+            key === "7" && <Follower type={"3"} />
+          }
           {/* <Follower/> */}
         </div>
       </div>

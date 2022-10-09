@@ -10,7 +10,7 @@ import Path from "../../components/Path";
 import PropertiesService from "../../services/properties.service";
 import { useRouter } from 'next/router';
 import AreaChart from "../../components/createPost/Chart/AreaChart";
-
+import { getToken } from "../../libs/common";
 const trends = [
   {
       title: "Trong tương lai, mô hình kinh doanh chuyển sang online", 
@@ -83,20 +83,45 @@ const data = {
 const PostDetail = () => {
   const { id } = useRouter().query;
   const [data, setData] = useState();
-  const [content, setContent] = useState();
+  const [content, setContent] = useState([]);
+  const [comment, setComment] = useState();
+  const [interactives, setInteractives] = useState();
   useEffect(() => {
     if(id){
-      PropertiesService.getArticleById(id).then((data) => {
+      PropertiesService.getArticleById(id, getToken()).then((data) => {
         setData(data.data.data);
         setContent(JSON.parse(data.data.data.content))
-      } )
+        // setContent(data.data.data.content);
+        setInteractives(data.data.data.interactives)
+      })
+      PropertiesService.getComment(id).then((data) => setComment(data.data.data))
     }
   },[id])
-  console.log(content)
   const renderContent = (type , data) => {
     if(type === "chart"){
       return <AreaChart dataChart = {data}/>
+    }else if(type === "video"){
+      return (
+        <div className="video-upload">
+                <video 
+                src={data}
+                loop
+                autoPlay
+                muted
+                controls
+                />
+                </div>
+      )
+    }else if(type === "content"){
+      return (
+        <div dangerouslySetInnerHTML={{ __html: `${data}` }} />
+      )
     }
+  }
+  const handleFollow = () => {
+    PropertiesService.userFollow({userFollowedId: data.author.id}, getToken()).then((data) => {
+      console.log(data)
+    } )
   }
   return (
     <div className="post-detail-container">
@@ -119,22 +144,25 @@ const PostDetail = () => {
               <AvatarDefaultSmall />
             )}
           </div>
-          {data?.author.name}
-            <Button type="primary">
-                + Theo dõi
-            </Button>
+          {data?.author.nickname}
+            {
+              !data?.isFollow && 
+            <Button type="primary" onClick={handleFollow}>
+              + Theo dõi
+            </Button> 
+            }
         </div>
         <div className="post-detail-time">
             <span>Ngày đăng: </span>
-            <p>{ data?.time }</p>
+            <p>{ data?.createdAt.split("T")[0] }</p>
         </div>
         <div className="post-detail-time">
             <span>Bình luận: </span>
-            <p>{ data?.comment }</p>
+            <p>{ comment?.length }</p>
         </div>        
       </div>
       <div className="post-detail-content">
-        <Image src={data?.image} width={654} height={300} layout="responsive" alt="post-image"/>
+        <Image src={data?.thumbnail} width={654} height={300} layout="responsive" alt="post-image"/>
         <div className="post-detail-main-content">
             {
               content?.map((value) => 
@@ -145,9 +173,9 @@ const PostDetail = () => {
             }
         </div>
         <HotTags tags={data?.tags ? data?.tags : []}/>
-        <Interactive like={data?.like} share={data?.share} comment={data?.comment}/>
+        <Interactive dataInteractive={data} id={id}/>
       </div>
-      <ListComment/>
+      <ListComment comment={comment} setComment={setComment}/>
       <Recommend posts={trends}/>
     </div>
   );

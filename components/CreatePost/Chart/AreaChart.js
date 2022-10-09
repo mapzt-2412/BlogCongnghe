@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, useCallback } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -37,7 +37,7 @@ const findValueBykey = (obj, key) => {
 const AreaChart = ({dataChart}) => {
   const [dataset, setDataset] = useState([]);
 
-  const setDatasetFunction = () => {
+  const setDatasetFunction = useCallback(() => {
     const newDataset = [];
     Object.values(dataChart.datasets).map((value,index) => {
       newDataset.push(
@@ -51,7 +51,7 @@ const AreaChart = ({dataChart}) => {
     }
     )
     setDataset(newDataset);
-  }
+  },[])
   useEffect(() => {
     setDatasetFunction();
   },[setDatasetFunction])

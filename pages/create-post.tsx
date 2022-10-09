@@ -24,6 +24,7 @@ import UploadVideo from "../components/CreatePost/UploadVideo";
 import UploadImage from "../components/CreatePost/UploadImage";
 import ModalConfirm from "../components/ModalConfirm/ModalConfirm";
 import { getToken } from "../libs/common";
+import Router from 'next/router'
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -52,7 +53,9 @@ const CreatePost = () => {
   },[])
 
   const handleSubmit = (data) => {
-    PropertiesService.createArticle(data,  getToken()).then((data) => console.log(data))
+    PropertiesService.createArticle(data,  getToken()).then((data) => {
+      alert("Đăng bài thành công"); Router.push('/hello-nextjs')
+    } )
   }
   const addData = (data) => {
     setData((pre) => [...pre, data]);

@@ -1,6 +1,11 @@
 import React, { memo } from "react";
+import { useRouter } from "next/router";
 
 const ListTrend = ({title, data}) => {
+    const router = useRouter()
+    const handleClick = (name) => {
+        router.push(`/list-post/${name}`)
+    }
     return (
         <div className="dropdown-navbar-item">
             <div className="dropdown-navbar-item-title">
@@ -9,7 +14,9 @@ const ListTrend = ({title, data}) => {
             <div className="dropdown-navbar-item-content">
                 {
                     data.map((value, index) => (
-                        <p> {index + 1 + ". " + value}</p>
+                        <div className="dropdown-navbar-item-content-item" onClick ={() => handleClick(value.name)}>
+                            <p> {index + 1 + ". " + value.name}</p>
+                        </div>
                     ))
                 }
             </div>

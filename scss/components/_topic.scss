@@ -43,11 +43,15 @@
 }
 .topic-content{
     display: flex;
+    .post-card-container{
+        width: 30%;
+    }
 }
 .post-card-container.right{
     margin-right: 0px;
 }
 .post-card-container{
+    
     margin-right: 20px;
     margin-bottom: 68px;
     .post-author{

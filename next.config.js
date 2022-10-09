@@ -8,8 +8,8 @@ const nextConfig = {
   },
   env: {
     REACT_APP_GOOGLE_CLIENT_ID: "374867688758-8a47mqeb7k3rllj057udigbdq3gqhoib.apps.googleusercontent.com",
-    REACT_APP_API_URL: "https://2eb6-2402-800-63af-ebd9-e175-da1e-446e-e751.ngrok.io",
-  }
+    REACT_APP_API_URL: "https://ce47-2001-ee0-52bc-d9c0-f55e-77d3-6cd1-b006.ngrok.io",
+  },
 }
 
 module.exports = nextConfig

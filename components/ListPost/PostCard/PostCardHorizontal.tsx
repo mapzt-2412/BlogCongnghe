@@ -6,25 +6,15 @@ import IconLike from '../../../assets/icon/IconLike';
 import IconComment from '../../../assets/icon/IconComment';
 import { SliceString } from '../../../libs/common';
 import { stringLengthTitle, stringLengthDescription } from '../../../libs/commonConstants';
+import Link from "next/link";
 
-
-interface IPostCardProps{
-    data: {
-        image: string;
-        title: string;
-        description: string;
-        author: string;
-        time: string;
-        authorImage?: string;
-        like: number;
-        comment: number;
-    },
-}
-const PostCardHorizontal: FC<IPostCardProps> = ({ data }) => {
+const PostCardHorizontal = ({ data }) => {
     return (
         <div className="post-card-horizontal-container">
             <div className="post-card-horizontal-image">
-                <Image src={ data.image} width={282} height={175} layout="responsive" alt="post-image"/>
+                <Link href={`/post/${data?.id}`}>
+                <Image src={ data?.thumbnail} width={282} height={175} layout="responsive" alt="post-image"/>
+                </Link>
             </div>
             <div className="post-card-horizontal-content">
                 <div className="post-card-horizontal-title">
@@ -44,11 +34,11 @@ const PostCardHorizontal: FC<IPostCardProps> = ({ data }) => {
                             <AvatarDefaultSmall/>
                         }
                         </div>
-                        { data?.author }
+                        { data?.author.nickname }
                     </div>
                     <div className="post-interactive">
-                        <span>{data.like} <IconLike/></span>
-                        <span>{data.comment} <IconComment/></span>
+                        <span>{0} <IconLike/></span>
+                        <span>{0} <IconComment/></span>
                     </div>
                 </div>
             </div>

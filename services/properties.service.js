@@ -20,6 +20,9 @@ class PropertiesService {
     getTags(){
         return http.get("/tags")
     }
+    getArticleByUser(token){
+        return http.get("/users/my-articles", {headers: {'Authorization': "Bearer " + token}})
+    }
     getArticlesByTopic(name){
         return http.get(`/articles?topic=${name}`)
     }
@@ -32,8 +35,30 @@ class PropertiesService {
     getArticles(){
         return http.get("/articles")
     }
-    getArticleById(id){
+    getArticleById(id, token){
+        if(token){
+            return http.get(`/articles/${id}`, {headers: {'Authorization': "Bearer " + token}})
+        }
         return http.get(`/articles/${id}`)
+        
+    }
+    likeArticle(data, token){
+        return http.post(`/users/interactive`, JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}} )
+    }
+    commentArticle(data, token){
+        return http.post(`/users/comment`, JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}} )
+    }
+    getComment(id){
+        return http.get(`/articles/${id}/comment`)
+    }
+    getFollowed(token){
+        return http.get(`/users/followed`, {headers: {'Authorization': "Bearer " + token}} )
+    }
+    getFollowing(token){
+        return http.get(`/users/following`, {headers: {'Authorization': "Bearer " + token}} )
+    }
+    userFollow(data, token){
+        return http.post(`/users/follow`, JSON.stringify(data),  {headers: {'Authorization': "Bearer " + token}} )
     }
 }
 export default new PropertiesService();

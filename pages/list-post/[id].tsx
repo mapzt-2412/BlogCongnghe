@@ -1,43 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ListPost from "../../components/ListPost/ListPost";
 import { Col, Row } from "antd";
 import HotTags from "../../components/Home/RightBar/HotTags";
 import HotComments from "../../components/Home/RightBar/HotComments";
 import Path from "../../components/Path";
+import { useRouter } from 'next/router';
+import PropertiesService from "../../services/properties.service"
 
 const tags = [
-  {
-    title: "#IOS",
-    link: "/",
-  },
-  {
-    title: "#IOS",
-    link: "/",
-  },
-  {
-    title: "#IOS",
-    link: "/",
-  },
-  {
-    title: "#IOS",
-    link: "/",
-  },
-  {
-    title: "#IOS",
-    link: "/",
-  },
-  {
-    title: "#IOádasdasdS",
-    link: "/",
-  },
-  {
-    title: "#IOádasdS",
-    link: "/",
-  },
-  {
-    title: "#IOSấdasd",
-    link: "/",
-  },
+  "IOS","IOS","IOS","IOS","IOS","IOS","IOS"
 ];
 const comments = [
   {
@@ -63,14 +34,21 @@ const comments = [
 ];
 
 const ListTopicByPost = () => {
+  const { id } = useRouter().query;
+  const [data, setData] = useState();
+  useEffect(()=>{
+    if(id){
+      PropertiesService.getArticlesByTopic(id).then((data) => setData(data.data.data))
+    }
+  },[id])
   return (
     <div className="main-container">
       <div className="list-post-header">
-        <Path data={{content: ["Technology"]}}/>
+        <Path data={{content: [id]}}/>
       </div>
       <Row>
         <Col span={16}>
-          <ListPost />
+          <ListPost data={data} id={id}/>
         </Col>
         <Col span={8}>
           <HotTags tags={tags}/>

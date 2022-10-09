@@ -7,6 +7,11 @@ import type { UploadProps } from 'antd';
 
 const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , addDataContent}) => {
   const [videoUrl, setVideoUrl] = useState();
+  const [isPlay, setIsPlay] = useState(true);
+  const handlePlay = () => {
+    setIsPlay(!isPlay);
+}
+
   const props: UploadProps = {
     name: 'media',
     action: process.env.REACT_APP_API_URL + "/articles/media",
@@ -33,13 +38,20 @@ const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , add
       addData({
         title: "video",
         lable: (
-        <video controls>
-            <source src={videoUrl}/>
-        </video>
+          <div className="video-upload">
+                <video 
+                src={videoUrl}
+                loop
+                autoPlay
+                muted
+                controls
+                onClick={handlePlay}
+                />
+                </div>
           ),
       })
       addDataContent({
-        title: "video",
+        type: "video",
         data: videoUrl,
       })
       setIsModalVideoVisible(false);
