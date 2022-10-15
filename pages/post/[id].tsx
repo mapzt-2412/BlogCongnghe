@@ -90,7 +90,7 @@ const PostDetail = () => {
     if(id){
       PropertiesService.getArticleById(id, getToken()).then((data) => {
         setData(data.data.data);
-        setContent(JSON.parse(data.data.data.content))
+        setContent(JSON.parse(data.data.data.content));
         // setContent(data.data.data.content);
         setInteractives(data.data.data.interactives)
       })

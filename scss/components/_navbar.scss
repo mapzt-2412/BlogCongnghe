@@ -8,20 +8,24 @@
         cursor: pointer;
         padding: 10px 16px;
     }
+    .navbar-title:hover {
+        background: $color--active;
+    }
     .navbar-title.active{
         background: $color--active;
     }
     .dropdown-navbar{
         display: none;
+        // position: absolute;
     }
     .dropdown-navbar.show{
         display: flex;
         position: absolute;
-        justify-content: center;
+        // justify-content: end;
         z-index: 30;
         margin-top: 42px;
         background-color: $color--blue;
-        width: 70%;
+        transform: translateX(310%);
         .ant-menu{
             background-color: $color--blue;
             border: none;
@@ -32,11 +36,9 @@
     }
 }
 .dropdown-navbar-item{
-    width: 25%;
-    margin-right: 16px;
+    margin: 16px;
     .dropdown-navbar-item-title{
         padding-top: 16px;
-        padding-left: 16px;
         @include font-18;
         p{
             color: $color--light;
@@ -45,6 +47,9 @@
     .dropdown-navbar-item-content{
         p{
             color: $color--light;
+        }
+        p:hover {
+            color: $color--yellow;
         }
     }
 }

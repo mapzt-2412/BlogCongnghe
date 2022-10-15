@@ -5,6 +5,10 @@
     height: 72px;
     .header-logo{
         display: flex;
+        .header-logo-pointer {
+            cursor: pointer;
+        }
+        
     }
     .header-search{
         margin-left: 16px;

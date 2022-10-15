@@ -103,9 +103,9 @@ const Login = ({ setTab, setData, data }) => {
           console.log("Login Failed");
         }}
       />
-      {/* <div className="modal-btn-signin"> */}
+      <div className="modal-btn-signin">
         <button onClick={login}>ĐĂNG NHẬP</button>
-      {/* </div> */}
+      </div>
       <div className="modal-signup">
         <p>
           Chưa có tài khoản?{" "}

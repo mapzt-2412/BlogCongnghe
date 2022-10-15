@@ -14,6 +14,7 @@ import {
 import ListTopic from "./ListTopic/ListTopic";
 import ListTrend from "./ListTopic/ListTrend";
 import PropertiesService from "../../../services/properties.service";
+import { Dropdown } from "antd";
 
 const data = [
   "Trong tương lai, mô hình kinh doanh chuyển sang online",
@@ -22,7 +23,7 @@ const data = [
   "Trong tương lai, mô hình kinh doanh chuyển sang online",
   "Trong tương lai, mô hình kinh doanh chuyển sang online",
 ]
-const NavBar = () => {
+const NavBar = ({token, toggleModal}) => {
   const [isShowTopic, setIsShowTopic] = useState(false);
   const [topics, setTopics] = useState([]);
   const onMouseEnter = (item) => {
@@ -75,16 +76,26 @@ const NavBar = () => {
     },
     {
       title: "Chủ đề",
-      route: ROUTE_VLOG,
+      route: "",
       name: "topic",
     },
   ];
 
   const router = useRouter();
+  const changePage = (route) => {
+    if(route === ROUTE_NEWSFEEDS) {
+      if(token) {
+          router.push(ROUTE_NEWSFEEDS)
+      }
+      else {
+        toggleModal("Login")
+      }
+    }
+  }
   return (
     <div className="navbar-container">
       {title.map((value) => (
-        <Link href={value.route} key={value.title}>
+        <div key={value.title} onClick={()=>{changePage(value.route)}}>
           {value.name ? (
             <div
               className={
@@ -108,7 +119,7 @@ const NavBar = () => {
               {value.title}
             </div>
           )}
-        </Link>
+        </div>
       ))}
       <div className={"dropdown-navbar " + (isShowTopic ? "show" : "hide")} onMouseEnter={() => setIsShowTopic(true)} onMouseLeave={() => setIsShowTopic(false)}> 
         <ListTrend title={"Danh sách chủ đề"} data = {topics}/>
