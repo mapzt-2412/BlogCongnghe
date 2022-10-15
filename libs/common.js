@@ -16,6 +16,21 @@ export const saveToken = (token) => {
     localStorage.setItem('token', token)
     location.reload();
 }
+
+export const saveTheme = (theme) => {
+    localStorage.setItem('theme', theme)
+}
+
+export const getTheme = () => {
+    if (typeof window !== 'undefined') {
+        const theme = localStorage.getItem('theme');
+        if(theme){
+            return theme
+        }
+        return "light"
+    }
+}
+
 export const deleteToken = () => {
     if (typeof window !== 'undefined') {
         localStorage.removeItem('token');

@@ -123,6 +123,9 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
             save( editor ) {
                 return setData(editor.getData());
             },
+            simpleUpload: {
+              uploadUrl: {url:'http://127.0.0.1/my-upload-endpoint', headers:{ 'x-header':'myhead'} }
+          }
         },
 				} )
 				.then( editor => {

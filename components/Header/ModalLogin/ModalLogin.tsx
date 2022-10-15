@@ -48,6 +48,7 @@ const renderContent = (tab) => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={false}
+        className="modal-login"
       >
         {
             renderContent(tab)

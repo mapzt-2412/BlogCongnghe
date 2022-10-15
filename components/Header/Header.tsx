@@ -11,18 +11,35 @@ import NavBar from "./NavBar/NavBar";
 import { useRouter } from "next/router";
 import { ROUTE_SHORTVIDEO } from "../../libs/constants";
 import ModalLogin from "./ModalLogin/ModalLogin";
-import { getToken, deleteToken } from "../../libs/common";
+import { getToken, deleteToken, saveTheme, getTheme } from "../../libs/common";
 import PropertiesService from "../../services/properties.service";
 import Link from "next/link";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
+import { Switch } from 'antd';
 
 const Header = (props) => {
   const router = useRouter()
   const [data, setData] = useState();
   const [tab, setTab] = useState("");
   const [token, setToken] = useState();
+  const [theme, setTheme] = useState(getTheme());
   const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);
   // const [loginError, setLoginError] = useState<string | undefined>()
+
+  useEffect(() => {
+    if(getTheme() === "dark"){
+      document.body.classList.toggle('dark')
+    }
+  }, [])
+
+  const onChangeTheme = (checked: boolean) => {
+    if(checked){
+      saveTheme("dark");
+    }else{
+      saveTheme("light")
+    }
+    document.body.classList.toggle('dark')
+  };
 
   const toggleModal = (tabName) => {
     setIsModalLoginVisible((wasModalVisible) => !wasModalVisible);
@@ -94,6 +111,7 @@ const Header = (props) => {
             />
           </div>
         </div>
+        <Switch defaultChecked onChange={onChangeTheme} />
         <div className="header-profile">
           {token ? (
             <>
