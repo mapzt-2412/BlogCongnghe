@@ -114,7 +114,7 @@ const PostDetail = () => {
       )
     }else if(type === "content"){
       return (
-        <div dangerouslySetInnerHTML={{ __html: `${data}` }} />
+        <div dangerouslySetInnerHTML={{ __html: `${data}` }} className={"ck-content"}/>
       )
     }
   }

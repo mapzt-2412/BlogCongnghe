@@ -54,7 +54,7 @@ const CreatePost = () => {
 
   const handleSubmit = (data) => {
     PropertiesService.createArticle(data,  getToken()).then((data) => {
-      alert("Đăng bài thành công"); Router.push('/hello-nextjs')
+      alert("Đăng bài thành công"); Router.push('/')
     } )
   }
   const addData = (data) => {

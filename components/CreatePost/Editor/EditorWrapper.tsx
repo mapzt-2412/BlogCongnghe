@@ -23,7 +23,7 @@ const EditorWrapper = ({ dataContent }) => {
                 dataContent = {data}
             />
             <Button onClick={showModalContent}>Chỉnh sửa nội dung</Button>
-            <div dangerouslySetInnerHTML={{ __html: `${data}` }} />
+            <div dangerouslySetInnerHTML={{ __html: `${data}` }} className={"ck-content"} />
         </div>
     )
 }

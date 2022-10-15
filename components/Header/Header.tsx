@@ -11,20 +11,40 @@ import NavBar from "./NavBar/NavBar";
 import { useRouter } from "next/router";
 import { ROUTE_HOME, ROUTE_SHORTVIDEO } from "../../libs/constants";
 import ModalLogin from "./ModalLogin/ModalLogin";
-import { getToken, deleteToken } from "../../libs/common";
+import { getToken, deleteToken, saveTheme, getTheme } from "../../libs/common";
 import PropertiesService from "../../services/properties.service";
 import Link from "next/link";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
+import { Switch } from 'antd';
+import ChangeTheme from "../ChangeTheme";
 
 const Header = (props) => {
   const router = useRouter();
   const [data, setData] = useState();
   const [tab, setTab] = useState("");
   const [token, setToken] = useState();
+  const [theme, setTheme] = useState(getTheme());
   const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);
   const [print, setPrint] = useState(false);
   const [keyword, setKeyword] = useState();
   // const [loginError, setLoginError] = useState<string | undefined>()
+
+  useEffect(() => {
+    if(getTheme() === "dark"){
+      document.body.classList.toggle('dark')
+    }
+  }, [])
+
+  const onChangeTheme = (theme) => {
+    saveTheme(theme)
+    setTheme(theme)
+    if(theme === "light"){
+      document.body.classList.remove('dark')
+    }else{
+      document.body.classList.add('dark')
+    }
+    
+  };
 
   const toggleModal = (tabName) => {
     setIsModalLoginVisible((wasModalVisible) => !wasModalVisible);
@@ -90,12 +110,14 @@ const Header = (props) => {
   );
   return (
     <>
+    <ChangeTheme onChangeTheme={onChangeTheme} theme={theme}/>
       <div className="header-container">
         <ModalLogin
           isModalLoginVisible={isModalLoginVisible}
           setIsModalLoginVisible={setIsModalLoginVisible}
           tabName={tab}
         />
+
         <div className="header-logo">
           <div className="header-logo-pointer">
           <Link href={ROUTE_HOME}>

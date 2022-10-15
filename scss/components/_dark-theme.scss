@@ -1,0 +1,73 @@
+.dark{
+    background: $color--dark;
+    .topic-title{
+        background: $color--yellow;
+    }
+    .header-button{
+        color: $color--border !important;
+    }
+    .overlay{
+        display: none;
+    }
+    .rightbar-container{
+        background: $color--text2;
+    }
+    .topic-arrow-top{
+        border-top: 20px solid $color--dark;
+    }
+    .topic-arrow-bottom{
+        border-bottom: 20px solid $color--dark;
+    }
+    .rightbar-container{
+        p{
+            color: $color--border !important;
+        }
+    }
+    .post-title{
+        p{
+            color: $color--border !important;
+        }
+    }
+    .post-author-profile{
+        color: $color--border !important;
+    }
+    .link{
+        a{
+            color: $color--yellow;
+        }
+    }
+    .footer-container{
+        background: $color--text2;
+    }
+    .modal-login{
+        .ant-modal-body{
+            background: $color--text2;
+        p{
+            color: $color--border !important;
+        }
+        }
+    }
+    .path-content{
+        color: $color--border !important;
+    }
+    .create-post-content-left{
+        color: $color--border !important;
+    }
+    .create-post-memu{
+        background: $color--text2;
+        .create-post-memu-title{
+            color: $color--border !important;
+        }
+        .memu-item-icon-wrapper{
+            background: $color--text6;
+        }
+    }
+    .change-theme-button{
+        &-show{
+            background: $color--yellow;
+        }
+    }
+    .change-theme-button-content{
+        background: $color--yellow;
+    }
+}
