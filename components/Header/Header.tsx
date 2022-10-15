@@ -16,6 +16,7 @@ import PropertiesService from "../../services/properties.service";
 import Link from "next/link";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
 import { Switch } from 'antd';
+import ChangeTheme from "../ChangeTheme";
 
 const Header = (props) => {
   const router = useRouter()
@@ -32,13 +33,15 @@ const Header = (props) => {
     }
   }, [])
 
-  const onChangeTheme = (checked: boolean) => {
-    if(checked){
-      saveTheme("dark");
+  const onChangeTheme = (theme) => {
+    saveTheme(theme)
+    setTheme(theme)
+    if(theme === "light"){
+      document.body.classList.remove('dark')
     }else{
-      saveTheme("light")
+      document.body.classList.add('dark')
     }
-    document.body.classList.toggle('dark')
+    
   };
 
   const toggleModal = (tabName) => {
@@ -96,12 +99,14 @@ const Header = (props) => {
   );
   return (
     <>
+    <ChangeTheme onChangeTheme={onChangeTheme} theme={theme}/>
       <div className="header-container">
         <ModalLogin
           isModalLoginVisible={isModalLoginVisible}
           setIsModalLoginVisible={setIsModalLoginVisible}
           tabName={tab}
         />
+
         <div className="header-logo">
           <Logo />
           <div className="header-search">
@@ -111,7 +116,6 @@ const Header = (props) => {
             />
           </div>
         </div>
-        <Switch defaultChecked onChange={onChangeTheme} />
         <div className="header-profile">
           {token ? (
             <>

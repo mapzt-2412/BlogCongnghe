@@ -62,4 +62,12 @@
             background: $color--text6;
         }
     }
+    .change-theme-button{
+        &-show{
+            background: $color--yellow;
+        }
+    }
+    .change-theme-button-content{
+        background: $color--yellow;
+    }
 }
