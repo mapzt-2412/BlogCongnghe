@@ -36,7 +36,7 @@ const Follower = ({type}) => {
           <div className="followerCard-Group">
             {
               data?.map((value, index) => (
-                <div className="followerCard">
+                <div className="followerCard" key ={index}>
                 <div className="followerCard-info">
                   <AvatarDefaultSmall width={72} height={72}/>
                   <div className="followerCard-details">

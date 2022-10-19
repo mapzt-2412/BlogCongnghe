@@ -11,6 +11,7 @@ import PropertiesService from "../../services/properties.service";
 import DashboardInfo from "../../components/DashboardInfo/Dashboard-Info";
 import DashboardPassword from "../../components/DashboardInfo/Dashboard-Password";
 import Follower from '../../components/Follower/Follower';
+import ChatBox from '../../components/ChatBox/ChatBox';
 
 const Dashboard = () => {
   const { id } = useRouter().query;
@@ -55,7 +56,10 @@ const Dashboard = () => {
 
         <div className="profile-list-post">
           {
-            key === "2" && <ListPost data={data} id={"Bài viết đã đăng"}/>
+            key === "1" && <ChatBox />
+          }
+          {
+            key === "2" && <ListPost data={data} id={"Bài viết đã đăng"} type={"dashboard"}/>
           }
           {
             key === "4" && <DashboardInfo />

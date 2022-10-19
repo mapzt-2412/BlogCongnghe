@@ -130,7 +130,7 @@ const Interactive = ({dataInteractive , id }) => {
         <Radio.Group value={placement} onChange={placementChange}>
           {
             report?.map((value,index) => 
-            <Radio.Button value={value.type}>{value.value}</Radio.Button>)
+            <Radio.Button value={value.type} key ={index}>{value.value}</Radio.Button>)
           }
         </Radio.Group>
         {

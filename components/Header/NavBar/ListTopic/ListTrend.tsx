@@ -14,7 +14,7 @@ const ListTrend = ({title, data}) => {
             <div className="dropdown-navbar-item-content">
                 {
                     data.map((value, index) => (
-                        <div className="dropdown-navbar-item-content-item" onClick ={() => handleClick(value.name)}>
+                        <div className="dropdown-navbar-item-content-item" onClick ={() => handleClick(value.name)} key ={index}>
                             <p> {index + 1 + ". " + value.name}</p>
                         </div>
                     ))

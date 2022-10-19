@@ -14,7 +14,6 @@ const UploadImage = ({ handleChangeThumbnail }) => {
     onChange(info) {
       if (info.file.status !== 'uploading') {
         handleChangeThumbnail(info.file.response.data);
-        console.log(info.file, info.fileList);
       }
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
@@ -24,7 +23,7 @@ const UploadImage = ({ handleChangeThumbnail }) => {
     },
   };
   return (
-    <Upload {...props}>
+    <Upload {...props} maxCount={1}>
     <Button>Nhấn để chọn ảnh</Button>
   </Upload>
   )

@@ -21,6 +21,13 @@
         }
         
     }
+    .create-post-content-item.thumbnail{
+        display: flex;
+        justify-content: center;
+        span{
+            width: 500px !important;
+        }
+    }
     .create-post-content-item.add-content{
         display: flex;
         justify-content: center;

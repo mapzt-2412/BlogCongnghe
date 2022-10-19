@@ -31,6 +31,12 @@ const Header = (props) => {
     if(getTheme() === "dark"){
       document.body.classList.toggle('dark')
     }
+    if (getToken()) {
+      setToken(getToken());
+      PropertiesService.getProfile(getToken()).then((data) =>
+        setData(data.data.data)
+      );
+    }
   }, [])
 
   const onChangeTheme = (theme) => {
@@ -53,18 +59,7 @@ const Header = (props) => {
   if (pathName === ROUTE_SHORTVIDEO + "/[id]") {
     return null;
   }
-  useEffect(() => {
-    if (getToken()) {
-      setToken(getToken());
-    }
-  }, []);
-  useEffect(() => {
-    if (token) {
-      PropertiesService.getProfile(token).then((data) =>
-        setData(data.data.data)
-      );
-    }
-  }, [token]);
+
   // const openModal = (initialTab) => {
   //   console.log("openModal()");
 

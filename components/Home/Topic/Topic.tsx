@@ -7,8 +7,8 @@ import PropertiesService from "../../../services/properties.service";
 const Topic = ({ data }) => {
     const [articles, setArticles] = useState();
     useEffect(() => {
-        PropertiesService.getArticlesByTopic(data?.name).then((data) => setArticles(data.data.data))
-    },[]) 
+        PropertiesService.get3ArticlesByTopic(data?.name).then((data) => setArticles(data.data.data))
+    },[data?.name]) 
     return (
         <div className="topic-container">
             <div className="topic-header">

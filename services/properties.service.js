@@ -26,11 +26,20 @@ class PropertiesService {
     getArticlesByTopic(name){
         return http.get(`/articles?topic=${name}`)
     }
+    get3ArticlesByTopic(name){
+        return http.get(`/articles?topic=${name}&limit=3`)
+    }
     createVideo(data, token){
         return http.post("/articles/media", {headers: {'Authorization': "Bearer " + token}}, JSON.stringify(data))
     }
     createArticle(data,token){
         return http.post("/articles/create-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+    }
+    updateArticle(data,token){
+        return http.patch("/articles/update-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+    }
+    deleteArticle(data,token){
+        return http.patch("/articles/delete-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
     getArticles(){
         return http.get("/articles")
@@ -65,6 +74,9 @@ class PropertiesService {
     }
     sendReport(data, token){
         return http.post(`/users/report-article`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
+    }
+    createMessage(data, token) {
+        return http.post(`/users/message`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
     }
 }
 export default new PropertiesService();

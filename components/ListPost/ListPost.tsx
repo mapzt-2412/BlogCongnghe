@@ -1,5 +1,5 @@
 import React from "react";
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, FC } from "react";
 import IconCardSort from "../../assets/icon/IconCardSort";
 import IconListSort from "../../assets/icon/IconListSort";
 import IconCardSortActive from "../../assets/icon/IconCardSortActive";
@@ -9,7 +9,12 @@ import PostCard from "./PostCard/PostCard";
 import { Button, Card, List  } from "antd";
 import PropertiesService from "../../services/properties.service";
 
-const ListPost = ({data, id}) => {
+interface IListPostProps {
+  data: object[],
+  id: string,
+  type?: string,
+}
+const ListPost: FC<IListPostProps> = ({data, id, type}) => {
   const [isList , setList] = useState(true);
   const changeLayout = () => {
     setList(!isList);
@@ -39,7 +44,7 @@ const ListPost = ({data, id}) => {
           {
             isList ? 
             data?.map((value, index) => (
-              <PostCardHorizontal data={value} key={index} />
+              <PostCardHorizontal data={value} key={index} type={type}/>
             ))
             :
             <List
@@ -47,7 +52,7 @@ const ListPost = ({data, id}) => {
             dataSource={data}
             renderItem={item => (
               <List.Item>
-                <PostCard data={item}/>
+                <PostCard data={item} type={type}/>
               </List.Item>
             )}
           />

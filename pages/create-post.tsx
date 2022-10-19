@@ -1,5 +1,5 @@
 import { Select, Input, Row, Col } from "antd";
-import React, { memo, useState, useEffect, useRef } from "react";
+import React, { FC ,memo, useState, useEffect, useRef } from "react";
 import Path from "../components/Path";
 import PropertiesService from "./../services/properties.service";
 import IconContent from "./../assets/icon/IconContent";
@@ -22,9 +22,12 @@ import Vote from "../components/CreatePost/Vote";
 import { SortableList, ItemRenderProps, SortableItemProps } from "@thaddeusjiang/react-sortable-list";
 import UploadVideo from "../components/CreatePost/UploadVideo";
 import UploadImage from "../components/CreatePost/UploadImage";
+import EditorWrapper from "../components/CreatePost/Editor/EditorWrapper";
 import ModalConfirm from "../components/ModalConfirm/ModalConfirm";
+import AreaChart from "../components/CreatePost/Chart/AreaChart";
 import { getToken } from "../libs/common";
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -33,8 +36,8 @@ const MapBox = dynamic(() => import("../components/CreatePost/Map"), {
   ssr: false,
 });
 
-
 const CreatePost = () => {
+  const { post } = useRouter().query;
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
   const [isModalContentVisible, setIsModalContentVisible] = useState(false);
   const [isModalVoteVisible, setIsModalVoteVisible] = useState(false);
@@ -46,16 +49,73 @@ const CreatePost = () => {
   const [content, setContent] = useState<any[]>();
   const [topic, setTopic] = useState([]);
   const [tag, setTag] = useState([]);
+  const [dataDefault, setDataDefault] = useState();
 
+  const renderContent = (type , data) => {
+    if(type === "chart"){
+      return <AreaChart dataChart = {data}/>
+    }else if(type === "video"){
+      return (
+        <div className="video-upload">
+                <video 
+                src={data}
+                loop
+                autoPlay
+                muted
+                controls
+                />
+                </div>
+      )
+    }else if(type === "content"){
+      return (
+        <div dangerouslySetInnerHTML={{ __html: `${data}` }} className={"ck-content"}/>
+      )
+    }
+  }
   useEffect (() => {
     PropertiesService.getTopics().then((data) => setTopic(data.data.data));
     PropertiesService.getTags().then((data) => setTag(data.data.data))
   },[])
+  useEffect (() => {
+    if(post){
+      PropertiesService.getArticleById(post, getToken()).then((data) => 
+      {
+        setReqData({
+          ...reqData,
+          articleId: +post,
+          topicId : data.data.data.topic.id,
+          tags: data.data.data.tags,
+          thumbnail: data.data.data.thumbnail,
+          title: data.data.data.title,
+          description: data.data.data.description,
+          content: data.data.data.content,
+        })
+        if(data.data.data.content){
+          JSON.parse(data.data.data.content).map((value) => {
+            if(value?.type === "content"){
+              addData({
+                title: "Nội dung",
+                lable: <EditorWrapper dataContent={value?.data}/>,
+              })
+            }
+          })
+        }
+      }
+      );
+      
+    }
+  },[post])
 
   const handleSubmit = (data) => {
-    PropertiesService.createArticle(data,  getToken()).then((data) => {
-      alert("Đăng bài thành công"); Router.push('/')
-    } )
+    if(post){
+      PropertiesService.updateArticle(data,  getToken()).then((data) => {
+        alert("Lưu bài thành công"); Router.push('/')
+      } )
+    }else{
+      PropertiesService.createArticle(data,  getToken()).then((data) => {
+        alert("Đăng bài thành công"); Router.push('/')
+      } )
+    }
   }
   const addData = (data) => {
     setData((pre) => [...pre, data]);
@@ -202,6 +262,7 @@ const CreatePost = () => {
       })
     }
   }
+
   return (
     <div className="medium-container">
       <Path data={{ content: "Tạo bài viết" }} />
@@ -243,6 +304,7 @@ const CreatePost = () => {
                 placeholder="Chọn chủ đề cho bài viết của bạn"
                 optionFilterProp="children"
                 onChange={handleChangeTopic}
+                value={reqData?.topicId}
                 onSearch={onSearch}
                 style={{ width: "100%" }}
                 filterOption={(input, option) =>
@@ -286,6 +348,7 @@ const CreatePost = () => {
                 rows={2}
                 placeholder="Vui lòng nhập tiêu đề"
                 maxLength={200}
+                value={reqData?.title}
                 name="title"
                 onChange = {handleChangeInput}
               />
@@ -297,6 +360,7 @@ const CreatePost = () => {
               <TextArea
                 rows={4}
                 placeholder="Mô tả sẽ được xuất hiện trong kết quả tìm kiếm"
+                value={reqData?.description}
                 name="description"
                 maxLength={200}
                 onChange = {handleChangeInput}
@@ -308,6 +372,9 @@ const CreatePost = () => {
             <div className="create-post-content-right">
               <UploadImage handleChangeThumbnail={handleChangeThumbnail}/>
             </div>
+          </div>
+          <div className="create-post-content-item thumbnail">
+            <Image src ={reqData?.thumbnail} width={500} height={200} layout="responsive"/>
           </div>
           <ul onDragOver={(e) => e.preventDefault}>
             {data.map((value, index) => (
@@ -343,7 +410,10 @@ const CreatePost = () => {
             </div>
             <div className="create-post-content-button save-article" onClick={() => handleSubmit(reqData)}>
                 <IconUploadArticle/>
-                <p>ĐĂNG BÀI VIẾT</p>
+                {
+                  post ? <p>LƯU BÀI VIẾT</p> : <p>ĐĂNG BÀI VIẾT</p>
+                }
+                
             </div>
           </div>
         </div>

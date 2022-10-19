@@ -17,9 +17,10 @@ interface IPostCardProps {
         authorImage: string;
     },
     index: number;
+    type?: string;
 } 
 
-const PostCard: FC<IPostCardProps> = ({ data, index }) => {
+const PostCard: FC<IPostCardProps> = ({ data, index, type }) => {
     return (
         <div className={'post-card-container ' + (index === 2 ? "right" : "" ) }>
             <div className="post-card-image">
@@ -50,6 +51,7 @@ const PostCard: FC<IPostCardProps> = ({ data, index }) => {
                         }
                     </div>
                 </div>
+                
             </div>
         </div>
     )
