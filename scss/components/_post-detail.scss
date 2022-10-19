@@ -1,6 +1,7 @@
 .post-detail-container{
     width: 55%;
     margin: auto;
+    min-height: calc(100vh - 88px - 190px - 56px);
     .post-detail-title{
         @include font-21;
         font-family: $font-medium, sans-serif;

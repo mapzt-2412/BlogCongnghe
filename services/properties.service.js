@@ -2,7 +2,7 @@ import http from './http-common';
 
 class PropertiesService {
     login(data) {
-        return http.post("/auth/login", JSON.stringify(data))
+        return http.get("/", JSON.stringify(data))
     }
     register(data){
         return http.post("/auth/sign-up", JSON.stringify(data))
@@ -75,8 +75,12 @@ class PropertiesService {
     sendReport(data, token){
         return http.post(`/users/report-article`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
     }
+    search(keyword) {
+        return http.get(`/articles?searchKeyword=${keyword}`)
+    }
     createMessage(data, token) {
         return http.post(`/users/message`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
     }
 }
+// /articles?topic=Javascript&searchKeyword=Se
 export default new PropertiesService();

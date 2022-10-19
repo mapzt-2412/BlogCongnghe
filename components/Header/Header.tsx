@@ -9,7 +9,7 @@ import Logo from "../../assets/icon/Logo";
 import HotNews from "./HotNews/HotNews";
 import NavBar from "./NavBar/NavBar";
 import { useRouter } from "next/router";
-import { ROUTE_SHORTVIDEO } from "../../libs/constants";
+import { ROUTE_HOME, ROUTE_SHORTVIDEO } from "../../libs/constants";
 import ModalLogin from "./ModalLogin/ModalLogin";
 import { getToken, deleteToken, saveTheme, getTheme } from "../../libs/common";
 import PropertiesService from "../../services/properties.service";
@@ -19,12 +19,14 @@ import { Switch } from 'antd';
 import ChangeTheme from "../ChangeTheme";
 
 const Header = (props) => {
-  const router = useRouter()
+  const router = useRouter();
   const [data, setData] = useState();
   const [tab, setTab] = useState("");
   const [token, setToken] = useState();
   const [theme, setTheme] = useState(getTheme());
   const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);
+  const [print, setPrint] = useState(false);
+  const [keyword, setKeyword] = useState();
   // const [loginError, setLoginError] = useState<string | undefined>()
 
   useEffect(() => {
@@ -69,14 +71,23 @@ const Header = (props) => {
   //     showModal: true,
   //   });
   // };
-  const handleClick = ({key}) => {
-    console.log(key)
-    if(key === "2"){
+  const handleClick = ({ key }) => {
+    console.log(key);
+    if (key === "2") {
       deleteToken();
-    }else if(key === "1"){
-      router.push(`/${data?.username}/dashboard`)
+    } else if (key === "1") {
+      router.push(`/${data?.username}/dashboard`);
     }
   };
+
+  const getData = (val) => {
+    setKeyword(val.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") router.push(`/search/${keyword}`);
+  };
+
   const menu = (
     <Menu
       onClick={handleClick}
@@ -103,11 +114,20 @@ const Header = (props) => {
         />
 
         <div className="header-logo">
-          <Logo />
+          <div className="header-logo-pointer">
+          <Link href={ROUTE_HOME}>
+            <Logo />
+          </Link>
+          </div>
+          
+
           <div className="header-search">
             <Input
               placeholder="Nhập từ khóa tìm kiếm"
               prefix={<IconSearch />}
+              type="text"
+              onChange={getData}
+              onKeyDown={handleKeyDown}
             />
           </div>
         </div>
@@ -124,12 +144,10 @@ const Header = (props) => {
                 </Dropdown>
               </div>
               <Link href={"/create-post"}>
-              <div
-                className="header-button header-create-post"
-              >
-                <IconUploadArticle/>
-                Tạo bài viết
-              </div>
+                <div className="header-button header-create-post">
+                  <IconUploadArticle />
+                  Tạo bài viết
+                </div>
               </Link>
             </>
           ) : (
@@ -152,7 +170,7 @@ const Header = (props) => {
           )}
         </div>
       </div>
-      <NavBar />
+      <NavBar token={token} toggleModal={toggleModal}/>
       <HotNews />
     </>
   );
