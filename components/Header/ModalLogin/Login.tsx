@@ -2,7 +2,7 @@ import { Input, Modal, notification } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import Logo from "../../../assets/icon/Logo";
 import PropertiesService from "../../../services/properties.service";
-import { saveToken } from "../../../libs/common";
+import { saveToken, saveId } from "../../../libs/common";
 
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -24,6 +24,7 @@ const Login = ({ setTab, setData, data }) => {
     PropertiesService.login(data).then((data) => {
       alert("Đăng nhập thành công");
       saveToken(data.data.token);
+      saveId(data.data.userId);
     });
   };
   const responseGoogle = (credentialResponse) => {

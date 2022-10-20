@@ -81,6 +81,12 @@ class PropertiesService {
     createMessage(data, token) {
         return http.post(`/users/message`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
     }
+    getMessage(token) {
+        return http.get(`/users/messag-users`,  {headers: {'Authorization': "Bearer " + token}})
+    }
+    getMessageByUser(data, token){
+        return http.get(`/users/message/${data}` , {headers: {'Authorization': "Bearer " + token}})
+    }
 }
 // /articles?topic=Javascript&searchKeyword=Se
 export default new PropertiesService();

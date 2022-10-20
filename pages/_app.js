@@ -8,15 +8,17 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import Head from "next/head";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import ChatBox from '../components/ChatBox/ChatBox'
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      <Header/>
-      <Head>
+    <Head>
       <link rel="stylesheet" href="path/to/assets/content-styles.css" type="text/css"/>
       </Head>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <Header/>
+      <ChatBox />
       <Component {...pageProps} />
       <Footer/>
       </GoogleOAuthProvider>

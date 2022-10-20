@@ -15,6 +15,7 @@ function AvatarDefaultSmall(props) {
         fill= {props.white ? "#FFFFFF" : "#F2F2F2"}
       />
     </svg>
+    
   )
 }
 

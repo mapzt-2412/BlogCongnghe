@@ -17,6 +17,10 @@ export const saveToken = (token) => {
     location.reload();
 }
 
+export const saveId = (id) => {
+    localStorage.setItem('id', id);
+}
+
 export const saveTheme = (theme) => {
     localStorage.setItem('theme', theme)
 }
@@ -48,3 +52,12 @@ export const getToken = () => {
     }
 }
 
+export const getId = () => {
+    if (typeof window !== 'undefined') {
+        const id = localStorage.getItem('id');
+        if(id){
+            return id
+        }
+        return false
+    }
+}

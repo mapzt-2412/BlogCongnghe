@@ -1,0 +1,96 @@
+.chat-box-container{
+    position : fixed;
+    bottom: 0px;
+    z-index: 100;
+    width: 600px;
+    right: 0px;
+    box-shadow: 5px 10px 5px 10px #888888;
+    .chat-box-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: $color-primary;
+        padding: 10px;
+        color: $color--light;
+        .chat-box-header-button{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            div{
+                margin-left: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+}
+.chat-box-content.show{
+    display: flex;
+}
+.chat-box-content{
+    display: none;
+    height: 500px;
+    padding: 5px;
+    background: $color--light;
+    .chat-box-left-content{
+        border-right: 1px solid $color--text1;
+        padding-right: 5px;
+        width: 150px;
+        .chat-box-left-content-user{
+            height: 50px;
+            display: flex;
+            div{
+                width: 100px;
+                margin-left: 5px;
+            }
+        }
+    }
+    .chat-box-main-content{
+        width: 100%;
+        max-width: 450px;
+        .chat-box-input{
+            width: 100%;
+            position: absolute;
+            bottom: 0px;
+        }
+    }
+    .chat-recieve{
+        display: flex;
+        padding: 5px;
+        align-items: center;
+    }
+    .chat-content{
+        max-width: 80%;
+        margin-left: 8px;
+        margin-right: 8px;
+        padding: 5px;
+        border-radius: 8px;
+        background: $color--text1;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    .chat-send{
+        display: flex;
+        padding: 5px;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+.chat-box-button{
+    cursor: pointer;
+}
+.chat-box-hidden{
+    cursor: pointer;
+    width: 70px;
+    height: 70px;
+    position : fixed;
+    right: 3%;
+    bottom: 3%;
+    z-index: 100;
+    border-radius: 100%;
+    background: $color-primary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
