@@ -44,6 +44,12 @@
    }
 }
 
+.modal-btn-signin.disable {
+    button {
+        cursor: no-drop;
+    }
+    
+}
 .modal-signup {
     display: flex;
    justify-content: center;

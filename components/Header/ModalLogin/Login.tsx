@@ -11,7 +11,9 @@ const Login = ({ setTab, setData, data }) => {
   // const [formValues, setFormValues] = useState(initialValues);
   // const [formErrors, setFormErrors] = useState({});
   // const [isSubmit, setIsSubmit] = useState(false);
-
+  const [isDisable,setIsDiable]=useState(true);
+  const [isErrorUsername, setIsErrorUsername]=useState(false);
+  const [isErrorPassword, setIsErrorPassword]=useState(false);
   const handleChange = (event) => {
     setData((pre) => {
       return {
@@ -20,13 +22,23 @@ const Login = ({ setTab, setData, data }) => {
       };
     });
   };
-  const login = () => {
-    PropertiesService.login(data).then((data) => {
-      alert("Đăng nhập thành công");
-      saveToken(data.data.token);
-      saveId(data.data.userId);
-    });
-  };
+  const handleLogin = () => {
+    // console.log("ngu");
+    // if(data?.username == "" && data?.username == undefined) {
+    //   setIsErrorUsername(true);
+    // }
+    // else if(data?.password?.length < 7 && data?.password?.length > 16) {
+    //   setIsErrorPassword(true);
+    // } 
+    // else {
+      PropertiesService.login(data).then((data) => {
+        alert("Đăng nhập thành công");
+        saveToken(data.data.token);
+        saveId(data.data.userId);
+      });
+      // console.log("ngu");
+    }
+    
   const responseGoogle = (credentialResponse) => {
     PropertiesService.loginWithGoogle({
       googleToken: credentialResponse.credential,
@@ -36,13 +48,16 @@ const Login = ({ setTab, setData, data }) => {
     });
   };
 
-  // useEffect(() => {
-  //   console.log(formErrors);
-  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
-  //     console.log(formValues);
-  //   }
-  // }, [formErrors, formValues, isSubmit]);
+  useEffect(() => {
+    if(data?.username) {
+      setIsErrorUsername(false);
+      if(data?.password?.length > 7 && data?.password?.length < 16) {
+        setIsErrorPassword(false);
+      }
+    }
+  }, [data]);
 
+ 
   // const validate = (values) => {
   //   const errors = {};
   //   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -80,9 +95,11 @@ const Login = ({ setTab, setData, data }) => {
           // value={formValues.username}
           onChange={handleChange}
           name="username"
+          required
         />
+        {isErrorUsername && <p>Vui lòng nhập tên đăng nhập</p>}
       </div>
-      {/* <p>{formErrors.username}</p> */}
+     
 
       <div className="modal-username">
         <p>Mật khẩu</p>
@@ -90,8 +107,9 @@ const Login = ({ setTab, setData, data }) => {
           type="password"
           placeholder="Mật khẩu"
           onChange={handleChange}
-          name={"password"}
+          name="password"
         />
+        {isErrorPassword && <p>Mật khẩu phải từ 8 đến 15 ký tự</p>}
       </div>
       <div className="modal-password">
         <a href="#">Quên mật khẩu?</a>
@@ -103,9 +121,9 @@ const Login = ({ setTab, setData, data }) => {
         onError={() => {
           console.log("Login Failed");
         }}
-      />
-      <div className="modal-btn-signin">
-        <button onClick={login}>ĐĂNG NHẬP</button>
+      /> 
+      <div className="modal-btn-signin ">
+        <button onClick={handleLogin} >ĐĂNG NHẬP</button>
       </div>
       <div className="modal-signup">
         <p>
