@@ -23,22 +23,20 @@ const Login = ({ setTab, setData, data }) => {
     });
   };
   const handleLogin = () => {
-    // console.log("ngu");
-    // if(data?.username == "" && data?.username == undefined) {
-    //   setIsErrorUsername(true);
-    // }
-    // else if(data?.password?.length < 7 && data?.password?.length > 16) {
-    //   setIsErrorPassword(true);
-    // } 
-    // else {
+    if(data?.username === "" || data?.username == undefined) {
+      setIsErrorUsername(true);
+    }
+    if(data?.password?.length < 7 || data?.password?.length > 16) {
+      setIsErrorPassword(true);
+    }
+    if(data?.username !== "" && data?.username !== undefined && data?.password?.length > 7 && data?.password?.length < 16){
       PropertiesService.login(data).then((data) => {
         alert("Đăng nhập thành công");
-        saveToken(data.data.token);
-        saveId(data.data.userId);
+        // saveToken(data.data.token);
+        // saveId(data.data.userId);
       });
-      // console.log("ngu");
     }
-    
+  }
   const responseGoogle = (credentialResponse) => {
     PropertiesService.loginWithGoogle({
       googleToken: credentialResponse.credential,
@@ -51,9 +49,9 @@ const Login = ({ setTab, setData, data }) => {
   useEffect(() => {
     if(data?.username) {
       setIsErrorUsername(false);
-      if(data?.password?.length > 7 && data?.password?.length < 16) {
-        setIsErrorPassword(false);
-      }
+    }
+    if(data?.password?.length > 7 && data?.password?.length < 16) {
+      setIsErrorPassword(false);
     }
   }, [data]);
 
