@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, useContext } from 'react';
 import Path from "../components/Path";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -8,20 +8,29 @@ import ListPost from "../components/ListPost/ListPost";
 import PropertiesService from "../services/properties.service";
 import { getToken } from "../libs/common";
 import Follower from '../components/Follower/Follower';
+import { UserInfo } from './_app.js';
 
 const Profile = (props) => {
+    const { userInfo, setUserInfo } = useContext(UserInfo);
     const { id } = useRouter().query;
     const [value, setValue] = useState(3);
     const [token, setToken] = useState();
     const [data, setData] = useState();
     const [listPost, setListPost] = useState();
     const [key, setKey] = useState("1");
+
     useEffect(() => {
         if(getToken()){
           setToken(getToken())
         }
       },[])
-
+    
+    const handleOpenChatBox = () => {
+        setUserInfo({
+            nickname: id,
+            id: data.id,
+        })
+    }
     useEffect(()=>{
         if(token){
             PropertiesService.getProfile(token).then(data => setData(data.data.data))
@@ -79,7 +88,7 @@ const Profile = (props) => {
         <div className="medium-container">
             <Path data={{ title: ["Trang cá nhân"], content: id}}/>
             <div className="profile-user-info">
-                <div className="profile-user-info-avatar">
+                <div className="profile-user-info-avatar" onClick={handleOpenChatBox}>
                 {
                     props.avatar ? 
                     <Image src={ props.avatar } width={104} height={104} layout="responsive" alt="avatar"/> :

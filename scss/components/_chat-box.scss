@@ -38,12 +38,22 @@
         padding-right: 5px;
         width: 150px;
         .chat-box-left-content-user{
+            padding: 5px;
             height: 50px;
             display: flex;
+            border-radius: 5px;
+            align-items: center;
+            cursor: pointer;
             div{
                 width: 100px;
                 margin-left: 5px;
+                text-overflow: ellipsis; 
+                white-space: nowrap;
+                overflow: hidden;
             }
+        }
+        .chat-box-left-content-user.active{
+            background: $color--text1;
         }
     }
     .chat-box-main-content{
