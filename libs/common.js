@@ -61,3 +61,5 @@ export const getId = () => {
         return false
     }
 }
+
+// export const checkJWT

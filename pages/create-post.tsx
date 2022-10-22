@@ -1,4 +1,4 @@
-import { Select, Input, Row, Col } from "antd";
+import { Select, Input, Row, Col, message } from "antd";
 import React, { FC ,memo, useState, useEffect, useRef } from "react";
 import Path from "../components/Path";
 import PropertiesService from "./../services/properties.service";
@@ -105,15 +105,21 @@ const CreatePost = () => {
       
     }
   },[post])
-
+  // const router = useRouter();
+  // useEffect (()=>{
+    
+  //   return () => {showModalConfirm();
+  //   console.log("ngu");}
+  // },[])
+  
   const handleSubmit = (data) => {
     if(post){
       PropertiesService.updateArticle(data,  getToken()).then((data) => {
-        alert("Lưu bài thành công"); Router.push('/')
+        message.success('Lưu bài thành công'); Router.push('/')
       } )
     }else{
       PropertiesService.createArticle(data,  getToken()).then((data) => {
-        alert("Đăng bài thành công"); Router.push('/')
+        message.success('Đăng bài thành công'); Router.push('/')
       } )
     }
   }

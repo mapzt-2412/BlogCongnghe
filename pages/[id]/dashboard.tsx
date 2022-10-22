@@ -12,6 +12,7 @@ import DashboardInfo from "../../components/DashboardInfo/Dashboard-Info";
 import DashboardPassword from "../../components/DashboardInfo/Dashboard-Password";
 import Follower from '../../components/Follower/Follower';
 import ChatBox from '../../components/ChatBox/ChatBox';
+import { ROUTE_HOME } from "../../libs/constants";
 
 const Dashboard = () => {
   const { id } = useRouter().query;
@@ -37,7 +38,10 @@ const Dashboard = () => {
       setKey(key);
     };
 
-
+    const router = useRouter();
+    if(getToken()===false) {
+      router.push(ROUTE_HOME);
+    }
   return (
     <div className="medium-container">
       <Path data={{ title: ["Trang cá nhân"], content: id }} />

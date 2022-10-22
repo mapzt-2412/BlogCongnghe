@@ -16,9 +16,9 @@ const UploadImage = ({ handleChangeThumbnail }) => {
         handleChangeThumbnail(info.file.response?.data);
       }
       if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
+        message.success(`${info.file.name} đã đăng thành công`);
       } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
+        message.error(`${info.file.name} đã đăng không thành công`);
       }
     },
   };

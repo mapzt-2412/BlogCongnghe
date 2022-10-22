@@ -91,6 +91,9 @@ const NavBar = ({token, toggleModal}) => {
         toggleModal("Login")
       }
     }
+    else {
+      router.push(route);
+    }
   }
   return (
     <div className="navbar-container">
@@ -105,6 +108,7 @@ const NavBar = ({token, toggleModal}) => {
               }
               onMouseEnter={() => onMouseEnter(value.name)}
               onMouseOut={ () => onMouseLeave(value.name) }
+      
             >
               {value?.title}
             </div>
@@ -115,6 +119,7 @@ const NavBar = ({token, toggleModal}) => {
                   ? "navbar-title active"
                   : "navbar-title"
               }
+          
             >
               {value.title}
             </div>

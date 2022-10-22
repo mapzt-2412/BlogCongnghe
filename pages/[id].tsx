@@ -9,6 +9,7 @@ import PropertiesService from "../services/properties.service";
 import { getToken } from "../libs/common";
 import Follower from '../components/Follower/Follower';
 import { UserInfo } from './_app.js';
+import { ROUTE_HOME } from '../libs/constants';
 
 const Profile = (props) => {
     const { userInfo, setUserInfo } = useContext(UserInfo);
@@ -86,6 +87,11 @@ const Profile = (props) => {
             key: "3",
         }
     ]
+
+    const router = useRouter();
+if(getToken()===false) {
+  router.push(ROUTE_HOME);
+}
     return (
         <div className="medium-container">
             <Path data={{ title: ["Trang cá nhân"], content: data?.username}}/>

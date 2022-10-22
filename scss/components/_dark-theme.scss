@@ -70,4 +70,7 @@
     .change-theme-button-content{
         background: $color--yellow;
     }
+    .change-theme-button-content-item:hover {
+        background: $color--dark-yellow !important;
+    }
 }
