@@ -6,19 +6,19 @@ import React, { useState } from 'react';
 const UploadImage = ({ handleChangeThumbnail }) => {
   const [image, setImage] = useState();
   const props: UploadProps = {
-    name: 'media',
+    name: 'upload',
     action: process.env.REACT_APP_API_URL + "/articles/media",
     headers: {
       authorization: "Bearer " + getToken(),
     },
     onChange(info) {
       if (info.file.status !== 'uploading') {
-        handleChangeThumbnail(info.file.response.data);
+        handleChangeThumbnail(info.file.response?.data);
       }
       if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
+        message.success(`${info.file.name} đã đăng thành công`);
       } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
+        message.error(`${info.file.name} đã đăng không thành công`);
       }
     },
   };

@@ -53,8 +53,8 @@ const ChatBox = () => {
     PropertiesService.getMessage(getToken()).then((data) =>
       {
         setUser(data.data.Data);
-        setIdReceive(data.data.Data[0].id);
-        PropertiesService.getMessageByUser(data.data.Data[0].id, getToken()).then((data) =>
+        setIdReceive(data.data.Data[0]?.id);
+        PropertiesService.getMessageByUser(data.data.Data[0]?.id, getToken()).then((data) =>
         setDataMessage(data.data.data)
       );
       }

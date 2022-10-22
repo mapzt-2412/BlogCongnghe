@@ -1,4 +1,4 @@
-import { Input, Modal, notification } from "antd";
+import { Input, message, Modal, notification } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import Logo from "../../../assets/icon/Logo";
 import PropertiesService from "../../../services/properties.service";
@@ -31,9 +31,18 @@ const Login = ({ setTab, setData, data }) => {
     }
     if(data?.username !== "" && data?.username !== undefined && data?.password?.length > 7 && data?.password?.length < 16){
       PropertiesService.login(data).then((data) => {
-        alert("Đăng nhập thành công");
+        // console.log(data);
+        // alert("Đăng nhập thành công");
         // saveToken(data.data.token);
         // saveId(data.data.userId);
+        if(data.data.token) {
+          saveToken(data.data.token);
+          saveId(data.data.userId);
+          message.success('Đăng nhập thành công');
+        }
+        else {
+          message.error('Đăng nhập không thành công');
+        }
       });
     }
   }
@@ -41,7 +50,8 @@ const Login = ({ setTab, setData, data }) => {
     PropertiesService.loginWithGoogle({
       googleToken: credentialResponse.credential,
     }).then((data) => {
-      alert("Đăng nhập thành công");
+      message.success('Đăng nhập thành công');
+      // alert("Đăng nhập thành công");
       saveToken(data.data.token);
     });
   };

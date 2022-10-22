@@ -8,6 +8,8 @@ import ModalLogin from "../components/Header/ModalLogin/ModalLogin";
 import Login from "../components/Header/ModalLogin/Login";
 import { Modal } from "antd";
 import Register from "../components/Header/ModalLogin/Register";
+import { useRouter } from "next/router";
+import { ROUTE_HOME } from "../libs/constants";
 const data = [
   {
     thumbnail:
@@ -109,6 +111,11 @@ const newsFeeds = () => {
 //       );
 //     }
 //   }, [token]);
+const router = useRouter();
+if(getToken()===false) {
+  router.push(ROUTE_HOME);
+}
+  
   return (
     <>
       <div className="main-container">
