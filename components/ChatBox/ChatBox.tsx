@@ -20,7 +20,6 @@ const ChatBox = () => {
   const [dataMessage, setDataMessage] = useState([]);
   const { userInfo } = useContext(UserInfo);
 
-  console.log(user)
   useEffect(() => {
     if(userInfo){
       if(user.find(value => value.id === userInfo.id)){
@@ -39,7 +38,9 @@ const ChatBox = () => {
     PropertiesService.createMessage(
       { content: content, receiveUserId: idReceive },
       getToken()
-    ).then((data) => setDataMessage((pre) => [...pre, data.data.data]));
+    ).then((data) => {
+      setDataMessage([...dataMessage, data.data.data]);
+    });
   };
 
   const handleKeyDown = (e) => {
@@ -53,8 +54,8 @@ const ChatBox = () => {
     PropertiesService.getMessage(getToken()).then((data) =>
       {
         setUser(data.data.Data);
-        setIdReceive(data.data.Data[0].id);
-        PropertiesService.getMessageByUser(data.data.Data[0].id, getToken()).then((data) =>
+        setIdReceive(data.data.Data[0]?.id);
+        PropertiesService.getMessageByUser(data.data.Data[0]?.id, getToken()).then((data) =>
         setDataMessage(data.data.data)
       );
       }
@@ -71,16 +72,18 @@ const ChatBox = () => {
   useEffect(() => {
     if(idReceive > getId()){
       socket.on(idReceive + " " + getId(), (data) => {
+        console.log(data)
         if(data.id !== getId()){
-          setDataMessage(data.content);
+          setDataMessage([...dataMessage, data]);
         }
         setIsConnected(true);
       });
     }else{
       socket.on(getId() + " " + idReceive, (data) => {
         if(data.id !== getId()){
-          setDataMessage(data.content);
+          setDataMessage([...dataMessage, data]);
         }
+        console.log(data)
         setIsConnected(true);
       });
     }
@@ -100,6 +103,7 @@ const ChatBox = () => {
   };
 
   const renderChart = (value, index) => {
+    console.log(getId())
     if (value.sendUser == getId()) {
       return (
         <div className="chat-send" key={index}>

@@ -11,6 +11,9 @@ class PropertiesService {
         console.log(token)
         return http.get("/users/info", {headers: {'Authorization': "Bearer " + token}})
     }
+    getUserInfo(data, token){
+        return http.get(`/users/${data}/info`, {headers: {'Authorization': "Bearer " + token}})
+    }
     loginWithGoogle(data){
         return http.post("/auth/google", JSON.stringify(data))
     }

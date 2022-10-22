@@ -2,6 +2,7 @@ import React from "react";
 import { FC, memo, useRef, useEffect, useState, useMemo } from "react";
 import { Modal, Row, Col, Radio, Button, RadioChangeEvent } from "antd";
 import EditorWrapper from "./editor/EditorWrapper";
+import { getToken } from "../../libs/common";
 
 // class MyUploadAdapter {
 //   constructor( loader ) {
@@ -126,7 +127,7 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
         },
         simpleUpload: {
           // The URL that the images are uploaded to.
-          uploadUrl: 'http://example.com',
+          uploadUrl: process.env.REACT_APP_API_URL + "/articles/media",
 
           // Enable the XMLHttpRequest.withCredentials property.
           withCredentials: true,
@@ -134,7 +135,7 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
           // Headers sent along with the XMLHttpRequest to the upload server.
           headers: {
               'X-CSRF-TOKEN': 'CSRF-Token',
-              Authorization: 'Bearer <JSON Web Token>'
+              Authorization: `Bearer ${getToken()}`
           }
       }
 				} )

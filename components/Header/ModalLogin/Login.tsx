@@ -43,6 +43,7 @@ const Login = ({ setTab, setData, data }) => {
     }).then((data) => {
       alert("Đăng nhập thành công");
       saveToken(data.data.token);
+      saveId(data.data.userId);
     });
   };
 

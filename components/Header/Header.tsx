@@ -137,7 +137,7 @@ const Header = (props) => {
               <div className="header-button header-login">
                 <Dropdown overlay={menu} placement="bottom">
                   <Space>
-                    <Link href={`/${data?.username}`}>
+                    <Link href={`/${data?.id}`}>
                       <AvatarDefaultSmall width={32} height={32} />
                     </Link>
                   </Space>

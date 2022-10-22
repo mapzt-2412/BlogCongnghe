@@ -27,16 +27,18 @@ const Profile = (props) => {
     
     const handleOpenChatBox = () => {
         setUserInfo({
-            nickname: id,
+            nickname: data?.nickname,
             id: data.id,
         })
     }
     useEffect(()=>{
         if(token){
-            PropertiesService.getProfile(token).then(data => setData(data.data.data))
+            if(id){
+                PropertiesService.getUserInfo(id, token).then(data => setData(data.data.data))
+            }
             PropertiesService.getArticleByUser(token).then(data => setListPost(data.data.data))
         }
-    },[token])
+    },[token, id])
 
 
     const handleClick = (key) => {
@@ -86,7 +88,7 @@ const Profile = (props) => {
     ]
     return (
         <div className="medium-container">
-            <Path data={{ title: ["Trang cá nhân"], content: id}}/>
+            <Path data={{ title: ["Trang cá nhân"], content: data?.username}}/>
             <div className="profile-user-info">
                 <div className="profile-user-info-avatar" onClick={handleOpenChatBox}>
                 {
