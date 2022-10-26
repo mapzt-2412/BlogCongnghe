@@ -4,6 +4,7 @@ import { useState } from "react";
 import IconSearch from "../../assets/icon/IconSearch";
 import IconSignin from "../../assets/icon/IconSignin";
 import IconSignup from "../../assets/icon/IconSignup";
+import { MenuOutlined } from "@ant-design/icons";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import Logo from "../../assets/icon/Logo";
 import HotNews from "./HotNews/HotNews";
@@ -15,7 +16,7 @@ import { getToken, deleteToken, saveTheme, getTheme } from "../../libs/common";
 import PropertiesService from "../../services/properties.service";
 import Link from "next/link";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
-import { Switch } from 'antd';
+import { Switch } from "antd";
 import ChangeTheme from "../ChangeTheme";
 
 const Header = (props) => {
@@ -27,11 +28,14 @@ const Header = (props) => {
   const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);
   const [print, setPrint] = useState(false);
   const [keyword, setKeyword] = useState();
+  const [isDisplaySearch, setIsDisplaySearch] = useState(false);
+  const [isShowMenuMobile, setIsShowMenuMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   // const [loginError, setLoginError] = useState<string | undefined>()
 
   useEffect(() => {
-    if(getTheme() === "dark"){
-      document.body.classList.toggle('dark')
+    if (getTheme() === "dark") {
+      document.body.classList.toggle("dark");
     }
     if (getToken()) {
       setToken(getToken());
@@ -39,17 +43,31 @@ const Header = (props) => {
         setData(data.data.data)
       );
     }
-  }, [])
+
+    if (typeof window !== undefined) {
+      if (window.innerWidth <= 768) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+      window.addEventListener("resize", (event) => {
+        if (window.innerWidth <= 768) {
+          setIsMobile(true);
+        } else {
+          setIsMobile(false);
+        }
+      });
+    }
+  }, []);
 
   const onChangeTheme = (theme) => {
-    saveTheme(theme)
-    setTheme(theme)
-    if(theme === "light"){
-      document.body.classList.remove('dark')
-    }else{
-      document.body.classList.add('dark')
+    saveTheme(theme);
+    setTheme(theme);
+    if (theme === "light") {
+      document.body.classList.remove("dark");
+    } else {
+      document.body.classList.add("dark");
     }
-    
   };
 
   const toggleModal = (tabName) => {
@@ -105,7 +123,7 @@ const Header = (props) => {
   );
   return (
     <>
-    <ChangeTheme onChangeTheme={onChangeTheme} theme={theme}/>
+      <ChangeTheme onChangeTheme={onChangeTheme} theme={theme} />
       <div className="header-container">
         <ModalLogin
           isModalLoginVisible={isModalLoginVisible}
@@ -114,12 +132,12 @@ const Header = (props) => {
         />
 
         <div className="header-logo">
+          <MenuOutlined className="icon-menu-mobile" onClick={() => setIsShowMenuMobile(true)}/>
           <div className="header-logo-pointer">
-          <Link href={ROUTE_HOME}>
-            <Logo />
-          </Link>
+            <Link href={ROUTE_HOME}>
+              <Logo />
+            </Link>
           </div>
-          
 
           <div className="header-search">
             <Input
@@ -130,6 +148,12 @@ const Header = (props) => {
               onKeyDown={handleKeyDown}
             />
           </div>
+        </div>
+        <div
+          className="header-search-mobile-btn"
+          onClick={() => setIsDisplaySearch(!isDisplaySearch)}
+        >
+          <IconSearch />
         </div>
         <div className="header-profile">
           {token ? (
@@ -164,13 +188,30 @@ const Header = (props) => {
                 onClick={() => toggleModal("Register")}
               >
                 <IconSignup />
-                Đăng ký
+                Đăng ký{" "}
               </div>
             </>
           )}
         </div>
+        {isDisplaySearch && (
+          <div className="header-search-mobile">
+            <Input
+              placeholder="Nhập từ khóa tìm kiếm"
+              prefix={<IconSearch />}
+              type="text"
+              onChange={getData}
+              onKeyDown={handleKeyDown}
+            />
+          </div>
+        )}
       </div>
-      <NavBar token={token} toggleModal={toggleModal}/>
+
+      <NavBar
+        token={token}
+        toggleModal={toggleModal}
+        isShowMenuMobile={isShowMenuMobile}
+        isMobile={isMobile}
+      />
       <HotNews />
     </>
   );

@@ -10,8 +10,8 @@ import { getToken } from "../../libs/common";
 import PropertiesService from "../../services/properties.service";
 import DashboardInfo from "../../components/DashboardInfo/Dashboard-Info";
 import DashboardPassword from "../../components/DashboardInfo/Dashboard-Password";
-import Follower from '../../components/Follower/Follower';
-import ChatBox from '../../components/ChatBox/ChatBox';
+import Follower from "../../components/Follower/Follower";
+import ChatBox from "../../components/ChatBox/ChatBox";
 import { ROUTE_HOME } from "../../libs/constants";
 
 const Dashboard = () => {
@@ -21,27 +21,38 @@ const Dashboard = () => {
   const [key, setKey] = useState("2");
   const [data, setData] = useState();
   const [dataBookmark, setDataBookmark] = useState();
+  const [dataDraft, setDataDraft] = useState();
 
   useEffect(() => {
-      if(getToken()){
-        setToken(getToken())
-      }
-    },[])
-
-  useEffect(()=>{
-      if(token){
-          PropertiesService.getArticleByUser(token).then(data => setData(data.data.data))
-          PropertiesService.getBookMark(token).then(data => setDataBookmark(data.data.data))
-      }
-  },[token])
-  const onChange = (key: string) => {
-      setKey(key);
-    };
-
-    const router = useRouter();
-    if(getToken()===false) {
-      router.push(ROUTE_HOME);
+    if (getToken()) {
+      setToken(getToken());
     }
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      PropertiesService.getArticleByUser(token).then((data) =>
+        setData(data.data.data)
+      );
+      PropertiesService.getBookMark(token).then((data) =>
+        setDataBookmark(data.data.data)
+      );
+      PropertiesService.getDraftByUser(token).then((data) =>
+      setDataDraft(data.data.data)
+      );
+    }
+  }, [token]);
+
+  // useEffect(() => {},[])
+
+  const onChange = (key: string) => {
+    setKey(key);
+  };
+
+  const router = useRouter();
+  if (getToken() === false) {
+    router.push(ROUTE_HOME);
+  }
   return (
     <div className="medium-container">
       <Path data={{ title: ["Trang cá nhân"], content: id }} />
@@ -54,32 +65,29 @@ const Dashboard = () => {
                     /> */}
 
           {Sidebar.map((item, index) => (
-            <SidebarItem key={index} item={item} onChange={onChange} count={key}/>
+            <SidebarItem
+              key={index}
+              item={item}
+              onChange={onChange}
+              count={key}
+            />
           ))}
         </div>
 
         <div className="profile-list-post">
-          {
-            key === "1" && <ChatBox />
-          }
-          {
-            key === "2" && <ListPost data={data} id={"Bài viết đã đăng"} type={"dashboard"}/>
-          }
-          {
-            key === "4" && <DashboardInfo />
-          }
-          {
-            key === "5" && <DashboardPassword />
-          }
-          {
-            key === "6" && <Follower type={"2"} />
-          }
-          {
-            key === "7" && <Follower type={"3"} />
-          }
-          {
-            key === "8" && <ListPost data={dataBookmark} id={"Bài viết đã đăng"}/>
-          }
+          {key === "1" && (
+            <ListPost data={dataDraft} id={"Bài viết nháp"} type={"dashboard"} />
+          )}
+          {key === "2" && (
+            <ListPost data={data} id={"Bài viết đã đăng"} type={"dashboard"} />
+          )}
+          {key === "4" && <DashboardInfo />}
+          {key === "5" && <DashboardPassword />}
+          {key === "6" && <Follower type={"2"} />}
+          {key === "7" && <Follower type={"3"} />}
+          {key === "8" && (
+            <ListPost data={dataBookmark} id={"Bài viết đã đăng"} />
+          )}
         </div>
       </div>
     </div>

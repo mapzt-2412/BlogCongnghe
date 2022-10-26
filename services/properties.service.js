@@ -32,17 +32,29 @@ class PropertiesService {
     get3ArticlesByTopic(name){
         return http.get(`/articles?topic=${name}&limit=3`)
     }
+    getDraftByUser(token){
+        return http.get("/drafts", {headers: {'Authorization': "Bearer " + token}})
+    }
     createVideo(data, token){
         return http.post("/articles/media", {headers: {'Authorization': "Bearer " + token}}, JSON.stringify(data))
     }
     createArticle(data,token){
         return http.post("/articles/create-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
+    createDraft(data,token){
+        return http.post("/drafts/create-draft", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+    }
     updateArticle(data,token){
         return http.patch("/articles/update-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
+    updateDraft(data,token){
+        return http.put("/drafts/update-draft", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+    }
     deleteArticle(data,token){
-        return http.patch("/articles/delete-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+        return http.delete("/articles/delete-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+    }
+    deleteDraft(data,token){
+        return http.delete("/drafts/delete-draft", {data:JSON.stringify(data) , headers: {'Authorization': "Bearer " + token}})
     }
     getArticles(){
         return http.get("/articles")
@@ -91,5 +103,4 @@ class PropertiesService {
         return http.get(`/users/message/${data}` , {headers: {'Authorization': "Bearer " + token}})
     }
 }
-// /articles?topic=Javascript&searchKeyword=Se
 export default new PropertiesService();

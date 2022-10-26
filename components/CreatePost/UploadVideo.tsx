@@ -17,7 +17,6 @@ const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , add
     action: process.env.REACT_APP_API_URL + "/articles/media",
     headers: {
       authorization: "Bearer " + getToken(),
-
     },
     onChange(info) {
       if (info.file.status !== 'uploading') {
