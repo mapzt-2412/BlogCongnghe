@@ -1,6 +1,6 @@
-import React, { memo, useState, useEffect, useContext } from "react";
+import React, { memo, useState, useEffect, useContext, useRef, useCallback } from "react";
 import io from "socket.io-client";
-import { Input } from "antd";
+import { Input, Spin } from "antd";
 import PropertiesService from "../../services/properties.service";
 import { getToken, deleteToken, saveTheme, getId } from "../../libs/common";
 import IconHideChatBox from "../../assets/icon/IconHideChatBox";
@@ -15,11 +15,23 @@ const ChatBox = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [content, setContent] = useState("");
   const [isShow, setIsShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState([]);
   const [idReceive, setIdReceive] = useState(0);
   const [dataMessage, setDataMessage] = useState([]);
   const { userInfo } = useContext(UserInfo);
+  const refContent = useRef(null);
 
+  const resetScrollEffect = useCallback(() => {
+    const collection = document.getElementsByClassName("chat-box-main-content");
+    if(collection[0]){
+      collection[0].scrollTop = collection[0].scrollHeight
+    }
+  },[])
+  useEffect(() => {
+    resetScrollEffect()
+  }, [resetScrollEffect, isShow, idReceive, isLoading, dataMessage])
+  
   useEffect(() => {
     if(userInfo){
       if(user.find(value => value.id === userInfo.id)){
@@ -63,27 +75,30 @@ const ChatBox = () => {
   }, []);
 
   const getMessageUser = (data) => {
+    setIsLoading(true);
     setIdReceive(data.id);
     PropertiesService.getMessageByUser(data.id, getToken()).then((data) =>
-      setDataMessage(data.data.data)
+      {
+        setDataMessage(data.data.data);
+        setIsLoading(false);
+      }
     );
   };
 
   useEffect(() => {
     if(idReceive > getId()){
       socket.on(idReceive + " " + getId(), (data) => {
-        console.log(data)
-        if(data.id !== getId()){
+        console.log(data.id !== getId())
+        if(data.id !== getId() && dataMessage.length !== 0){
           setDataMessage([...dataMessage, data]);
         }
         setIsConnected(true);
       });
     }else{
       socket.on(getId() + " " + idReceive, (data) => {
-        if(data.id !== getId()){
+        if(data.id !== getId() && dataMessage.length !== 0){
           setDataMessage([...dataMessage, data]);
         }
-        console.log(data)
         setIsConnected(true);
       });
     }
@@ -96,14 +111,14 @@ const ChatBox = () => {
       socket.off("disconnect");
       socket.off("pong");
     };
-  }, [idReceive]);
+  }, [idReceive, dataMessage]);
 
   const sendPing = () => {
     socket.emit("ping");
   };
 
   const renderChart = (value, index) => {
-    console.log(getId())
+    console.log(value)
     if (value.sendUser == getId()) {
       return (
         <div className="chat-send" key={index}>
@@ -113,7 +128,8 @@ const ChatBox = () => {
           </div>
         </div>
       );
-    } else {
+    }
+    else {
       return (
         <div className="chat-recieve" key={index}>
           <div className="chat-content-user">
@@ -151,10 +167,14 @@ const ChatBox = () => {
                 </div>
               ))}
             </div>
-            <div className="chat-box-main-content">
-              <div className="chat-box-chat-content">
-                {dataMessage?.map((value, index) => renderChart(value, index))}
+            <div className="chat-box-main-content" ref={refContent}>
+              {
+                isLoading ? <div className="spin-loading"> <Spin size="large" /> </div> : 
+                <div className="chat-box-chat-content">
+                { dataMessage?.map((value, index) => renderChart(value, index))}
               </div>
+              }
+              
               <div className="chat-box-input">
                 <Input
                   placeholder="Nhập nội dung tin nhắn"
