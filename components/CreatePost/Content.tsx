@@ -3,94 +3,30 @@ import { FC, memo, useRef, useEffect, useState, useMemo } from "react";
 import { Modal, Row, Col, Radio, Button, RadioChangeEvent } from "antd";
 import EditorWrapper from "./editor/EditorWrapper";
 import { getToken } from "../../libs/common";
-
-// class MyUploadAdapter {
-//   constructor( loader ) {
-//       // CKEditor 5's FileLoader instance.
-//       this.loader = loader;
-
-//       // URL where to send files.
-//       this.url = process.env.REACT_APP_API_URL + "/articles/media";
-//   }
-
-//   // Starts the upload process.
-//   upload() {
-//       return new Promise( ( resolve, reject ) => {
-//           this._initRequest();
-//           this._initListeners( resolve, reject );
-//           this._sendRequest();
-//       } );
-//   }
-
-//   // Aborts the upload process.
-//   abort() {
-//       if ( this.xhr ) {
-//           this.xhr.abort();
-//       }
-//   }
-
-//   // Example implementation using XMLHttpRequest.
-//   _initRequest() {
-//       const xhr = this.xhr = new XMLHttpRequest();
-
-//       xhr.open( 'POST', this.url, true );
-//       xhr.responseType = 'json';
-//   }
-
-//   // Initializes XMLHttpRequest listeners.
-//   _initListeners( resolve, reject ) {
-//       const xhr = this.xhr;
-//       const loader = this.loader;
-//       const genericErrorText = 'Couldn\'t upload file:' + ` ${ loader.file.name }.`;
-
-//       xhr.addEventListener( 'error', () => reject( genericErrorText ) );
-//       xhr.addEventListener( 'abort', () => reject() );
-//       xhr.addEventListener( 'load', () => {
-//           const response = xhr.response;
-
-//           if ( !response || response.error ) {
-//               return reject( response && response.error ? response.error.message : genericErrorText );
-//           }
-
-//           // If the upload is successful, resolve the upload promise with an object containing
-//           // at least the "default" URL, pointing to the image on the server.
-//           resolve( {
-//               default: response.url
-//           } );
-//       } );
-
-//       if ( xhr.upload ) {
-//           xhr.upload.addEventListener( 'progress', evt => {
-//               if ( evt.lengthComputable ) {
-//                   loader.uploadTotal = evt.total;
-//                   loader.uploaded = evt.loaded;
-//               }
-//           } );
-//       }
-//   }
-
-//   // Prepares the data and sends the request.
-//   _sendRequest() {
-//       const data = new FormData();
-
-//       data.append( 'upload', this.loader.file );
-
-//       this.xhr.send( data );
-//   }
-// }
+import { Tabs } from 'antd';
+import Logo from "../../assets/icon/Logo"
 
 interface IContentProps {
   isModalContentVisible: boolean | undefined,
   setIsModalContentVisible: (data) => void,
-  dataContent?: string;
+  dataContent?: {
+    data: string,
+    type: string
+  };
   addData?: (data) => void,
   addDataContent?: (data) => void,
   handlEditContent?: (data) => void,
+  changeDataContent?: (data) => void,
 }
-const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVisible, addData, handlEditContent, dataContent, addDataContent}) => {
+const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVisible, addData, handlEditContent, dataContent, addDataContent, changeDataContent}) => {
     const editorRef = useRef();
+    const [isMarkdownRender, setIsMarkdownRender] = useState(false);
     const [editorLoaded, setEditorLoaded] = useState(false);
-    const [data, setData] = useState();
+    const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
+    const [data, setData] = useState("");
+    const [key, setKey] = useState("normal");
+    const [keyChange, setKeyChange] = useState("normal");
+    
     function genHexString(len) {
       const hex = '0123456789ABCDEF';
       let output = '';
@@ -101,28 +37,54 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
     }
     
     const id = useMemo(() => genHexString(7),[]);
-
-    // function MyCustomUploadAdapterPlugin( editor ) {
-    //   editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-    //       console.log(editor.plugins)
-    //       return new MyUploadAdapter( loader );
-    //   };
-    // }  
+    
+    const handleChangeDataContent = (i, data) => {
+      changeDataContent(i, data)
+     
+    }
     useEffect(() => {
       editorRef.current = {
-        ClassicEditor: require("./editor/ckeditor")
+        ClassicEditor: require("./editor/ckeditor"),
       };
       setEditorLoaded(true);
+
     }, []);
+    console.log(data)
+    useEffect(() => {
+      if(data){
+        changeDataContent( 
+          id,
+          {
+            type: "content",
+            data: {
+              data: data.data,
+              type: key,
+              key: id
+            },
+          }
+        );
+      }
+    }, [data, key]);
+
+    useEffect(() => {
+      if(dataContent){
+        setKey(dataContent.type)
+      }
+    }, [dataContent]);
 
     useEffect(()=>{
       if(editorRef?.current.ClassicEditor && isModalContentVisible){
-        editorRef?.current.ClassicEditor
+        editorRef?.current.ClassicEditor.Editor
 				.create( document.querySelector( `.editor-${id}` ), {
 					licenseKey: '',
           autosave: {
             save( editor ) {
-                return setData(editor.getData());
+              return setData(pre => {
+                return {
+                  ...pre,
+                  data: editor.getData()
+                }
+              });
             },
         },
         simpleUpload: {
@@ -130,7 +92,7 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
           uploadUrl: process.env.REACT_APP_API_URL + "/articles/media",
 
           // Enable the XMLHttpRequest.withCredentials property.
-          withCredentials: true,
+          withCredentials: false,
 
           // Headers sent along with the XMLHttpRequest to the upload server.
           headers: {
@@ -142,7 +104,7 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
 				.then( editor => {
 					window.editor = editor;
           if(dataContent){
-            editor.setData(dataContent);
+            editor.setData(dataContent.data);
           }
 				} )
 				.catch( error => {
@@ -153,24 +115,85 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
 				});
       }
     },[editorRef, id, editorLoaded, isModalContentVisible, dataContent])
+    useEffect(()=>{
+      if(editorRef?.current.ClassicEditor && isModalContentVisible && isMarkdownRender === false){
+        editorRef?.current.ClassicEditor.EditorMarkdown
+				.create( document.querySelector( `.editor-markdown-${id}` ), {
+					licenseKey: '',
+          autosave: {
+            save( editor ) {
+                return setData(pre => {
+                  return {
+                    ...pre,
+                    data: editor.getData()
+                  }
+                });
+            },
+        },
+        simpleUpload: {
+          // The URL that the images are uploaded to.
+          uploadUrl: process.env.REACT_APP_API_URL + "/articles/media",
 
+          // Enable the XMLHttpRequest.withCredentials property.
+          withCredentials: false,
+
+          // Headers sent along with the XMLHttpRequest to the upload server.
+          headers: {
+              'X-CSRF-TOKEN': 'CSRF-Token',
+              Authorization: `Bearer ${getToken()}`
+          }
+      }
+				} )
+				.then( editor => {
+					window.editorMarkdown = editor;
+          if(dataContent){
+            editorMarkdown.setData(dataContent.data);
+          }
+          setIsMarkdownRender(true);
+				} )
+				.catch( error => {
+					console.error( 'Oops, something went wrong!' );
+					console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+					console.warn( 'Build id: 1lzzqnayetqo-tsu3xzcc1f0' );
+					console.error( error );
+				});
+      }
+    },[editorRef, id, editorLoaded, isModalContentVisible, dataContent, key])
     const handleOk = () => {
       if(editor){
         editor.destroy()
         .then( () => {
           if(handlEditContent){
-            console.log(data)
-            handlEditContent(data)
+            handlEditContent(data);
+            handleChangeDataContent( 
+              dataContent.data.key,
+              {
+                type: "content",
+                data: {
+                  data: data.data,
+                  type: key,
+                  key: id
+                },
+              }
+            );
           }else{
             if(addData && data){
               addData({
               title: "Nội dung",
-              lable: <EditorWrapper dataContent={data}/>,
+              lable: <EditorWrapper dataContent={{
+                data: data.data,
+                type: key,
+                key: id,
+              }}/>,
             })
             addDataContent(
               {
                 type: "content",
-                data: data,
+                data: {
+                  data: data.data,
+                  type: key,
+                  key: id,
+                },
               }
             );
           }
@@ -185,6 +208,18 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
             console.log( error );
         } );
       }
+      if(isMarkdownRender){
+        editorMarkdown.destroy()
+        .then( () => {
+          if(editorMarkdown){
+            editorMarkdown.setData("")
+          }
+          setIsModalContentVisible(false);
+        })
+        .catch( error => {
+            console.log( error );
+        } );
+      }
     }
     const handleCancel = () => {
       if(editor){
@@ -194,7 +229,36 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
             console.log( error );
         } );
       }
+      if(isMarkdownRender){
+        editorMarkdown.destroy()
+        .then( () => setIsModalContentVisible(false))
+        .catch( error => {
+            console.log( error );
+        } );
+      }
       setIsModalContentVisible(false)
+    }
+
+    const handleCancelModalConfirm = () => {
+      setIsModalConfirmVisible(false)
+    }
+    const handleChangeTabs = (key) => {
+      if(data !== ""){
+        setIsModalConfirmVisible(true);
+        setKeyChange(key);
+      }else{
+        setKey(key);
+      }
+    }
+    const handleModalChangeTabs = () => {
+      setKey(keyChange);
+      setData("");
+      handleCancelModalConfirm();
+      editor.setData("")
+      if(isMarkdownRender){
+        editorMarkdown.setData("")
+      }
+      
     }
   return (
     <Modal
@@ -203,13 +267,48 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
         onCancel={handleCancel}
         width={1000}
       >
+        <Modal visible={isModalConfirmVisible} onCancel={handleCancelModalConfirm} footer={false}>
+            <div className="modal-logo">
+                <Logo />
+            </div>
+            <div className="modal-title">
+                <p>Thông báo</p>
+            </div>
+            <div className="modal-content">
+                <p>Bạn có muốn chuyển trình soạn thảo những nội dung của bạn sẽ bị xóa?</p>
+            </div>
+            <div className="modal-button-center">
+                <div className="modal-button save-article" onClick={handleModalChangeTabs}>
+                    <p>ĐỒNG Ý</p>
+                </div>
+                <div className="modal-button save-draft" onClick={handleCancelModalConfirm}>
+                    <p>Ở LẠI</p>
+                </div>
+            </div>
+      </Modal>
     <div className = "editor-content-wrapper">
+    <Tabs onChange = {handleChangeTabs} activeKey={key}>
+    <Tabs.TabPane tab="Trình soạn thảo văn bản" key="normal" >
     {editorLoaded ? (
         <div className={`editor-${id}`}></div>
       ) : (
         <div>Editor loading</div>
       )}
+       </Tabs.TabPane>
+       <Tabs.TabPane tab="Markdown" key="markdown" onClick={(e) => {
+          e.stopPropagation();
+        }}>
+      {editorLoaded ? (
+        <>
+        <div className={`editor-markdown-${id}`}></div>
+        </>
+      ) : (
+        <div>Editor loading</div>
+      )}
+        </Tabs.TabPane>
+       </Tabs>
     </div>
+   
     </Modal>
   );
 };

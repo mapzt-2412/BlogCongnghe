@@ -4,6 +4,7 @@ import Recommend from "../../components/Home/RightBar/Recommend";
 import Interactive from "../../components/Interactive/Interactive";
 import ListComment from "../../components/Interactive/Comment/ListComment";
 import Image from "next/image";
+import Link from "next/link";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import { Button } from "antd";
 import Path from "../../components/Path";
@@ -144,7 +145,7 @@ const PostDetail = () => {
               <AvatarDefaultSmall />
             )}
           </div>
-          {data?.author.nickname}
+          <Link href={`/${data?.author?.id}`}>{data?.author?.nickname ? data?.author?.nickname : "Chưa có thông tin" }</Link>
             {
               !data?.isFollow && 
             <Button type="primary" onClick={handleFollow}>

@@ -139,17 +139,21 @@ const Home = () => {
     const [article, setArticle] = useState();
     const [tags, setTags] = useState();
     const [topics, setTopics] = useState();
+    const [trends, setTrends] = useState();
+
     useEffect(() => {
         PropertiesService.getArticles().then((data) => console.log(data))
         PropertiesService.getTags().then((data) => setTags(data.data.data))
         PropertiesService.getTopics().then((data) => setTopics(data.data.data))
+        PropertiesService.getTopicByScore().then((data) => setTrends(data.data.data))
     },[])
+
     return (
         <div className="main-container">
             <Row>
                 <Col span={16}>
                     <div className = "home-slide">
-                        <Slide />
+                        <Slide trends={trends}/>
                     </div>
                     {
                         topics?.map((value, index) => (

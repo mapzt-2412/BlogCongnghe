@@ -78,6 +78,9 @@ class PropertiesService {
     sendReport(data, token){
         return http.post(`/users/report-article`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
     }
+    sendReportUser(data, token){
+        return http.post(`/users/report-user`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
+    }
     search(keyword) {
         return http.get(`/articles?searchKeyword=${keyword}`)
     }
@@ -89,6 +92,9 @@ class PropertiesService {
     }
     getMessageByUser(data, token){
         return http.get(`/users/message/${data}` , {headers: {'Authorization': "Bearer " + token}})
+    }
+    getTopicByScore() {
+        return http.get("/articles?sortBy=score&sortOrder=DESC&limit=4")
     }
 }
 // /articles?topic=Javascript&searchKeyword=Se

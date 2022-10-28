@@ -8,11 +8,11 @@ import Image from "next/image";
 const Trends = ({ trends }) => {
   return (
     <RightBar title="Xu Hướng">
-      {trends.map((value, index) => (
+      {trends?.map((value, index) => (
         <div className="trend-item" key={index}>
           <div className="trend-image">
             <Image
-              src={value.image}
+              src={value.thumbnail}
               height={75}
               width={122}
               layout="responsive"

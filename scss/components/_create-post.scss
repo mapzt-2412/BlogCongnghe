@@ -133,3 +133,21 @@
         height: 500px;
     }
 }
+.ck-editor__editable {
+    min-height:300px;
+    height: 300px;
+}
+.ck-source-editing-area{
+    max-height:300px;
+    height: 300px !important;
+    textarea{
+        max-height:300px;
+        height: 300px !important;
+        overflow-y: scroll !important;
+    }
+}
+.ck-markdown-content{
+    img{
+        width: 100%;
+    }
+}

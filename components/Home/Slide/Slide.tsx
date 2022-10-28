@@ -32,16 +32,16 @@ const slideContent = [
         image: "/Slide5.jpg",
     },
 ]
-const Slide = () => {
+const Slide = ({trends}) => {
     const onChange = (currentSlide: number) => {
         console.log(currentSlide);
       };
     return (
         <Carousel afterChange={onChange} dotPosition="top" >
             {
-                slideContent.map((value, index) => (
+                trends?.map((value, index) => (
                     <div className="carousel-item" key={index}>
-                        <Image src={value.image} height={480} width={966} layout="responsive" alt="slide"/>
+                        <Image src={value.thumbnail} height={480} width={966} layout="responsive" alt="slide"/>
                         <div className="carousel-title"><p>{value.title}</p></div>
                     </div>
                     

@@ -1,6 +1,7 @@
 .medium-container{
     margin: 0px 10%;
     .profile-user-info{
+        position: relative;
         background: $color--background;
         display: flex;
         flex-direction: column;
@@ -78,4 +79,9 @@
 }
 .plain.active{
     background: $color--border;
+}
+.profile-user-button{
+    position: absolute;
+    top: 0px;
+    right: 0px;
 }

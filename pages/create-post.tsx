@@ -127,8 +127,25 @@ const CreatePost = () => {
     setData((pre) => [...pre, data]);
   };
   const addDataContent = (data) => {
-    setDataContent((pre) => [...pre, data])
+    setDataContent((pre) => [...pre, data]);
   }
+  
+  const changeDataContent = (i, data) => {
+    const dataValue = dataContent.findIndex((value) => value?.data.key === i);
+    console.log(dataValue)
+    if(dataValue !== -1){
+        let arr = dataContent;
+        arr[dataValue] = {
+          data: data.data,
+          type: data.type,
+        }
+      setDataContent(arr);
+    }
+    else{
+      setDataContent((pre) => [...pre, data]);
+    }
+  }
+  
   useEffect(() => {
     setReqData({
       ...reqData,
@@ -290,6 +307,7 @@ const CreatePost = () => {
           setIsModalContentVisible={setIsModalContentVisible}
           addData={addData}
           addDataContent={addDataContent}
+          changeDataContent={changeDataContent}
         />
         <UploadVideo
           isModalVideoVisible={isModalVideoVisible}
