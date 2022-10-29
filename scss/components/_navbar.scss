@@ -44,11 +44,12 @@
     background: linear-gradient(90deg, #234b86, #017389);
     color: #ffffff;
     top: 0;
-    width: 100vw;
+    width: 80vw;
     z-index: 100;
     padding: 50px;
     height: 100vh;
     transition: 0.5s;
+    // transform: translateX(-100%);
 }
 
 .dropdown-navbar-item{

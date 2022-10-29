@@ -76,7 +76,7 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
         </div>
         <div className="comment-interactive">
             <p>Thích</p>
-            <p onClick={() => handleInteractive("reply", data?.author.username)}>Phản hồi</p>
+            <p onClick={() => handleInteractive("reply", data?.user.username)}>Phản hồi</p>
             <p>Chia sẻ</p>
         </div>
             {   

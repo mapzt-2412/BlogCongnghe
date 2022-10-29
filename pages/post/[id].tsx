@@ -144,7 +144,7 @@ const PostDetail = () => {
               <AvatarDefaultSmall />
             )}
           </div>
-          {data?.author.nickname}
+          {data?.user.nickname}
             {
               !data?.isFollow && 
             <Button type="primary" onClick={handleFollow}>

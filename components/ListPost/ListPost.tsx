@@ -13,8 +13,9 @@ interface IListPostProps {
   data: object[],
   id: string,
   type?: string,
+  setData?: () => void,
 }
-const ListPost: FC<IListPostProps> = ({data, id, type}) => {
+const ListPost: FC<IListPostProps> = ({data, id, type, setData}) => {
   const [isList , setList] = useState(true);
   const changeLayout = () => {
     setList(!isList);
@@ -44,7 +45,7 @@ const ListPost: FC<IListPostProps> = ({data, id, type}) => {
           {
             isList ? 
             data?.map((value, index) => (
-              <PostCardHorizontal data={value} key={index} type={type}/>
+              <PostCardHorizontal data={value} key={index} type={type} setData={setData}/>
             ))
             :
             <List

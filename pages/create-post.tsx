@@ -42,6 +42,7 @@ const MapBox = dynamic(() => import("../components/CreatePost/Map"), {
 
 const CreatePost = () => {
   const { post } = useRouter().query;
+  const {draft} = useRouter().query;
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
   const [isModalContentVisible, setIsModalContentVisible] = useState(false);
   const [isModalVoteVisible, setIsModalVoteVisible] = useState(false);
@@ -90,6 +91,14 @@ const CreatePost = () => {
       );
     }
   };
+  
+  useEffect(() => {
+    if (draft || post) {
+      setIsCreateDraft(true);
+    }
+
+  },[draft,post])
+
   useEffect(() => {
     if (isCreateDraft === false && isFirstRender === false) {
       if(reqData.topicId !== '' && reqData.title !=='') {
@@ -114,7 +123,7 @@ const CreatePost = () => {
     console.log(isCreateDraft)
     
        const countInterval = setInterval(() => {
-        if (isCreateDraft === true && draftID) {
+        if (isCreateDraft === true && draftID && post === undefined) {
         PropertiesService.updateDraft({...reqData,draftId:draftID},getToken()).then((data) => {
           console.log(data);
         })
@@ -151,8 +160,31 @@ const CreatePost = () => {
           });
         }
       });
+    } else if(draft) {
+      PropertiesService.getDraftById(draft, getToken()).then((data) => {
+        setReqData({
+          ...reqData,
+          draftId: +draft,
+          topicId: data.data.data.topic?.id,
+          tags: data.data.data.tags,
+          thumbnail: data.data.data.thumbnail,
+          title: data.data.data.title,
+          description: data.data.data.description,
+          content: data.data.data.content,
+        });
+        if (data.data.data?.content) 
+        {JSON.parse(data.data.data?.content).map((value) => {
+            if (value?.type === "content") {
+              addData({
+                title: "Nội dung",
+                lable: <EditorWrapper dataContent={value?.data} />,
+              });
+            }
+          });
+        }
+      });
     }
-  }, [post]);
+  }, [post, draft, reqData]);
   // const router = useRouter();
   // useEffect (()=>{
 

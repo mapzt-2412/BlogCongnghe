@@ -51,7 +51,7 @@ class PropertiesService {
         return http.put("/drafts/update-draft", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
     deleteArticle(data,token){
-        return http.delete("/articles/delete-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+        return http.delete("/articles/delete-article", {data:JSON.stringify(data) , headers: {'Authorization': "Bearer " + token}})
     }
     deleteDraft(data,token){
         return http.delete("/drafts/delete-draft", {data:JSON.stringify(data) , headers: {'Authorization': "Bearer " + token}})
@@ -64,6 +64,13 @@ class PropertiesService {
             return http.get(`/articles/${id}`, {headers: {'Authorization': "Bearer " + token}})
         }
         return http.get(`/articles/${id}`)
+        
+    }
+    getDraftById(id, token){
+        if(token){
+            return http.get(`/drafts/${id}`, {headers: {'Authorization': "Bearer " + token}})
+        }
+        return http.get(`/drafts/${id}`)
         
     }
     likeArticle(data, token){

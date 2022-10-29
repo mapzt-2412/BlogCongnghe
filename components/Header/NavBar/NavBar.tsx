@@ -15,6 +15,9 @@ import ListTopic from "./ListTopic/ListTopic";
 import ListTrend from "./ListTopic/ListTrend";
 import PropertiesService from "../../../services/properties.service";
 import { Dropdown } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
+import IconSignin from "../../../assets/icon/IconSignin";
+import IconSignup from "../../../assets/icon/IconSignup";
 
 const data = [
   "Trong tương lai, mô hình kinh doanh chuyển sang online",
@@ -23,9 +26,10 @@ const data = [
   "Trong tương lai, mô hình kinh doanh chuyển sang online",
   "Trong tương lai, mô hình kinh doanh chuyển sang online",
 ];
-const NavBar = ({ token, toggleModal, isShowMenuMobile, isMobile }) => {
+const NavBar = ({ token, toggleModal,setIsShowMenuMobile, isShowMenuMobile, isMobile }) => {
   const [isShowTopic, setIsShowTopic] = useState(false);
   const [topics, setTopics] = useState([]);
+  // const [isHide, setIsHide] = useState(true)
   const onMouseEnter = (item) => {
     if (item === "topic" && !isShowTopic) {
       setIsShowTopic(true);
@@ -40,6 +44,8 @@ const NavBar = ({ token, toggleModal, isShowMenuMobile, isMobile }) => {
   useEffect(() => {
     PropertiesService.getTopics().then((data) => setTopics(data.data.data));
   }, []);
+
+  // useEffect(() => {},[])
   const title = [
     {
       title: "Trang chủ",
@@ -98,8 +104,13 @@ const NavBar = ({ token, toggleModal, isShowMenuMobile, isMobile }) => {
       className={`navbar-container ${
         isMobile ? "navbar-container-mobile" : ""
       }`}
-      style={{transform: !isShowMenuMobile && isMobile ? "translateX(-100%)" : "translateX(0)"}}
+      style={{
+        transform:
+          !isShowMenuMobile && isMobile ? "translateX(-100%)" : "translateX(0)",
+      }}
     >
+      
+      <div className="icon-close-menu-mobile" style={{display: isMobile ? "block" : "none",}} onClick ={() => {setIsShowMenuMobile(false)}}><CloseOutlined /></div>
       {title.map((value) => (
         <div
           key={value.title}
@@ -139,6 +150,21 @@ const NavBar = ({ token, toggleModal, isShowMenuMobile, isMobile }) => {
       >
         <ListTrend title={"Danh sách chủ đề"} data={topics} />
       </div>
+      <div
+                className="header-button header-login"
+                onClick={() => toggleModal("Login")}
+              >
+                <IconSignin />
+                Đăng nhập
+              </div>
+              <div
+                className="header-button"
+                onClick={() => toggleModal("Register")}
+              >
+                <IconSignup />
+                Đăng ký{" "}
+              </div>
+
     </div>
   );
 };

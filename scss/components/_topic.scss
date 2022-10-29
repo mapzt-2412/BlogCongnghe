@@ -36,8 +36,14 @@
         height: 40px;
         display: flex;
         align-items: center;
+        cursor: pointer;
         svg{
             margin-left: 8px;
+        }
+        @media screen and (max-width: 768px) {
+            .icon-next-mobile {
+                display: none;
+            }
         }
     }
 }
@@ -45,6 +51,12 @@
     display: flex;
     .post-card-container{
         width: 30%;
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        display: block;
     }
 }
 .post-card-container.right{
