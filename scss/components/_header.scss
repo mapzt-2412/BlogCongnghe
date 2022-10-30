@@ -1,59 +1,93 @@
-.header-container{
+.header-container {
+  display: flex;
+  padding: 20px 18px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .header-logo {
     display: flex;
-    padding: 20px 18px;
-    justify-content: space-between;
-    height: 72px;
-    .header-logo{
-        display: flex;
-        .header-logo-pointer {
-            cursor: pointer;
-        }
-        
+    .header-logo-pointer {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
     }
-    .header-search{
-        margin-left: 16px;
-        .ant-input-affix-wrapper{
-            background-color: $color--background;
-            height: 37px;
-            width: 400px;
-            border: none;
-            input{
-                background-color: $color--background;
-            }
-            .ant-input-prefix{
-                padding: 0px 8px;
-            }
-            
-        }
-    }
-    .header-profile{
+    .icon-menu-mobile {
+        font-size: 24px;
         display: flex;
         align-items: center;
-        .header-button{
-            cursor: pointer;
-            color: $color--text2;
-            @include font-14;
-            height: 20px;
-            padding: 0px 20px;
-            display: flex;
-            align-items: center;
-            svg{
-                margin-right: 8px;
-            }
-        }
-        .header-login{
-            border-right: 1px solid $color--border;
-        }
-        .header-create-post{
-            background: $color--blue;
-            height: 40px;
-            border-radius: 3px;
-            margin-left: 16px;
-            color: $color--light;
-            @include font-14;
+        cursor: pointer;
+        @media screen and (min-width: 768px) {
+            display: none;
         }
     }
-}
-.dropdown-navbar-item-content-item{
+  }
+  .header-search {
+    margin-left: 16px;
+    .ant-input-affix-wrapper {
+      background-color: $color--background;
+      height: 37px;
+      width: 400px;
+      border: none;
+      input {
+        background-color: $color--background;
+      }
+      .ant-input-prefix {
+        padding: 0px 8px;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+  .header-search-mobile-btn {
+    display: none;
     cursor: pointer;
+
+    @media screen and (max-width: 768px) {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .header-profile {
+    display: flex;
+    align-items: center;
+    .header-button {
+      cursor: pointer;
+      color: $color--text2;
+      @include font-14;
+      height: 20px;
+      padding: 0px 20px;
+      display: flex;
+      align-items: center;
+      svg {
+        margin-right: 8px;
+      }
+    }
+    .header-login {
+      border-right: 1px solid $color--border;
+    }
+    .header-create-post {
+      background: $color--blue;
+      height: 40px;
+      border-radius: 3px;
+      margin-left: 16px;
+      color: $color--light;
+      @include font-14;
+    }
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+  .header-search-mobile{
+    width: 100%;
+    display: none;
+    margin-top: 8px;
+    @media screen and (max-width: 768px) {
+        display: block;
+      }
+  }
+
+}
+.dropdown-navbar-item-content-item {
+  cursor: pointer;
 }

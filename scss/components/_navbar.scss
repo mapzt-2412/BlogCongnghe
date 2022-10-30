@@ -34,7 +34,23 @@
             }
         }
     }
+    
 }
+
+.navbar-container-mobile{
+    display: block;
+    justify-content: center;
+    position: fixed;
+    background: linear-gradient(90deg, #234b86, #017389);
+    color: #ffffff;
+    top: 0;
+    width: 100vw;
+    z-index: 100;
+    padding: 50px;
+    height: 100vh;
+    transition: 0.5s;
+}
+
 .dropdown-navbar-item{
     margin: 16px;
     .dropdown-navbar-item-title{

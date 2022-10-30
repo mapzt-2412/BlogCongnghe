@@ -1,5 +1,5 @@
 import { Select, Input, Row, Col, message } from "antd";
-import React, { FC ,memo, useState, useEffect, useRef } from "react";
+import React, { FC, memo, useState, useEffect, useRef } from "react";
 import Path from "../components/Path";
 import PropertiesService from "./../services/properties.service";
 import IconContent from "./../assets/icon/IconContent";
@@ -19,15 +19,19 @@ import Chart from "../components/CreatePost/Chart";
 import dynamic from "next/dynamic";
 import Quiz from "../components/CreatePost/Quiz";
 import Vote from "../components/CreatePost/Vote";
-import { SortableList, ItemRenderProps, SortableItemProps } from "@thaddeusjiang/react-sortable-list";
+import {
+  SortableList,
+  ItemRenderProps,
+  SortableItemProps,
+} from "@thaddeusjiang/react-sortable-list";
 import UploadVideo from "../components/CreatePost/UploadVideo";
 import UploadImage from "../components/CreatePost/UploadImage";
 import EditorWrapper from "../components/CreatePost/Editor/EditorWrapper";
 import ModalConfirm from "../components/ModalConfirm/ModalConfirm";
 import AreaChart from "../components/CreatePost/Chart/AreaChart";
 import { getToken } from "../libs/common";
-import Router, { useRouter } from 'next/router';
-import Image from 'next/image';
+import Router, { useRouter } from "next/router";
+import Image from "next/image";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -45,84 +49,130 @@ const CreatePost = () => {
   const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
   const [data, setData] = useState<SortableItemProps[]>([]);
   const [dataContent, setDataContent] = useState([]);
-  const [reqData, setReqData] = useState();
+  const [reqData, setReqData] = useState({
+    topicId: "",
+    tags: [],
+    thumbnail: "",
+    title: "",
+    description: "",
+    content: "",
+  });
   const [content, setContent] = useState<any[]>();
   const [topic, setTopic] = useState([]);
   const [tag, setTag] = useState([]);
   const [dataDefault, setDataDefault] = useState();
-
-  const renderContent = (type , data) => {
-    if(type === "chart"){
-      return <AreaChart dataChart = {data}/>
-    }else if(type === "video"){
+  const [isCreateDraft, setIsCreateDraft] = useState(false);
+  // const initialData = {
+  //   topicId:'',
+  //   tags: [],
+  //   thumbnail:'',
+  //   title: '',
+  //   description: '',
+  //   content: '',
+  // };
+  const [isFirstRender, setIsFirstRender] = useState(true);
+  const [draftID,setDraftID] = useState();
+  const renderContent = (type, data) => {
+    if (type === "chart") {
+      return <AreaChart dataChart={data} />;
+    } else if (type === "video") {
       return (
         <div className="video-upload">
-                <video 
-                src={data}
-                loop
-                autoPlay
-                muted
-                controls
-                />
-                </div>
-      )
-    }else if(type === "content"){
+          <video src={data} loop autoPlay muted controls />
+        </div>
+      );
+    } else if (type === "content") {
       return (
-        <div dangerouslySetInnerHTML={{ __html: `${data}` }} className={"ck-content"}/>
-      )
+        <div
+          dangerouslySetInnerHTML={{ __html: `${data}` }}
+          className={"ck-content"}
+        />
+      );
     }
-  }
-  useEffect (() => {
+  };
+  useEffect(() => {
+    if (isCreateDraft === false && isFirstRender === false) {
+      if(reqData.topicId !== '' && reqData.title !=='') {
+        PropertiesService.createDraft(reqData, getToken()).then((data) => {
+          console.log(data);
+          if (data.data.data) {
+            setDraftID(data.data.data.id);
+          }
+          else {
+            message.error("Đã có lỗi xảy ra");
+            setIsCreateDraft(false);
+          }
+        });
+        setIsCreateDraft(true);
+      }
+      
+    }
+    setIsFirstRender(false);
+  }, [reqData]);
+
+  useEffect(() => {
+    console.log(isCreateDraft)
+    
+       const countInterval = setInterval(() => {
+        if (isCreateDraft === true && draftID) {
+        PropertiesService.updateDraft({...reqData,draftId:draftID},getToken()).then((data) => {
+          console.log(data);
+        })
+      }
+      }, 30000);
+    
+    return () => clearInterval(countInterval);
+  }, [isCreateDraft, reqData]);
+  useEffect(() => {
     PropertiesService.getTopics().then((data) => setTopic(data.data.data));
-    PropertiesService.getTags().then((data) => setTag(data.data.data))
-  },[])
-  useEffect (() => {
-    if(post){
-      PropertiesService.getArticleById(post, getToken()).then((data) => 
-      {
+    PropertiesService.getTags().then((data) => setTag(data.data.data));
+  }, []);
+  useEffect(() => {
+    if (post) {
+      PropertiesService.getArticleById(post, getToken()).then((data) => {
         setReqData({
           ...reqData,
           articleId: +post,
-          topicId : data.data.data.topic.id,
+          topicId: data.data.data.topic.id,
           tags: data.data.data.tags,
           thumbnail: data.data.data.thumbnail,
           title: data.data.data.title,
           description: data.data.data.description,
           content: data.data.data.content,
-        })
-        if(data.data.data.content){
+        });
+        if (data.data.data.content) {
           JSON.parse(data.data.data.content).map((value) => {
-            if(value?.type === "content"){
+            if (value?.type === "content") {
               addData({
                 title: "Nội dung",
-                lable: <EditorWrapper dataContent={value?.data}/>,
-              })
+                lable: <EditorWrapper dataContent={value?.data} />,
+              });
             }
-          })
+          });
         }
-      }
-      );
-      
+      });
     }
-  },[post])
+  }, [post]);
   // const router = useRouter();
   // useEffect (()=>{
-    
+
   //   return () => {showModalConfirm();
   //   console.log("ngu");}
   // },[])
-  
+
   const handleSubmit = (data) => {
-    if(post){
-      PropertiesService.updateArticle(data,  getToken()).then((data) => {
-        message.success('Lưu bài thành công'); Router.push('/')
-      } )
-    }else{
-      PropertiesService.createArticle(data,  getToken()).then((data) => {
-        message.success('Đăng bài thành công'); Router.push('/')
-      } )
+    if (post) {
+      PropertiesService.updateArticle(data, getToken()).then((data) => {
+        message.success("Lưu bài thành công");
+        Router.push("/");
+      });
+    } else {
+      PropertiesService.createArticle(data, getToken()).then((data) => {
+        message.success("Đăng bài thành công");
+        Router.push("/");
+      });
     }
-  }
+  };
   const addData = (data) => {
     setData((pre) => [...pre, data]);
   };
@@ -150,8 +200,8 @@ const CreatePost = () => {
     setReqData({
       ...reqData,
       content: JSON.stringify(dataContent),
-    })
-  },[dataContent])
+    });
+  }, [dataContent]);
 
   const showModalChart = () => {
     setIsModalChartVisible(true);
@@ -173,26 +223,26 @@ const CreatePost = () => {
     setReqData({
       ...reqData,
       topicId: value,
-    })
+    });
   };
   const handleChangeTag = (value: string) => {
     setReqData({
       ...reqData,
       tags: value,
-    })
+    });
   };
   const handleChangeInput = (event) => {
     setReqData({
       ...reqData,
       [event.target.name]: event.target.value,
-    })
-  }
+    });
+  };
   const handleChangeThumbnail = (value) => {
     setReqData({
       ...reqData,
       thumbnail: value,
-    })
-  }
+    });
+  };
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
@@ -201,7 +251,7 @@ const CreatePost = () => {
     const result = data.filter((value, i) => i !== index);
     setData(result);
   };
-  
+
   const memu = [
     {
       lable: <IconContent />,
@@ -237,7 +287,7 @@ const CreatePost = () => {
       title: "Câu hỏi",
       callBack: () =>
         addData({
-          lable: <Quiz setContent={setContent} content={content}/>,
+          lable: <Quiz setContent={setContent} content={content} />,
           title: "Câu hỏi",
         }),
     },
@@ -276,15 +326,15 @@ const CreatePost = () => {
   };
 
   const handleKeyDown = (event) => {
-    if(event.keyCode == 13){
-      let tag = reqData?.tags ? reqData?.tags  : [];
+    if (event.keyCode == 13) {
+      let tag = reqData?.tags ? reqData?.tags : [];
       tag.push(event.target.value);
       setReqData({
         ...reqData,
         tags: tag,
-      })
+      });
     }
-  }
+  };
 
   return (
     <div className="medium-container">
@@ -318,6 +368,8 @@ const CreatePost = () => {
         <ModalConfirm
           isModalConfirmVisible={isModalConfirmVisible}
           setIsModalConfirmVisible={setIsModalConfirmVisible}
+          reqData={reqData}
+          draftID={draftID}
         />
         <div className="create-post-content">
           <div className="create-post-content-item">
@@ -374,7 +426,7 @@ const CreatePost = () => {
                 maxLength={200}
                 value={reqData?.title}
                 name="title"
-                onChange = {handleChangeInput}
+                onChange={handleChangeInput}
               />
             </div>
           </div>
@@ -387,57 +439,74 @@ const CreatePost = () => {
                 value={reqData?.description}
                 name="description"
                 maxLength={200}
-                onChange = {handleChangeInput}
+                onChange={handleChangeInput}
               />
             </div>
           </div>
           <div className="create-post-content-item">
             <div className="create-post-content-left">Ảnh bìa</div>
             <div className="create-post-content-right">
-              <UploadImage handleChangeThumbnail={handleChangeThumbnail}/>
+              <UploadImage handleChangeThumbnail={handleChangeThumbnail} />
             </div>
           </div>
           <div className="create-post-content-item thumbnail">
-            <Image src ={reqData?.thumbnail} width={500} height={200} layout="responsive"/>
+            <Image
+              src={reqData?.thumbnail}
+              width={500}
+              height={200}
+              layout="responsive"
+            />
           </div>
           <ul onDragOver={(e) => e.preventDefault}>
-            {data.map((value, index) => (
-              value && <li key={index} onDragOver={(e) => onDragOver(e, index)}>
-                <div
-                  className="create-post-content-item item"
-                  key={index}
-                  draggable
-                  onDragStart={(e) => onDragStart(e, index)}
-                  onDragEnd={onDragEnd}
-                > 
-                  <div className="create-post-content-title">{value?.title}</div>
-                  {value?.lable}
-                  <div
-                    className="delete-item"
-                    onClick={() => handleDelete(index)}
-                  >
-                    {" "}
-                    <IconCancel />{" "}
-                  </div>
-                </div>
-              </li>
-            ))}
+            {data.map(
+              (value, index) =>
+                value && (
+                  <li key={index} onDragOver={(e) => onDragOver(e, index)}>
+                    <div
+                      className="create-post-content-item item"
+                      key={index}
+                      draggable
+                      onDragStart={(e) => onDragStart(e, index)}
+                      onDragEnd={onDragEnd}
+                    >
+                      <div className="create-post-content-title">
+                        {value?.title}
+                      </div>
+                      {value?.lable}
+                      <div
+                        className="delete-item"
+                        onClick={() => handleDelete(index)}
+                      >
+                        {" "}
+                        <IconCancel />{" "}
+                      </div>
+                    </div>
+                  </li>
+                )
+            )}
           </ul>
           <div className="create-post-content-item add-content">
-              <IconAddDraft/>
+            <IconAddDraft />
           </div>
-          <p className="add-content-description">{"(Thêm tiện ích bằng cách chọn các thành phần ở bên phải vào khung trên)"}</p>
+          <p className="add-content-description">
+            {
+              "(Thêm tiện ích bằng cách chọn các thành phần ở bên phải vào khung trên)"
+            }
+          </p>
           <div className="create-post-content-list-button">
-            <div className="create-post-content-button save-draft" onClick ={showModalConfirm}>
-                <IconSaveDraft/>
-                <p>LƯU BẢN NHÁP</p>
+            <div
+              className="create-post-content-button save-draft"
+              onClick={showModalConfirm}
+            >
+              <IconSaveDraft />
+              <p>LƯU BẢN NHÁP</p>
             </div>
-            <div className="create-post-content-button save-article" onClick={() => handleSubmit(reqData)}>
-                <IconUploadArticle/>
-                {
-                  post ? <p>LƯU BÀI VIẾT</p> : <p>ĐĂNG BÀI VIẾT</p>
-                }
-                
+            <div
+              className="create-post-content-button save-article"
+              onClick={() => handleSubmit(reqData)}
+            >
+              <IconUploadArticle />
+              {post ? <p>LƯU BÀI VIẾT</p> : <p>ĐĂNG BÀI VIẾT</p>}
             </div>
           </div>
         </div>
