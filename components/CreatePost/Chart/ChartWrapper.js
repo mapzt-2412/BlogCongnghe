@@ -4,12 +4,14 @@ import Chart from "../Chart";
 import LineChart from "./LineChart";
 import AreaChart from "./AreaChart";
 import DoughnutChart from "./DoughnutChart";
+import BarChart from "./BarChart";
+import PieChart from "./PieChart";
 
 const ChartWrapper = ({ type, dataTable, isModal }) => {
   const [data, setData] = useState(dataTable);
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
 
-  console.log(data)
+  console.log(type)
   const handlEditTable = useCallback ((data) => {
     setData(data)
   },[])
@@ -24,6 +26,12 @@ const ChartWrapper = ({ type, dataTable, isModal }) => {
       return <AreaChart dataChart={data} />;
     } else if (type === "doughnut-chart") {
       return <DoughnutChart dataChart={data} />;
+    } else if (type === "bar-chart") {
+      return <BarChart dataChart={data} />;
+    }else if (type === "pie-chart") {
+      return <PieChart dataChart={data} />;
+    }else if (type === "bar-chart-horizontal") {
+      return <BarChart dataChart={data} type={"horizontal"}/>
     }
   };
   return (

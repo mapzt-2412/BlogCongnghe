@@ -62,7 +62,7 @@ const PostCardHorizontal = ({ data, type }) => {
                             <AvatarDefaultSmall/>
                         }
                         </div>
-                        { data?.author.nickname }
+                        { data?.user.nickname ? data?.user.nickname : "Người dùng hệ thống" }
                     </div>
                     <div className="post-interactive">
                         <span>{0} <IconLike/></span>

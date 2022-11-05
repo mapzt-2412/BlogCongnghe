@@ -145,7 +145,7 @@ const PostDetail = () => {
               <AvatarDefaultSmall />
             )}
           </div>
-          <Link href={`/${data?.author?.id}`}>{data?.author?.nickname ? data?.author?.nickname : "Chưa có thông tin" }</Link>
+          <Link href={`/${data?.author?.id}`}>{data?.user?.nickname ? data?.user?.nickname : "Người dùng hệ thống" }</Link>
             {
               !data?.isFollow && 
             <Button type="primary" onClick={handleFollow}>
@@ -155,7 +155,7 @@ const PostDetail = () => {
         </div>
         <div className="post-detail-time">
             <span>Ngày đăng: </span>
-            <p>{ data?.createdAt.split("T")[0] }</p>
+            <p>{ data?.updatedAt.split("T")[0] }</p>
         </div>
         <div className="post-detail-time">
             <span>Bình luận: </span>

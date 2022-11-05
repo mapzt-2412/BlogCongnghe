@@ -37,7 +37,7 @@ const DoughnutChart = ({ dataChart }) => {
   useEffect(() => {
     Object.values(dataChart.colors).map((value,index) => {
       setColors(pre => {
-        return [...pre, `rgba(${Object.values(value).join(',')})`]
+        return [...pre, `${Object.values(value)[0]}`]
       })
     })
   },[dataChart.colors])

@@ -1,11 +1,19 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, FC } from 'react';
 import { Button, message, Upload, Modal } from 'antd';
 import IconMovie from "../../assets/icon/IconMovie";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
 import { getToken } from "../../libs/common";
 import type { UploadProps } from 'antd';
 
-const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , addDataContent}) => {
+interface IUploadProps {
+  isModalVideoVisible: boolean,
+  setIsModalVideoVisible: () => void,
+  addData?: () => void,
+  addDataContent?: () => void,
+  type?: string,
+  addUrl?: () => void,
+}
+const UploadVideo: FC<IUploadProps> = ({isModalVideoVisible, setIsModalVideoVisible, addData , addDataContent, type, addUrl}) => {
   const [videoUrl, setVideoUrl] = useState();
   const [isPlay, setIsPlay] = useState(true);
   const handlePlay = () => {
@@ -13,7 +21,7 @@ const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , add
 }
 
   const props: UploadProps = {
-    name: 'media',
+    name: 'upload',
     action: process.env.REACT_APP_API_URL + "/articles/media",
     headers: {
       authorization: "Bearer " + getToken(),
@@ -23,7 +31,7 @@ const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , add
         console.log(info.file, info.fileList);
       }
       if (info.file.status === 'done') {
-        setVideoUrl(info.file.response.data)
+        setVideoUrl(info.file.response.url)
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
@@ -34,25 +42,30 @@ const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , add
         setIsModalVideoVisible(false);
       };
     const handleSubmit = () => {
-      addData({
-        title: "video",
-        lable: (
-          <div className="video-upload">
-                <video 
-                src={videoUrl}
-                loop
-                autoPlay
-                muted
-                controls
-                onClick={handlePlay}
-                />
-                </div>
-          ),
-      })
-      addDataContent({
-        type: "video",
-        data: videoUrl,
-      })
+      if(type){
+        addUrl(videoUrl)
+      }else{
+        addData({
+          title: "video",
+          lable: (
+            <div className="video-upload">
+                  <video 
+                  src={videoUrl}
+                  loop
+                  autoPlay
+                  muted
+                  controls
+                  onClick={handlePlay}
+                  />
+                  </div>
+            ),
+        })
+        addDataContent({
+          type: "video",
+          data: videoUrl,
+        })
+      }
+      
       setIsModalVideoVisible(false);
     };
     return (
@@ -62,12 +75,14 @@ const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , add
         footer={false}
         >
             <div className="modal-title">Video</div>
-            <Upload {...props}>
+            <Upload {...props} maxCount={1}>
             <div className="upload-video-wrapper">
                 <IconMovie/>
                 <div className="upload-video-button">
                     <IconUploadArticle />
-                    <span>Thêm video từ thiết bị</span>
+                    {
+                      type === "image" ? <span>Thêm ảnh từ thiết bị</span> : <span>Thêm video từ thiết bị</span>
+                    }
                 </div>
             </div>
             </Upload>

@@ -1,10 +1,11 @@
 import React from "react";
 import { FC, memo, useRef, useEffect, useState, useMemo } from "react";
-import { Modal, Row, Col, Radio, Button, RadioChangeEvent } from "antd";
+import { Modal, Row, Col, Radio, Button, message } from "antd";
 import EditorWrapper from "./editor/EditorWrapper";
 import { getToken } from "../../libs/common";
 import { Tabs } from 'antd';
-import Logo from "../../assets/icon/Logo"
+import Logo from "../../assets/icon/Logo";
+import UploadVideo from "./UploadVideo";
 
 interface IContentProps {
   isModalContentVisible: boolean | undefined,
@@ -16,17 +17,20 @@ interface IContentProps {
   addData?: (data) => void,
   addDataContent?: (data) => void,
   handlEditContent?: (data) => void,
-  changeDataContent?: (data) => void,
+  changeDataContent?: (i, data) => void,
 }
 const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVisible, addData, handlEditContent, dataContent, addDataContent, changeDataContent}) => {
     const editorRef = useRef();
     const [isMarkdownRender, setIsMarkdownRender] = useState(false);
+    const [isModalUploadVisible, setIsModalUploadVisible] = useState(false);
     const [editorLoaded, setEditorLoaded] = useState(false);
     const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
     const [data, setData] = useState("");
     const [key, setKey] = useState("normal");
     const [keyChange, setKeyChange] = useState("normal");
-    
+    const [typeUpload, setTypeUpload] = useState("");
+    const [urlMedia, setUrlMedia] = useState();
+
     function genHexString(len) {
       const hex = '0123456789ABCDEF';
       let output = '';
@@ -260,6 +264,19 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
       }
       
     }
+    const handleClickButton = (type) => {
+      setTypeUpload(type);
+      setIsModalUploadVisible(true);
+    }
+    const handleSubmitUpload = (url) => {
+      if(typeUpload === "image"){
+        setUrlMedia(`![image](${url})`);
+      }
+    }
+    const handleCopy = () => {
+      navigator.clipboard.writeText(urlMedia);
+      message.success(`Sao chép thành công`);
+    }
   return (
     <Modal
         visible={isModalContentVisible}
@@ -286,6 +303,7 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
                 </div>
             </div>
       </Modal>
+      <UploadVideo isModalVideoVisible = {isModalUploadVisible} setIsModalVideoVisible={setIsModalUploadVisible} type={typeUpload} addUrl={handleSubmitUpload}/>
     <div className = "editor-content-wrapper">
     <Tabs onChange = {handleChangeTabs} activeKey={key}>
     <Tabs.TabPane tab="Trình soạn thảo văn bản" key="normal" >
@@ -300,6 +318,27 @@ const Content: FC<IContentProps> = ({isModalContentVisible, setIsModalContentVis
         }}>
       {editorLoaded ? (
         <>
+        <div className = "editor-buttons">
+          <div className="button upload-image" onClick={() => handleClickButton("image")}>
+            Thêm hình ảnh
+          </div>
+        </div>
+        {
+          urlMedia && (
+            <div className = "editor-code-block">
+              <pre>
+              <code>
+                {
+                  urlMedia
+                }
+              </code>
+              </pre>
+              <div className="copy-button" onClick = {handleCopy}>
+                copy
+              </div>
+            </div>
+          )
+        }
         <div className={`editor-markdown-${id}`}></div>
         </>
       ) : (

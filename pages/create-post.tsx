@@ -449,7 +449,8 @@ const CreatePost = () => {
               <UploadImage handleChangeThumbnail={handleChangeThumbnail} />
             </div>
           </div>
-          <div className="create-post-content-item thumbnail">
+          { reqData?.thumbnail &&
+            <div className="create-post-content-item thumbnail">
             <Image
               src={reqData?.thumbnail}
               width={500}
@@ -457,6 +458,7 @@ const CreatePost = () => {
               layout="responsive"
             />
           </div>
+          }
           <ul onDragOver={(e) => e.preventDefault}>
             {data.map(
               (value, index) =>

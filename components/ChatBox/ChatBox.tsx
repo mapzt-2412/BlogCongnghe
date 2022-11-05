@@ -8,11 +8,13 @@ import IconClose from "../../assets/icon/IconClose";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import IconChatBox from "../../assets/icon/IconChatBox";
 import { UserInfo } from '../../pages/_app.js'
+import ModalLogin from "../Header/ModalLogin/ModalLogin";
 
 const socket = io(process.env.REACT_APP_API_URL);
 
 const ChatBox = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);
+  const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);
   const [content, setContent] = useState("");
   const [isShow, setIsShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +35,7 @@ const ChatBox = () => {
   }, [resetScrollEffect, isShow, idReceive, isLoading, dataMessage])
   
   useEffect(() => {
-    if(userInfo){
+    if(userInfo && getToken()){
       if(user.find(value => value.id === userInfo.id)){
         getMessageUser(userInfo);
         setIdReceive(userInfo.id);
@@ -44,7 +46,7 @@ const ChatBox = () => {
         setIdReceive(userInfo.id);
       }
     }
-  },[userInfo])
+  },[userInfo, user])
 
   const sendMessage = () => {
     PropertiesService.createMessage(
@@ -63,7 +65,8 @@ const ChatBox = () => {
   }
 
   useEffect(() => {
-    PropertiesService.getMessage(getToken()).then((data) =>
+    if(getToken()){
+      PropertiesService.getMessage(getToken()).then((data) =>
       {
         setUser(data.data.Data);
         setIdReceive(data.data.Data[0]?.id);
@@ -72,6 +75,8 @@ const ChatBox = () => {
       );
       }
     );
+    }
+    
   }, []);
 
   const getMessageUser = (data) => {
@@ -140,6 +145,15 @@ const ChatBox = () => {
       );
     }
   };
+
+  const handleShowChat = () => {
+    if(getToken()){
+      setIsShow(true)
+    }else{
+      setIsModalLoginVisible(true)
+    }
+    
+  }
   return (
     <>
       {isShow ? (
@@ -188,15 +202,16 @@ const ChatBox = () => {
         </div>
       ) : (
         <>
-        {
-          getToken() !== false
-        &&  
-        <div className="chat-box-hidden" onClick={() => setIsShow(!isShow)}>
+        <div className="chat-box-hidden" onClick={handleShowChat}>
           <IconChatBox />
         </div>
-        }
         </>
       )}
+      <ModalLogin
+          isModalLoginVisible={isModalLoginVisible}
+          setIsModalLoginVisible={setIsModalLoginVisible}
+          tabName={"Login"}
+        />
     </>
   );
 };

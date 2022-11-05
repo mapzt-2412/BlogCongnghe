@@ -106,7 +106,8 @@ class PropertiesService {
         return http.get(`/users/message/${data}` , {headers: {'Authorization': "Bearer " + token}})
     }
     getTopicByScore() {
-        return http.get("/articles?sortBy=score&sortOrder=DESC&limit=4")
+        // return http.get("/articles?sortBy=score&sortOrder=DESC&limit=4")
+        return http.get("/articles?limit=4")
     }
 }
 export default new PropertiesService();

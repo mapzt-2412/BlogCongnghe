@@ -151,3 +151,36 @@
         width: 100%;
     }
 }
+.editor-buttons{
+    display: flex;
+    .button{
+        cursor: pointer;
+        padding: 10px;
+        height: 40px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        border: 1px solid $color--border;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.editor-code-block{
+    position: relative;
+    pre code {
+        overflow: auto;
+        background-color: #eee;
+        border: 1px solid #999;
+        display: block;
+        padding: 20px;
+    }
+    .copy-button{
+        position: absolute;
+        background-color: $color--light;
+        top: 1px;
+        right: 10px;
+        padding: 3px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+}

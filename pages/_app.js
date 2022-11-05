@@ -1,4 +1,4 @@
-import Header from '../components/Header/Header.tsx';
+import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import 'antd/dist/antd.css';
 import '../styles/globals.css';
@@ -9,26 +9,43 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import Head from "next/head";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import ChatBox from '../components/ChatBox/ChatBox';
-import { useState, createContext } from 'react';
+import LoadingPage from '../components/LoadingPage/LoadingPage';
+import { useState, createContext, useEffect } from 'react';
+import { spinnerService } from "../services/spiner.service";
+
 
 export const UserInfo = createContext();
 
 function MyApp({ Component, pageProps }) {
   const [userInfo, setUserInfo] = useState();
-  console.log(userInfo)
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(spinnerService.getData().subscribe((status) => {
+        console.log(status)
+        setIsLoading(status === "start");
+      }))
+}, [])
+  
   return (
     <>
-    <UserInfo.Provider value={{userInfo, setUserInfo}}>
-    <Head>
+    <UserInfo.Provider value={{userInfo, setUserInfo,}}>
+      <Head>
       <link rel="stylesheet" href="path/to/assets/content-styles.css" type="text/css"/>
       </Head>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      <Header/>
-      <ChatBox />
-      <Component {...pageProps}/>
-      <Footer/>
+      {
+      isLoading && <LoadingPage/>
+      }
+      <div className={`wrapper ${isLoading && 'hide'}`}>
+        <Header/>
+        <ChatBox />
+        <Component {...pageProps}/>
+        <Footer/>
+      </div>
       </GoogleOAuthProvider>
-      </UserInfo.Provider>
+    </UserInfo.Provider>
+
+      
     </>
   )
 }
