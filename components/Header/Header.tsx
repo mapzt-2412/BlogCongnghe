@@ -22,7 +22,7 @@ import ChangeTheme from "../ChangeTheme";
 const Header = (props) => {
   const router = useRouter();
   const [data, setData] = useState();
-  const [tab, setTab] = useState("");
+  const [tab, setTab] = useState("Login");
   const [token, setToken] = useState();
   const [theme, setTheme] = useState(getTheme());
   const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);

@@ -4,6 +4,7 @@ import Recommend from "../../components/Home/RightBar/Recommend";
 import Interactive from "../../components/Interactive/Interactive";
 import ListComment from "../../components/Interactive/Comment/ListComment";
 import Image from "next/image";
+import Link from "next/link";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import { Button } from "antd";
 import Path from "../../components/Path";
@@ -144,7 +145,7 @@ const PostDetail = () => {
               <AvatarDefaultSmall />
             )}
           </div>
-          {data?.user.nickname}
+          <Link href={`/${data?.author?.id}`}>{data?.user?.nickname ? data?.user?.nickname : "Người dùng hệ thống" }</Link>
             {
               !data?.isFollow && 
             <Button type="primary" onClick={handleFollow}>
@@ -154,7 +155,7 @@ const PostDetail = () => {
         </div>
         <div className="post-detail-time">
             <span>Ngày đăng: </span>
-            <p>{ data?.createdAt.split("T")[0] }</p>
+            <p>{ data?.updatedAt.split("T")[0] }</p>
         </div>
         <div className="post-detail-time">
             <span>Bình luận: </span>

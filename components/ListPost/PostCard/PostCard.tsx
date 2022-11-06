@@ -10,11 +10,15 @@ import vi from "moment/locale/vi";
 
 interface IPostCardProps {
     data: {
-        image: string;
+        thumbnail: string;
         title: string;
-        author: string;
+        user: {
+            nickname: string;
+        };
         time: string;
         authorImage: string;
+        id: string;
+        updatedAt: string;
     },
     index: number;
     type?: string;
@@ -24,7 +28,7 @@ const PostCard: FC<IPostCardProps> = ({ data, index, type }) => {
     return (
         <div className={'post-card-container ' + (index === 2 ? "right" : "" ) }>
             <div className="post-card-image">
-            <Link href={`/post/${data.id}`}>
+            <Link href={`/post/${data?.id}`}>
                 <Image src={data?.thumbnail} width={280} height={175} layout="responsive" alt='post-image'/>
                 </Link>
             </div>
@@ -43,13 +47,13 @@ const PostCard: FC<IPostCardProps> = ({ data, index, type }) => {
                         <AvatarDefaultSmall/>
                     }
                     </div>
-                    { data?.user.nickname }
+                    { data?.user.nickname ? data?.user.nickname : "Người dùng hệ thống" }
                 </div>
                 <div className="post-time">
                     <IconTimming/>
                     <div className="post-duration">
                         {
-                            moment(data?.createdAt, "YYYYMMDD").locale("vi", vi).fromNow()
+                            moment(data?.updatedAt, "YYYYMMDD").locale("vi", vi).fromNow()
                         }
                     </div>
                 </div>

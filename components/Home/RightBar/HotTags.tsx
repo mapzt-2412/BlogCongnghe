@@ -14,7 +14,7 @@ const HotTags: FC<ITagsProps> = ({ tags }) => {
               {tags?.map((value, index) => (
                 <div className="link tag" key={index}>
                   {
-                    value && <Link href="/">{`#${value}`}</Link>
+                    value && <Link href={`/tags?id=${value.id}`}>{value.name ? `#${value.name}` : `#${value}`}</Link>
                   }
                 </div>
               ))}

@@ -7,7 +7,7 @@ import RightBar from "./RightBar";
 const Recommend = ({ posts }) => {
   return (
     <RightBar title="BÀI VIẾT LIÊN QUAN">
-      {posts.map((value, index) => (
+      {posts?.map((value, index) => (
         <div className={"post-item "} key={index}>
           <span>{index + 1 + "."}</span>
           <div className="post-title">

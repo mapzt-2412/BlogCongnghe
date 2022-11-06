@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect, useCallback } from "react";
 import { Input } from "antd";
 import { color } from "../../../libs/commonConstants";
 
-const MatrixTable = ({ col, row, setRow, setCol, setData, data }) => {
+const MatrixTable = ({ col, row, setRow, setCol, setData, data, typeChart }) => {
   const [dataTable, setDataTable] = useState(data?.dataTables);
   const [dataset, setDataset] = useState(data?.datasets);
   const [lable, setLable] = useState(data?.lables);
@@ -22,16 +22,23 @@ const MatrixTable = ({ col, row, setRow, setCol, setData, data }) => {
 
   useEffect(() => {
     let colorChart = [];
-    for (let i = 0; i < col; i++) {
-      colorChart.push(color[i]);
+    if(typeChart === "pie-chart" || typeChart === "doughnut-chart"){
+      for (let i = 0; i < row; i++) {
+        colorChart.push(color[i]);
+      }
+    }else{
+      for (let i = 0; i < col; i++) {
+        colorChart.push(color[i]);
+      }
     }
+    
     setData((pre) => {
       return {
         ...pre,
         colors: colorChart,
       };
     });
-  }, [col]);
+  }, [col, setData]);
 
   const renderCol = (length, index) => {
     let data = [];

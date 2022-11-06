@@ -210,7 +210,24 @@ const CreatePost = () => {
   };
   const addDataContent = (data) => {
     setDataContent((pre) => [...pre, data]);
-  };
+  }
+  
+  const changeDataContent = (i, data) => {
+    const dataValue = dataContent.findIndex((value) => value?.data.key === i);
+    console.log(dataValue)
+    if(dataValue !== -1){
+        let arr = dataContent;
+        arr[dataValue] = {
+          data: data.data,
+          type: data.type,
+        }
+      setDataContent(arr);
+    }
+    else{
+      setDataContent((pre) => [...pre, data]);
+    }
+  }
+  
   useEffect(() => {
     setReqData({
       ...reqData,
@@ -372,6 +389,7 @@ const CreatePost = () => {
           setIsModalContentVisible={setIsModalContentVisible}
           addData={addData}
           addDataContent={addDataContent}
+          changeDataContent={changeDataContent}
         />
         <UploadVideo
           isModalVideoVisible={isModalVideoVisible}
@@ -463,7 +481,8 @@ const CreatePost = () => {
               <UploadImage handleChangeThumbnail={handleChangeThumbnail} />
             </div>
           </div>
-          <div className="create-post-content-item thumbnail">
+          { reqData?.thumbnail &&
+            <div className="create-post-content-item thumbnail">
             <Image
               src={reqData?.thumbnail}
               width={500}
@@ -471,6 +490,7 @@ const CreatePost = () => {
               layout="responsive"
             />
           </div>
+          }
           <ul onDragOver={(e) => e.preventDefault}>
             {data.map(
               (value, index) =>

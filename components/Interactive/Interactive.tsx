@@ -98,7 +98,6 @@ const Interactive = ({dataInteractive , id }) => {
       alert("Báo cáo thành công");
       handleCancel();
     })
-    
   }
   return (
     <div className="interactive-container">

@@ -2,12 +2,13 @@ import React, { memo, useState, useEffect, useContext } from 'react';
 import Path from "../components/Path";
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { Rate, Menu } from 'antd';
+import { Rate, Menu, Button } from 'antd';
 import AvatarDefaultSmall from "../assets/icon/AvatarDefaultSmall";
 import ListPost from "../components/ListPost/ListPost";
 import PropertiesService from "../services/properties.service";
-import { getToken } from "../libs/common";
+import { getToken, getId } from "../libs/common";
 import Follower from '../components/Follower/Follower';
+import ModalReport from '../components/ModalReport/ModalReport';
 import { UserInfo } from './_app.js';
 import { ROUTE_HOME } from '../libs/constants';
 
@@ -18,8 +19,26 @@ const Profile = (props) => {
     const [token, setToken] = useState();
     const [data, setData] = useState();
     const [listPost, setListPost] = useState();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [reportContent, setReportContent] = useState("");
     const [key, setKey] = useState("1");
+    const [placement, SetPlacement] = useState('');
 
+    const placementChange = (e: RadioChangeEvent) => {
+        SetPlacement(e.target.value);
+      };
+
+    const handleChangeInput = (e) => {
+        setReportContent(e.target.value);
+    };
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
     useEffect(() => {
         if(getToken()){
           setToken(getToken())
@@ -41,7 +60,12 @@ const Profile = (props) => {
         }
     },[token, id])
 
-
+    const handleReport = () => {
+        PropertiesService.sendReportUser({userBeingReport: id, description: reportContent, type: placement}, getToken()).then((data) => {
+          alert("Báo cáo thành công");
+          handleCancel();
+        })
+      }
     const handleClick = (key) => {
         setKey(key.key);
       };
@@ -96,7 +120,7 @@ if(getToken()===false) {
         <div className="medium-container">
             <Path data={{ title: ["Trang cá nhân"], content: data?.username}}/>
             <div className="profile-user-info">
-                <div className="profile-user-info-avatar" onClick={handleOpenChatBox}>
+                <div className="profile-user-info-avatar" >
                 {
                     props.avatar ? 
                     <Image src={ props.avatar } width={104} height={104} layout="responsive" alt="avatar"/> :
@@ -104,6 +128,13 @@ if(getToken()===false) {
 
                 }
                 </div>
+                {
+                    id !== getId() && <div className='profile-user-button'>
+                        <Button onClick={handleOpenChatBox}>Nhắn tin</Button>
+                        <Button onClick={showModal}>Báo cáo người dùng</Button>
+                        <ModalReport isModalOpen={isModalOpen} handleCancel={handleCancel} handleReport={handleReport} reportContent={reportContent} handleChangeInput={handleChangeInput} placement={placement} placementChange={placementChange}/>
+                    </div>
+                }
                 <p>{data?.username}</p>
                 <Rate defaultValue={value} disabled={true} />
                 <div className="profile-user-contact">

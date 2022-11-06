@@ -1,9 +1,10 @@
 import React from "react";
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import IconInform from './../../../assets/icon/IconInform';
 import IconWarning from './../../../assets/icon/IconWarning';
 import Link from 'next/link';
 import Marquee from "react-fast-marquee";
+import PropertiesService from "../../../services/properties.service";
 
 const hotNews = [
     "Triển lãm di động toàn cầu MWC 2022",
@@ -11,6 +12,10 @@ const hotNews = [
     "Netflix có kế hoạch mua lại Next Games, trị giá khoảng 71 triệu USD",
 ]
 const HotNews = () => {
+    const [data, setData] = useState();
+    useEffect(()=>{
+        PropertiesService.getArticlesByTopic("News").then((data) => setData(data.data.data))
+    },[])
     return (
         <div className="hotnews-container">
             <div className="hotnews-title">
@@ -20,10 +25,10 @@ const HotNews = () => {
             <div className="hotnews-contents">
                 <Marquee>
                     {
-                        hotNews.map((value)=> (
-                            <div className="hotnews-content" key={value}>
+                        data?.map((value, index)=> (
+                            <div className="hotnews-content" key={index}>
                                 <IconWarning/>
-                                <Link href={"/"}>{value}</Link>
+                                <Link href={"/"}>{value.title}</Link>
                             </div>
                         ))
                     }

@@ -19,7 +19,7 @@ import {
 } from "antd";
 import ChartWrapper from "./Chart/ChartWrapper";
 import IconAreaChart from "./../../assets/icon/IconAreaChart";
-import IconBubbleChart from "./../../assets/icon/IconBubbleChart";
+import IconPieChart from "./../../assets/icon/IconPieChart";
 import IconLineChart from "./../../assets/icon/IconLineChart";
 import IconDoughnutChart from "./../../assets/icon/IconDoughnutChart";
 import IconBarChartHorizontal from "./../../assets/icon/IconBarChartHorizontal";
@@ -39,13 +39,12 @@ interface IChartProps {
   isEdit?: boolean;
 }
 
-const options = [
-  { label: <IconAreaChart />, value: "area-chart" },
-  { label: <IconBarChart />, value: "bar-chart" },
-  { label: <IconBubbleChart />, value: "bubble-chart" },
-  { label: <IconLineChart />, value: "line-chart" },
-  { label: <IconDoughnutChart />, value: "doughnut-chart" },
-];
+// const options = [
+//   { label: <IconAreaChart />, value: "area-chart" },
+//   { label: <IconBarChart />, value: "bar-chart" },
+//   { label: <IconLineChart />, value: "line-chart" },
+//   { label: <IconDoughnutChart />, value: "doughnut-chart" },
+// ];
 
 const Chart: FC<IChartProps> = ({
   isModalChartVisible,
@@ -187,11 +186,11 @@ const Chart: FC<IChartProps> = ({
                     <Col span={4}>
                       <div
                         className={`type-item ${
-                          typeChart === "bubble-chart" && "active"
+                          typeChart === "pie-chart" && "active"
                         }`}
-                        onClick={() => onChangeType("bubble-chart")}
+                        onClick={() => onChangeType("pie-chart")}
                       >
-                        <IconBubbleChart />
+                        <IconPieChart />
                       </div>
                     </Col>
                     <Col span={4}>
@@ -229,13 +228,6 @@ const Chart: FC<IChartProps> = ({
               </>
             )}
             {page === 2 && (
-              // <TableData
-              //   setData={setData}
-              //   data={data}
-              //   typeChart={typeChart}
-              //   isOK={isOK}
-              //   isEdit={isEdit}
-              // />
               <MatrixTable
                 col={col}
                 row={row}
@@ -243,6 +235,7 @@ const Chart: FC<IChartProps> = ({
                 setRow={setRow}
                 setData={setData}
                 data={data}
+                typeChart={typeChart}
               />
             )}
             {page === 3 && (
