@@ -13,7 +13,7 @@ const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , add
 }
 
   const props: UploadProps = {
-    name: 'media',
+    name: 'upload',
     action: process.env.REACT_APP_API_URL + "/articles/media",
     headers: {
       authorization: "Bearer " + getToken(),
@@ -23,7 +23,7 @@ const UploadVideo = ({isModalVideoVisible, setIsModalVideoVisible, addData , add
         console.log(info.file, info.fileList);
       }
       if (info.file.status === 'done') {
-        setVideoUrl(info.file.response.data)
+        setVideoUrl(info.file.response.url)
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);

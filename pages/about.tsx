@@ -9,7 +9,8 @@ const About = () => {
     const [active, setActive] = useState([1])
     const handleClick = (page) => {
         setLoading(true);
-        setTimeout(() => setPage(page), 1000)
+        // setTimeout(() => setPage(page), 1000)
+        setPage(page)
     }
     useEffect(() => {
         setLoading(false)
@@ -31,15 +32,15 @@ const About = () => {
                 }
             </div>
             
-            <div className={`about-item page${2} ${loading && "hidden"}`} onClick={() => handleClick(2)}>
+            <div className={`about-item page${2} ${loading && "hidden"}`}>
                 <p>2</p>
                 <Image src={"/about2.png"} layout="responsive" width={341} height={450} alt='about'/>
             </div>
-            <div className={`about-item page${3} ${loading && "hidden"}`} onClick={() => handleClick(3)}>
+            <div className={`about-item page${3} ${loading && "hidden"}`}>
                 <p>3</p>
                 <Image src={"/about3.png"} layout="responsive" width={341} height={450} alt='about'/>
             </div>
-            <div className={`about-item page${4} ${loading && "hidden"}`} onClick={() => handleClick(4)}>
+            <div className={`about-item page${4} ${loading && "hidden"}`}>
                 <p>4</p>
                 <Image src={"/about4.png"} layout="responsive" width={341} height={450} alt='about'/>
             </div>

@@ -8,7 +8,6 @@ class PropertiesService {
         return http.post("/auth/sign-up", JSON.stringify(data))
     }
     getProfile(token){
-        console.log(token)
         return http.get("/users/info", {headers: {'Authorization': "Bearer " + token}})
     }
     getUserInfo(data, token){
@@ -34,6 +33,9 @@ class PropertiesService {
     }
     getDraftByUser(token){
         return http.get("/drafts", {headers: {'Authorization': "Bearer " + token}})
+    }
+    getStory(token){
+        return http.get("/articles/story",{headers: {'Authorization': "Bearer " + token}})
     }
     createVideo(data, token){
         return http.post("/articles/media", {headers: {'Authorization': "Bearer " + token}}, JSON.stringify(data))
@@ -110,4 +112,5 @@ class PropertiesService {
         return http.get(`/users/message/${data}` , {headers: {'Authorization': "Bearer " + token}})
     }
 }
+
 export default new PropertiesService();

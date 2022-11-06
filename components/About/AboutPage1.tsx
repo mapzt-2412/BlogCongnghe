@@ -37,11 +37,15 @@ const AboutPage1 = ({page, setPage}) => {
                         }
                         </p>
                         {
-                            page !== 4 && 
+                            page !== 4 ? 
                             (
                                 <div className="about-next-button" onClick={() => setPage(page + 1)}>
                                     <p>Tiếp tục</p>
                                 </div>      
+                            ):(
+                                <div className="about-next-button" onClick={() => setPage(0)}>
+                                    <p>Trở về trang giới thiệu</p>
+                                </div>
                             )
                         }
                     </div>
