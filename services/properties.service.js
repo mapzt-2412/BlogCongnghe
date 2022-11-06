@@ -1,4 +1,4 @@
-import http from './http-common';
+import http, { instanceNoSpiner } from './http-common';
 
 class PropertiesService {
     login(data) {
@@ -8,7 +8,6 @@ class PropertiesService {
         return http.post("/auth/sign-up", JSON.stringify(data))
     }
     getProfile(token){
-        console.log(token)
         return http.get("/users/info", {headers: {'Authorization': "Bearer " + token}})
     }
     getUserInfo(data, token){
@@ -42,13 +41,13 @@ class PropertiesService {
         return http.post("/articles/create-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
     createDraft(data,token){
-        return http.post("/drafts/create-draft", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+        return instanceNoSpiner.post("/drafts/create-draft", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
     updateArticle(data,token){
         return http.patch("/articles/update-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
     updateDraft(data,token){
-        return http.put("/drafts/update-draft", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+        return instanceNoSpiner.put("/drafts/update-draft", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
     deleteArticle(data,token){
         return http.delete("/articles/delete-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
@@ -67,10 +66,10 @@ class PropertiesService {
         
     }
     likeArticle(data, token){
-        return http.post(`/users/interactive`, JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}} )
+        return instanceNoSpiner.post(`/users/interactive`, JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}} )
     }
     commentArticle(data, token){
-        return http.post(`/users/comment`, JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}} )
+        return instanceNoSpiner.post(`/users/comment`, JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}} )
     }
     getComment(id){
         return http.get(`/articles/${id}/comment`)
@@ -97,7 +96,7 @@ class PropertiesService {
         return http.get(`/articles?searchKeyword=${keyword}`)
     }
     createMessage(data, token) {
-        return http.post(`/users/message`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
+        return instanceNoSpiner.post(`/users/message`, JSON.stringify(data) ,  {headers: {'Authorization': "Bearer " + token}})
     }
     getMessage(token) {
         return http.get(`/users/messag-users`,  {headers: {'Authorization': "Bearer " + token}})

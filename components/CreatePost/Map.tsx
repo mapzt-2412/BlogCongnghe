@@ -1,13 +1,17 @@
-import React, { useState, useRef, useCallback } from "react";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import React, { useState, useRef, useCallback, memo } from "react";
 import { render } from "react-dom";
 import MapGL from "react-map-gl";
-import Geocoder from "react-map-gl-geocoder";
+import Geocoder from 'react-mapbox-gl-geocoder';
+import Input from 'antd';
 
 // Please be a decent human and don't abuse my Mapbox API token.
 // If you fork this sandbox, replace my API token with your own.
 // Ways to set Mapbox token: https://uber.github.io/react-map-gl/#/Documentation/getting-started/about-mapbox-tokens
-const MAPBOX_TOKEN =
-  "pk.eyJ1IjoidG9hbnZvMjQxMiIsImEiOiJjbDgyb3Y2eGUwNnFiM3Bxa2d6dDA0YWpqIn0.zg3KoQGnQ-yDEsTmyoQAgg";
+const mapAccess = {
+    mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_API_ACCESS_TOKEN
+}
 
 const Map = () => {
   const [viewport, setViewport] = useState({
@@ -17,7 +21,11 @@ const Map = () => {
   });
   const mapRef = useRef();
   const handleViewportChange = useCallback(
-    (newViewport) => setViewport(newViewport),
+    (newViewport) =>{
+        if(newViewport){
+            setViewport(newViewport)
+        }
+    },
     []
   );
 
@@ -34,25 +42,26 @@ const Map = () => {
     [handleViewportChange]
   );
 
+  const queryParams = {
+    country: 'vn',
+    language: 'vn'
+}
+const mapStyle = {
+    width: '100%',
+    height: 600
+}
   return (
-    <div style={{ height: "500px" }}>
-      <MapGL
-        ref={mapRef}
-        {...viewport}
-        width="100%"
-        height="100%"
-        onViewportChange={handleViewportChange}
-        mapboxApiAccessToken={MAPBOX_TOKEN}
-      >
+    <div style={{ height: "100vh" }}>
         <Geocoder
-          mapRef={mapRef}
-          onViewportChange={handleGeocoderViewportChange}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-          position="top-left"
-        />
-      </MapGL>
+                    {...mapAccess} onSelected={handleViewportChange} viewport={viewport} hideOnSelect={true}
+                    queryParams={queryParams} initialInputValue={""}
+                    
+                />
+        <MapGL
+                    {...mapAccess} {...viewport} {...mapStyle}
+                    onViewportChange={(newViewport) => setViewport(newViewport)}
+                />
     </div>
   );
 };
-export default Map;
-
+export default memo(Map)

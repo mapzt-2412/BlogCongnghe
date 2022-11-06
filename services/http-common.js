@@ -9,6 +9,14 @@ const instance = axios.create({
     },
 });
 
+export const instanceNoSpiner = axios.create({
+  // baseURL: process.env.REACT_APP_API_URL,
+  baseURL: process.env.REACT_APP_API_URL,
+  headers: {
+    "Content-type": "application/json",
+  },
+});
+
 instance.interceptors.request.use(
   function (config) {
     spinnerService.requestStarted();
