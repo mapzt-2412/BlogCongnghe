@@ -7,6 +7,17 @@
     }
     .ant-col-16{
         padding-right: 18px;
+        @media screen and (max-width: 768px) {
+            max-width: 100%;
+            padding-right: 0;
+        }
+    }
+    .ant-col-8 {
+        @media screen and (max-width: 768px) {
+            // display: block;
+            max-width: 100%;
+            flex: none;
+        }
     }
     .slick-dots{
         li{
@@ -16,6 +27,10 @@
                 height: 12px;
                 border-radius: 100%;
                 background: $color--yellow;
+                @media screen and (max-width: 768px) {
+                    width: 8px;
+                    height: 8px;
+                }
             }
         }
         li.slick-active{
@@ -56,7 +71,7 @@
 .carousel-item{
     height: 480px;
     .carousel-title{
-        position: absolute;
+        position: relative;
         display: flex;
         align-items: center;
         width: 100%;
@@ -73,7 +88,16 @@
             max-width: 75ch;
             text-overflow: ellipsis;
             color: $color--light;
+            @media screen and (max-width: 768px) {
+                font-size: 12px;
+            }
         }
+        @media screen and (max-width: 768px) {
+            height: 48px;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        height: 225px;
     }
 }
 .link{

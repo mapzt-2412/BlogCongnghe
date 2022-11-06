@@ -1,6 +1,9 @@
 .about-item{
     cursor: pointer;
     width: 25%;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+      }
 }
 .full-screen-container{
     display:flex;
@@ -9,8 +12,11 @@
         margin-left: 48px;
         position: absolute;
         color: $color--light;
-        z-index: 100;
+        z-index: 1;
     }
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
 }
 .about-container{
     width: 100%;
@@ -29,17 +35,26 @@
         background: $color--orange1;
     }
 }
+.about-item.page2 {
+    cursor: no-drop;
+}
 .about-container.page3{
     border-bottom: 8px solid $color--pink;
     .about-right{
         background: $color--pink;
     }
 }
+.about-item.page3 {
+    cursor: no-drop;
+}
 .about-container.page4{
     border-bottom: 8px solid $color--blue1;
     .about-right{
         background: $color--blue1;
     }
+}
+.about-item.page4 {
+    cursor: no-drop;
 }
 .about-left{
     padding: 50px 68px;
@@ -64,19 +79,20 @@
 .about-button-pre{
     cursor: pointer;
 }
-.about-item.page1.show{
-    background: $color--orange;
-    position: relative;
-    animation-name: page1;
-    animation-duration: 1s;
-}
+// .about-item.page1.show{
+//     background: $color--orange;
+//     position: relative;
+    // animation-name: page1;
+    // animation-duration: 1s;
+//     width: 100%;
+// }
 .hidden{
     visibility: hidden;
 }
-@keyframes page1 {
-    from {left:0px;}
-    to {left:65%;}
-  }
+// @keyframes page1 {
+//     from {left:0px;}
+//     to {left:65%;}
+//   }
 
 .unactive{
     cursor: not-allowed;

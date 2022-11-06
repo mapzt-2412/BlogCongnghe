@@ -34,6 +34,9 @@ class PropertiesService {
     getDraftByUser(token){
         return http.get("/drafts", {headers: {'Authorization': "Bearer " + token}})
     }
+    getStory(token){
+        return http.get("/articles/story",{headers: {'Authorization': "Bearer " + token}})
+    }
     createVideo(data, token){
         return http.post("/articles/media", {headers: {'Authorization': "Bearer " + token}}, JSON.stringify(data))
     }
@@ -50,7 +53,7 @@ class PropertiesService {
         return instanceNoSpiner.put("/drafts/update-draft", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
     deleteArticle(data,token){
-        return http.delete("/articles/delete-article", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+        return http.delete("/articles/delete-article", {data:JSON.stringify(data) , headers: {'Authorization': "Bearer " + token}})
     }
     deleteDraft(data,token){
         return http.delete("/drafts/delete-draft", {data:JSON.stringify(data) , headers: {'Authorization': "Bearer " + token}})
@@ -63,6 +66,13 @@ class PropertiesService {
             return http.get(`/articles/${id}`, {headers: {'Authorization': "Bearer " + token}})
         }
         return http.get(`/articles/${id}`)
+        
+    }
+    getDraftById(id, token){
+        if(token){
+            return http.get(`/drafts/${id}`, {headers: {'Authorization': "Bearer " + token}})
+        }
+        return http.get(`/drafts/${id}`)
         
     }
     likeArticle(data, token){
@@ -109,4 +119,5 @@ class PropertiesService {
         return http.get("/articles?limit=4")
     }
 }
+
 export default new PropertiesService();

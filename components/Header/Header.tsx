@@ -43,7 +43,9 @@ const Header = (props) => {
         setData(data.data.data)
       );
     }
+  }, []);
 
+  useEffect(() => {
     if (typeof window !== undefined) {
       if (window.innerWidth <= 768) {
         setIsMobile(true);
@@ -58,7 +60,7 @@ const Header = (props) => {
         }
       });
     }
-  }, []);
+  },[]);
 
   const onChangeTheme = (theme) => {
     saveTheme(theme);
@@ -210,6 +212,7 @@ const Header = (props) => {
         token={token}
         toggleModal={toggleModal}
         isShowMenuMobile={isShowMenuMobile}
+        setIsShowMenuMobile={setIsShowMenuMobile}
         isMobile={isMobile}
       />
       <HotNews />

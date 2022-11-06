@@ -38,12 +38,11 @@ const Dashboard = () => {
         setDataBookmark(data.data.data)
       );
       PropertiesService.getDraftByUser(token).then((data) =>
-      setDataDraft(data.data.data)
+        setDataDraft(data.data.data)
       );
     }
   }, [token]);
 
-  // useEffect(() => {},[])
 
   const onChange = (key: string) => {
     setKey(key);
@@ -76,10 +75,15 @@ const Dashboard = () => {
 
         <div className="profile-list-post">
           {key === "1" && (
-            <ListPost data={dataDraft} id={"Bài viết nháp"} type={"dashboard"} />
+            <ListPost
+              data={dataDraft}
+              id={"Bài viết nháp"}
+              type={"dashboard-draft"}
+              setData={setDataDraft}
+            />
           )}
           {key === "2" && (
-            <ListPost data={data} id={"Bài viết đã đăng"} type={"dashboard"} />
+            <ListPost data={data} id={"Bài viết đã đăng"} type={"dashboard-article"} setData={setData} />
           )}
           {key === "4" && <DashboardInfo />}
           {key === "5" && <DashboardPassword />}

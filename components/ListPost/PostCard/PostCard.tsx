@@ -35,7 +35,9 @@ const PostCard: FC<IPostCardProps> = ({ data, index, type }) => {
             <div className="post-title">
                 <p> { SliceString(data?.title,stringLengthTitle) } </p>
             </div>
-            <div className="post-author">
+            {
+                data?.user && <>
+                    <div className="post-author">
                 <div className="post-author-profile">
                     <div className="post-author-avatar"> 
                     {
@@ -57,6 +59,9 @@ const PostCard: FC<IPostCardProps> = ({ data, index, type }) => {
                 </div>
                 
             </div>
+                </>
+            }
+            
         </div>
     )
 }

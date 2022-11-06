@@ -34,7 +34,34 @@
             }
         }
     }
+    .header-button {
+        @media screen and (min-width: 768px) {
+            display: none;
+        }
+        @media screen and (max-width: 768px) {
+            display: inline-flex;
+            // justify-content: end;
+        }
+    }
+    .header-login {
+        border-right: 1px solid $color--border;
+        padding-right: 16px;
+        .icon-signin-mobile {
+            margin-right: 8px;
+        }
+      }
     
+    .header-register {
+        margin-left: 8px;
+        .icon-signup-mobile {
+            margin-right: 8px;
+        }
+    }
+    .header-logout {
+        @media screen and (min-width: 768px) {
+            display: none;
+        }
+    }
 }
 
 .navbar-container-mobile{
@@ -44,11 +71,24 @@
     background: linear-gradient(90deg, #234b86, #017389);
     color: #ffffff;
     top: 0;
-    width: 100vw;
+    width: 80vw;
     z-index: 100;
     padding: 50px;
     height: 100vh;
     transition: 0.5s;
+    // transform: translateX(-100%);
+    .icon-close-menu-mobile {
+        justify-content: end;
+        font-size: large;
+        margin-bottom: 24px;
+    }
+    .navbar-title.active {
+        color: $color--yellow;
+        background: none
+    }
+    .menu-mobile-footer {
+        margin-bottom: 28px;
+    }
 }
 
 .dropdown-navbar-item{

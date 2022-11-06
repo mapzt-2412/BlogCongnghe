@@ -80,7 +80,8 @@ const data = [
 //   setIsModalLoginVisible: (data) => void;
 //   tabName: string;
 // }
-const newsFeeds = () => {
+const NewsFeeds = () => {
+  // const [data, setData] = useState();
 //   const [tab, setTab] = useState("Login");
 //   const [token, setToken] = useState();
 //   const handleOk = () => {
@@ -111,6 +112,14 @@ const newsFeeds = () => {
 //       );
 //     }
 //   }, [token]);
+
+useEffect(() => {
+  PropertiesService.getStory(getToken()).then((data) =>
+        console.log(data.data.data)
+      );
+},[])
+
+
 const router = useRouter();
 if(getToken()===false) {
   router.push(ROUTE_HOME);
@@ -148,4 +157,4 @@ if(getToken()===false) {
     </>
   );
 };
-export default memo(newsFeeds);
+export default memo(NewsFeeds);
