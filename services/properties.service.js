@@ -118,6 +118,9 @@ class PropertiesService {
         // return http.get("/articles?sortBy=score&sortOrder=DESC&limit=4")
         return http.get("/articles?limit=4")
     }
+    verifyAccount(token){
+        return http.get(`/auth/verify/${token}` , null)
+    }
 }
 
 export default new PropertiesService();
