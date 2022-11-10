@@ -36,13 +36,13 @@ const findValueBykey = (obj, key) => {
 
   const setDatasetFunction = useCallback(() => {
     const newDataset = [];
-    Object.values(dataChart.datasets).map((value,index) => {
+    Object.values(dataChart?.datasets).map((value,index) => {
       newDataset.push(
         {
           label: value,
-          data: findValueBykey(dataChart.dataTables, `input${index + 1}`),
-          borderColor: dataChart.colors[index].border,
-          backgroundColor: dataChart.colors[index].background,
+          data: findValueBykey(dataChart?.dataTables, `input${index + 1}`),
+          borderColor: dataChart?.colors[index].border,
+          backgroundColor: dataChart?.colors[index].background,
         }
       )
     }
@@ -61,14 +61,14 @@ const findValueBykey = (obj, key) => {
       },
       title: {
         display: true,
-        text: dataChart.chartName,
+        text: dataChart?.chartName,
       },
     },
   };
 
   
   const data = {
-    labels: Object.values(dataChart.lables),
+    labels: Object.values(dataChart?.lables),
     datasets: dataset,
   }
   return <Line options={options} data={data} />;

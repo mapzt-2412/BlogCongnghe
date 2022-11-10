@@ -20,11 +20,11 @@ const DoughnutChart = ({ dataChart }) => {
 
   useEffect(() => {
     const newDataset = [];
-    Object.values(dataChart.datasets).map((value,index) => {
+    Object.values(dataChart?.datasets).map((value,index) => {
       newDataset.push(
         {
           label: value,
-          data: findValueBykey(dataChart.dataTables, `input${index + 1}`),
+          data: findValueBykey(dataChart?.dataTables, `input${index + 1}`),
           borderColor: colors,
           backgroundColor: colors,
         }
@@ -32,18 +32,18 @@ const DoughnutChart = ({ dataChart }) => {
     }
   )
     setDataset(newDataset);
-  },[colors, dataChart.dataTables, dataChart.datasets])
+  },[colors, dataChart?.dataTables, dataChart?.datasets])
 
   useEffect(() => {
-    Object.values(dataChart.colors).map((value,index) => {
+    Object.values(dataChart?.colors).map((value,index) => {
       setColors(pre => {
         return [...pre, `${Object.values(value)[0]}`]
       })
     })
-  },[dataChart.colors])
+  },[dataChart?.colors])
   
   const data = {
-    labels: Object.values(dataChart.lables),
+    labels: Object.values(dataChart?.lables),
     datasets: dataset,
   }
   return <Doughnut data={data} />;

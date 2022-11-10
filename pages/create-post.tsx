@@ -32,6 +32,7 @@ import AreaChart from "../components/CreatePost/Chart/AreaChart";
 import { getToken } from "../libs/common";
 import Router, { useRouter } from "next/router";
 import Image from "next/image";
+import ChartWrapper from "../components/CreatePost/Chart/ChartWrapper";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -120,7 +121,6 @@ const CreatePost = () => {
   }, [reqData]);
 
   useEffect(() => {
-    console.log(isCreateDraft)
     
        const countInterval = setInterval(() => {
         if (isCreateDraft === true && draftID && post === undefined) {
@@ -136,61 +136,62 @@ const CreatePost = () => {
     PropertiesService.getTopics().then((data) => setTopic(data.data.data));
     PropertiesService.getTags().then((data) => setTag(data.data.data));
   }, []);
+
+  const setEditData = (data) => {
+      setReqData((pre) => {
+        return {
+          ...pre,
+          articleId: +post,
+          topicId: data.data.data?.topic?.id,
+          tags: data.data.data?.tags,
+          thumbnail: data.data.data?.thumbnail,
+          title: data.data.data?.title,
+          description: data.data.data?.description,
+          content: data.data.data?.content,
+        }
+      });
+      if (data.data.data.content) {
+        JSON.parse(data.data.data.content).map((value) => {
+          if (value?.type === "content") {
+            addData({
+              title: "Nội dung",
+              lable: <EditorWrapper dataContent={value?.data} />,
+            });
+          }else if (value?.type === "video") {
+            addData({
+              title: "video",
+              lable: (
+                <div className="video-upload">
+                      <video 
+                      src={value?.data}
+                      loop
+                      autoPlay
+                      muted
+                      controls
+                      />
+                      </div>
+                ),
+            });
+          }else if  (value?.type === "chart"){
+            addData({
+              lable: (
+                <ChartWrapper type={value.data.typeChart} dataTable={value.data} isTable={false} />
+              ),
+              title: "Biểu đồ",
+            })
+          }
+        });
+      }
+      setDataContent(data.data.data);
+  }
+  console.log(dataContent)
   useEffect(() => {
     if (post) {
-      PropertiesService.getArticleById(post, getToken()).then((data) => {
-        setReqData({
-          ...reqData,
-          articleId: +post,
-          topicId: data.data.data.topic.id,
-          tags: data.data.data.tags,
-          thumbnail: data.data.data.thumbnail,
-          title: data.data.data.title,
-          description: data.data.data.description,
-          content: data.data.data.content,
-        });
-        if (data.data.data.content) {
-          JSON.parse(data.data.data.content).map((value) => {
-            if (value?.type === "content") {
-              addData({
-                title: "Nội dung",
-                lable: <EditorWrapper dataContent={value?.data} />,
-              });
-            }
-          });
-        }
-      });
+      PropertiesService.getArticleById(post, getToken()).then((data) => setEditData(data));
     } else if(draft) {
-      PropertiesService.getDraftById(draft, getToken()).then((data) => {
-        setReqData({
-          ...reqData,
-          draftId: +draft,
-          topicId: data.data.data.topic?.id,
-          tags: data.data.data.tags,
-          thumbnail: data.data.data.thumbnail,
-          title: data.data.data.title,
-          description: data.data.data.description,
-          content: data.data.data.content,
-        });
-        if (data.data.data?.content) 
-        {JSON.parse(data.data.data?.content).map((value) => {
-            if (value?.type === "content") {
-              addData({
-                title: "Nội dung",
-                lable: <EditorWrapper dataContent={value?.data} />,
-              });
-            }
-          });
-        }
-      });
+      PropertiesService.getDraftById(draft, getToken()).then((data) => setEditData(data));
     }
-  }, [post, draft, reqData]);
-  // const router = useRouter();
-  // useEffect (()=>{
-
-  //   return () => {showModalConfirm();
-  //   console.log("ngu");}
-  // },[])
+  }, [post, draft]);
 
   const handleSubmit = (data) => {
     if (post) {

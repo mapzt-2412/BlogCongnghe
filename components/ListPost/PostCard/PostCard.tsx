@@ -29,7 +29,7 @@ const PostCard: FC<IPostCardProps> = ({ data, index, type }) => {
         <div className={'post-card-container ' + (index === 2 ? "right" : "" ) }>
             <div className="post-card-image">
             <Link href={`/post/${data?.id}`}>
-                <Image src={data?.thumbnail} width={280} height={175} layout="responsive" alt='post-image'/>
+                <Image src={data?.thumbnail !== "story" ? data?.thumbnail : "/"} width={280} height={175} layout="responsive" alt='post-image'/>
                 </Link>
             </div>
             <div className="post-title">

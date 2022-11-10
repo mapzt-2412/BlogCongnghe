@@ -25,8 +25,8 @@ class PropertiesService {
     getArticleByUser(token){
         return http.get("/users/my-articles", {headers: {'Authorization': "Bearer " + token}})
     }
-    getArticlesByTopic(name){
-        return http.get(`/articles?topic=${name}`)
+    getArticlesByTopic(name, param){
+        return http.get(`/articles?topic=${name}&${param}`)
     }
     get3ArticlesByTopic(name){
         return http.get(`/articles?topic=${name}&limit=3`)

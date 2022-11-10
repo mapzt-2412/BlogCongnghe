@@ -12,6 +12,11 @@ import PropertiesService from "../../services/properties.service";
 import { useRouter } from 'next/router';
 import AreaChart from "../../components/createPost/Chart/AreaChart";
 import { getToken } from "../../libs/common";
+
+import showdown from "showdown";
+
+const converter = new showdown.Converter();
+
 const trends = [
   {
       title: "Trong tương lai, mô hình kinh doanh chuyển sang online", 
@@ -114,9 +119,17 @@ const PostDetail = () => {
                 </div>
       )
     }else if(type === "content"){
-      return (
-        <div dangerouslySetInnerHTML={{ __html: `${data}` }} className={"ck-content"}/>
-      )
+      if(data?.key === "normal"){
+        return (
+          <div dangerouslySetInnerHTML={{ __html: `${data.data}` }} className={"ck-content"}/>
+        )
+      }else{
+        const html = converter.makeHtml(data.data);
+        return (
+          <div dangerouslySetInnerHTML={{ __html: `${html}` }} className={"ck-markdown-content"} /> 
+        )
+      }
+      
     }
   }
   const handleFollow = () => {

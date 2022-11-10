@@ -9,14 +9,13 @@ const Follower = ({type}) => {
   
   useEffect(() => {
     if(type === "2"){
-      PropertiesService.getFollowed(getToken()).then((data) => setData(data.data.data))
+      PropertiesService.getFollowed(getToken()).then((data) => setData(data.data.data.userFollowed))
     }else if(type === "3"){
-      PropertiesService.getFollowing(getToken()).then((data) => setData(data.data.data))
+      PropertiesService.getFollowing(getToken()).then((data) => setData(data.data.data.follower))
     }
     
   },[type])
   const onSearch = (value: string) => console.log(value);
-  console.log(data)
   return (
     <div className="list-post-container">
       <div className="list-post-content">

@@ -19,7 +19,12 @@ import PropertiesService from "../../../services/properties.service";
 const PostCardHorizontal = ({ data, type }) => {
     const handleClick = ({ key }) => {
         if(key === "1"){
+          if(type === "dashboard-article"){
             Route.push( ROUTE_CREATE_POST + `?post=${data.id}`)
+          }else{
+            Route.push( ROUTE_CREATE_POST + `?draft=${data.id}`)
+          }
+            
         }else if(key === "2"){
             PropertiesService.deleteArticle({articleId: data.id}, getToken()).then((data) => console.log(data))
         }
@@ -44,7 +49,7 @@ const PostCardHorizontal = ({ data, type }) => {
         <div className="post-card-horizontal-container">
             <div className="post-card-horizontal-image">
                 <Link href={`/post/${data?.id}`}>
-                <Image src={ data?.thumbnail} width={282} height={175} layout="responsive" alt="post-image"/>
+                <Image src={ data?.thumbnail !== "story" ? data?.thumbnail : "/"} width={282} height={175} layout="responsive" alt="post-image"/>
                 </Link>
             </div>
             <div className="post-card-horizontal-content">
@@ -65,98 +70,14 @@ const PostCardHorizontal = ({ data, type }) => {
                             <AvatarDefaultSmall/>
                         }
                         </div>
-                        { data?.user.nickname ? data?.user.nickname : "Người dùng hệ thống" }
+                        { data?.user?.nickname ? data?.user?.nickname : "Người dùng hệ thống" }
                     </div>
                     <div className="post-interactive">
                         <span>{0} <IconLike/></span>
                         <span>{0} <IconComment/></span>
                     </div>
                 </div>
-                {
-                type && (
-                    <div className="post-more">
-                        
-                        <Dropdown overlay={menu}>
-                <Space>
-                <IconMoreHorizontal/>
-                </Space>
-            </Dropdown>
-                    </div>
-                )
-            }
-          }
-        );
-      }
-    }
-  };
-  const menu = (
-    <Menu
-      selectable
-      onClick={handleClick}
-      items={[
-        {
-          key: "1",
-          label: "Chỉnh sửa bài viết",
-        },
-        {
-          key: "2",
-          label: "Xóa bài viết",
-        },
-      ]}
-    />
-  );
-  return (
-    <div className="post-card-horizontal-container">
-      <div className="post-card-horizontal-image">
-        <Link href={`/post/${data?.id}`}>
-          <Image
-            src={data?.thumbnail}
-            width={282}
-            height={175}
-            layout="responsive"
-            alt="post-image"
-          />
-        </Link>
-      </div>
-      <div className="post-card-horizontal-content">
-        <div className="post-card-horizontal-title">
-          <p>{data.title}</p>
-          <div className="post-card-horizontal-desc">
-            {SliceString(data.description, stringLengthDescription)}
-          </div>
-        </div>
-        {data?.user && (
-          <>
-            <div className="post-card-horizontal-footer">
-              <div className="post-author-profile">
-                <div className="post-author-avatar">
-                  {data?.authorImage ? (
-                    <Image
-                      src={data?.authorImage}
-                      width={24}
-                      height={24}
-                      layout="responsive"
-                      alt="avatar"
-                    />
-                  ) : (
-                    <AvatarDefaultSmall />
-                  )}
-                </div>
-                {data?.user.nickname}
-              </div>
-              <div className="post-interactive">
-                <span>
-                  {0} <IconLike />
-                </span>
-                <span>
-                  {0} <IconComment />
-                </span>
-              </div>
-            </div>
-          </>
-        )}
-
-        {type && (
+                {type && (
           <div className="post-more">
             <Dropdown overlay={menu}>
               <Space>
@@ -167,6 +88,6 @@ const PostCardHorizontal = ({ data, type }) => {
         )}
       </div>
     </div>
-  );
-};
+        );
+      }
 export default memo(PostCardHorizontal);

@@ -13,7 +13,7 @@ const UploadImage = ({ handleChangeThumbnail }) => {
     },
     onChange(info) {
       if (info.file.status !== 'uploading') {
-        handleChangeThumbnail(info.file.response?.data);
+        handleChangeThumbnail(info.file.response?.url);
       }
       if (info.file.status === 'done') {
         message.success(`${info.file.name} đã đăng thành công`);

@@ -11,7 +11,7 @@ import { stringLengthTitle, stringLengthDescription } from '../../../libs/common
 const News = ({ news}) => {
   const [data, setData] = useState();
   useEffect(()=>{
-    PropertiesService.getArticlesByTopic("News").then((data) => setData(data.data.data))
+    PropertiesService.getArticlesByTopic("News","limit=4").then((data) => setData(data.data.data))
   },[])
   console.log(data)
   return (
@@ -22,7 +22,7 @@ const News = ({ news}) => {
             <div className={"news-item " + (index % 2 === 0 ? "left" : "")}>
               <div className="news-image">
                 <Image
-                  src={value.thumbnail}
+                  src={value?.thumbnail !== "story" ? value?.thumbnail : "/"}
                   height={120}
                   width={191}
                   layout="responsive"
