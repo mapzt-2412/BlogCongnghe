@@ -8,6 +8,8 @@ import UploadImage from "../CreatePost/UploadImage";
 import TextArea from "antd/lib/input/TextArea";
 import UploadShortVideo from "../CreatePost/UploadShortVideo";
 import propertiesService from "../../services/properties.service";
+import IconCancel from "../../assets/icon/IconCancel";
+import IconConfirm from "../../assets/icon/IconConfirm";
 
 const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
   const [videoUrl, setVideoUrl] = useState();
@@ -41,18 +43,35 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
   const [reqData, setReqData] = useState({
     topicId: 14,
     // tags: [],
-    thumbnail: "",
+    thumbnail: "story",
     title: "",
     // description: "",
-    content: "",
+    content: [{
+      type: "",
+      data: "",
+    }],
   });
-
+  const validateError = () => {
+    if (!reqData.title) {
+      message.error("Vui lòng nhập tiêu đề");
+      return false;
+    }
+    if (!reqData.content) {
+      message.error("Vui lòng chọn video");
+      return false;
+    }
+    return true;
+  };
   const handleSubmit = () => {
-    propertiesService.createArticle(reqData,getToken()).then(data => {
-        if(data.data.data) {
-            console.log(data)
-        }
-    })
+    if (!validateError()) {
+      return;
+    }
+    const requestData = { ...reqData, content: JSON.stringify(reqData.content) };
+    propertiesService.createArticle(requestData, getToken()).then((data) => {
+      if (data.data.data) {
+        console.log(data);
+      }
+    });
     setIsModalVideoVisible(false);
   };
 
@@ -74,12 +93,20 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
   const handleChangeContent = (value) => {
     setReqData({
       ...reqData,
-      content: value,
+      content: [{
+        type: "story",
+        data: value,
+      }],
     });
   };
 
   return (
-    <Modal visible={isModalVideoVisible} onCancel={handleCancel} footer={false}>
+    <Modal
+      visible={isModalVideoVisible}
+      onCancel={handleCancel}
+      footer={false}
+      className="modal-upload"
+    >
       <div className="modal-title">Tạo bảng tin</div>
       <TextArea
         rows={1}
@@ -90,28 +117,35 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
         onChange={handleChangeInput}
       />
       {/* <UploadImage handleChangeThumbnail={handleChangeThumbnail} /> */}
-      <UploadShortVideo handleChangeContent={handleChangeContent} />
-      {reqData.content && (
-        <video width="300" controls>
-          <source src={reqData?.content} type="video/mp4" />
-        </video>
+      {reqData.content[0].data ? (
+        <div className="video-wrapper">
+          <video className="video" autoPlay controls>
+            <source src={reqData?.content[0]?.data} type="video/mp4" />
+          </video>
+          <div
+            className="video-button"
+            onClick={() => {
+              setReqData({
+                ...reqData,
+                content:  [{
+                  type: "",
+                  data: "",
+                }],
+              });
+            }}
+          >
+            <IconCancel />
+          </div>
+        </div>
+      ) : (
+        <UploadShortVideo handleChangeContent={handleChangeContent} />
       )}
-
-      {/* <Upload {...props}>
-            <div className="upload-video-wrapper">
-                <IconMovie/>
-                <div className="upload-video-button">
-                    <IconUploadArticle />
-                    <span>Thêm video từ thiết bị</span>
-                </div>
-            </div>
-            </Upload> */}
       <div className="modal-chart-button-wrapper">
-                <div className={`modal-chart-button`} onClick={handleSubmit}>
-                    <IconUploadArticle />
-                    <p>Đăng</p>
-                </div>
-            </div>
+        <div className={`modal-chart-button`} onClick={handleSubmit}>
+          <IconUploadArticle />
+          <p>Đăng</p>
+        </div>
+      </div>
     </Modal>
   );
 };
