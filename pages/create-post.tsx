@@ -1,5 +1,12 @@
 import { Select, Input, Row, Col, message } from "antd";
-import React, { FC, memo, useState, useEffect, useRef } from "react";
+import React, {
+  FC,
+  memo,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import Path from "../components/Path";
 import PropertiesService from "./../services/properties.service";
 import IconContent from "./../assets/icon/IconContent";
@@ -43,12 +50,13 @@ const MapBox = dynamic(() => import("../components/CreatePost/Map"), {
 
 const CreatePost = () => {
   const { post } = useRouter().query;
-  const {draft} = useRouter().query;
+  const { draft } = useRouter().query;
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
   const [isModalContentVisible, setIsModalContentVisible] = useState(false);
   const [isModalVoteVisible, setIsModalVoteVisible] = useState(false);
   const [isModalVideoVisible, setIsModalVideoVisible] = useState(false);
   const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
+  const [isModalMapVisible, setIsModalMapVisible] = useState(false);
   const [data, setData] = useState<SortableItemProps[]>([]);
   const [dataContent, setDataContent] = useState([]);
   const [reqData, setReqData] = useState({
@@ -73,7 +81,7 @@ const CreatePost = () => {
   //   content: '',
   // };
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const [draftID,setDraftID] = useState();
+  const [draftID, setDraftID] = useState();
   const renderContent = (type, data) => {
     if (type === "chart") {
       return <AreaChart dataChart={data} />;
@@ -92,63 +100,63 @@ const CreatePost = () => {
       );
     }
   };
-  
+
   useEffect(() => {
     if (draft || post) {
       setIsCreateDraft(true);
     }
-
-  },[draft,post])
+  }, [draft, post]);
 
   useEffect(() => {
     if (isCreateDraft === false && isFirstRender === false) {
-      if(reqData.topicId !== '' && reqData.title !=='') {
+      if (reqData.topicId !== "" && reqData.title !== "") {
         PropertiesService.createDraft(reqData, getToken()).then((data) => {
           console.log(data);
           if (data.data.data) {
             setDraftID(data.data.data.id);
-          }
-          else {
+          } else {
             message.error("Đã có lỗi xảy ra");
             setIsCreateDraft(false);
           }
         });
         setIsCreateDraft(true);
       }
-      
     }
     setIsFirstRender(false);
-  }, [reqData]);
+  }, [isCreateDraft, isFirstRender, reqData]);
 
   useEffect(() => {
-    
-       const countInterval = setInterval(() => {
-        if (isCreateDraft === true && draftID && post === undefined) {
-        PropertiesService.updateDraft({...reqData,draftId:draftID},getToken()).then((data) => {
+    const countInterval = setInterval(() => {
+      if (isCreateDraft === true && draftID && post === undefined) {
+        PropertiesService.updateDraft(
+          { ...reqData, draftId: draftID },
+          getToken()
+        ).then((data) => {
           console.log(data);
-        })
+        });
       }
-      }, 30000);
-    
+    }, 30000);
+
     return () => clearInterval(countInterval);
-  }, [isCreateDraft, reqData]);
+  }, [draftID, isCreateDraft, post, reqData]);
   useEffect(() => {
     PropertiesService.getTopics().then((data) => setTopic(data.data.data));
     PropertiesService.getTags().then((data) => setTag(data.data.data));
   }, []);
 
-  const setEditData = (data) => {
+  const setEditData = useCallback(
+    (data) => {
       setReqData((pre) => {
         return {
           ...pre,
-          articleId: +post,
+          articleId: post && +post,
           topicId: data.data.data?.topic?.id,
           tags: data.data.data?.tags,
           thumbnail: data.data.data?.thumbnail,
           title: data.data.data?.title,
           description: data.data.data?.description,
           content: data.data.data?.content,
-        }
+        };
       });
       if (data.data.data.content) {
         JSON.parse(data.data.data.content).map((value) => {
@@ -157,41 +165,45 @@ const CreatePost = () => {
               title: "Nội dung",
               lable: <EditorWrapper dataContent={value?.data} />,
             });
-          }else if (value?.type === "video") {
+          } else if (value?.type === "video") {
             addData({
               title: "video",
               lable: (
                 <div className="video-upload">
-                      <video 
-                      src={value?.data}
-                      loop
-                      autoPlay
-                      muted
-                      controls
-                      />
-                      </div>
-                ),
+                  <video src={value?.data} loop autoPlay muted controls />
+                </div>
+              ),
             });
-          }else if  (value?.type === "chart"){
+          } else if (value?.type === "chart") {
             addData({
               lable: (
-                <ChartWrapper type={value.data.typeChart} dataTable={value.data} isTable={false} />
+                <ChartWrapper
+                  type={value.data.typeChart}
+                  dataTable={value.data}
+                  isModal={false}
+                />
               ),
               title: "Biểu đồ",
-            })
+            });
           }
         });
       }
       setDataContent(data.data.data);
-  }
-  console.log(dataContent)
+    },
+    [post]
+  );
+  console.log(dataContent);
   useEffect(() => {
     if (post) {
-      PropertiesService.getArticleById(post, getToken()).then((data) => setEditData(data));
-    } else if(draft) {
-      PropertiesService.getDraftById(draft, getToken()).then((data) => setEditData(data));
+      PropertiesService.getArticleById(post, getToken()).then((data) =>
+        setEditData(data)
+      );
+    } else if (draft) {
+      PropertiesService.getDraftById(draft, getToken()).then((data) =>
+        setEditData(data)
+      );
     }
-  }, [post, draft]);
+  }, [post, draft, setEditData]);
 
   const handleSubmit = (data) => {
     if (post) {
@@ -210,25 +222,24 @@ const CreatePost = () => {
     setData((pre) => [...pre, data]);
   };
   const addDataContent = (data) => {
-    setDataContent((pre) => [...pre, data]);
-  }
-  
+    setDataContent([...dataContent, data]);
+  };
+
   const changeDataContent = (i, data) => {
     const dataValue = dataContent.findIndex((value) => value?.data.key === i);
-    console.log(dataValue)
-    if(dataValue !== -1){
-        let arr = dataContent;
-        arr[dataValue] = {
-          data: data.data,
-          type: data.type,
-        }
+    console.log(dataValue);
+    if (dataValue !== -1) {
+      let arr = dataContent;
+      arr[dataValue] = {
+        data: data.data,
+        type: data.type,
+      };
       setDataContent(arr);
-    }
-    else{
+    } else {
       setDataContent((pre) => [...pre, data]);
     }
-  }
-  
+  };
+
   useEffect(() => {
     setReqData({
       ...reqData,
@@ -251,6 +262,9 @@ const CreatePost = () => {
   const showModalConfirm = () => {
     setIsModalConfirmVisible(true);
   };
+  const showModalMap = () => {
+    setIsModalMapVisible(!isModalMapVisible);
+  }
 
   const handleChangeTopic = (value: string) => {
     setReqData({
@@ -309,11 +323,7 @@ const CreatePost = () => {
     {
       lable: <IconMap />,
       title: "Bản đồ",
-      callBack: () =>
-        addData({
-          lable: <MapBox />,
-          title: "Bản đồ",
-        }),
+      callBack: () => showModalMap(),
     },
     {
       lable: <IconQuestion />,
@@ -357,7 +367,7 @@ const CreatePost = () => {
   const onDragEnd = () => {
     draggedItem = null;
   };
-
+  
   const handleKeyDown = (event) => {
     if (event.keyCode == 13) {
       let tag = reqData?.tags ? reqData?.tags : [];
@@ -398,6 +408,7 @@ const CreatePost = () => {
           addData={addData}
           addDataContent={addDataContent}
         />
+        <MapBox isModalMapVisible ={isModalMapVisible} setIsModalMapVisible={setIsModalMapVisible}/>
         <ModalConfirm
           isModalConfirmVisible={isModalConfirmVisible}
           setIsModalConfirmVisible={setIsModalConfirmVisible}
@@ -482,16 +493,16 @@ const CreatePost = () => {
               <UploadImage handleChangeThumbnail={handleChangeThumbnail} />
             </div>
           </div>
-          { reqData?.thumbnail &&
+          {reqData?.thumbnail && (
             <div className="create-post-content-item thumbnail">
-            <Image
-              src={reqData?.thumbnail}
-              width={500}
-              height={200}
-              layout="responsive"
-            />
-          </div>
-          }
+              <Image
+                src={reqData?.thumbnail}
+                width={500}
+                height={200}
+                layout="responsive"
+              />
+            </div>
+          )}
           <ul onDragOver={(e) => e.preventDefault}>
             {data.map(
               (value, index) =>

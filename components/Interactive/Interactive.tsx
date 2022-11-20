@@ -9,30 +9,31 @@ import {getToken} from "../../libs/common";
 import { URL } from "../../libs/constants";
 import { report } from "../../libs/commonConstants";
 import { FacebookShareButton } from "react-share";
-import { Modal, Radio, Select, Input, Button  } from 'antd';
+import { Modal, Radio, Select, Input, Button, RadioChangeEvent  } from 'antd';
 
 const { Option } = Select;
 
 const Interactive = ({dataInteractive , id }) => {
   const [like, setLike] = useState(dataInteractive?.isLike);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [likeNum, setLikeNum] = useState(dataInteractive?.interactives?.likeNum);
-  const [bookmark, setBookmark] = useState(dataInteractive?.isBookmark);
+  const [likeNum, setLikeNum] = useState(0);
+  const [bookmark, setBookmark] = useState(false);
   const [callApi, setCallApi] = useState(false);
   const [reportContent, setReportContent] = useState("");
   const [placement, SetPlacement] = useState('');
   const [data, setData ] = useState({
     like: like,
     bookmark: bookmark,
+    articleId: '',
   });
   useEffect(() => {
-    if(dataInteractive?.isLike !== "undifine"){ 
+    if(dataInteractive?.isLike){ 
       setLike(dataInteractive?.isLike)
     }
-    if(dataInteractive?.isBookmark !== "undifine"){
+    if(dataInteractive?.isBookmark){
       setBookmark(dataInteractive?.isBookmark)
     }
-    if(dataInteractive?.interactives?.likeNum !== "undifine"){
+    if(dataInteractive?.interactives?.likeNum){
       console.log(dataInteractive?.interactives?.likeNum)
       setLikeNum(dataInteractive?.interactives?.likeNum)
     }
@@ -44,6 +45,8 @@ const Interactive = ({dataInteractive , id }) => {
       setCallApi(false);
     }
   },[data])
+
+  console.log(data)
 
   useEffect(() => {
     setData((pre) => {

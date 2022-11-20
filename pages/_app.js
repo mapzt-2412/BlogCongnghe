@@ -18,6 +18,7 @@ export const UserInfo = createContext();
 
 function MyApp({ Component, pageProps }) {
   const [userInfo, setUserInfo] = useState();
+  const [shortVideoIds, setShortVideoIds] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(spinnerService.getData().subscribe((status) => {
@@ -28,7 +29,7 @@ function MyApp({ Component, pageProps }) {
   
   return (
     <>
-    <UserInfo.Provider value={{userInfo, setUserInfo,}}>
+    <UserInfo.Provider value={{userInfo, setUserInfo,shortVideoIds, setShortVideoIds}}>
       <Head>
       <link rel="stylesheet" href="path/to/assets/content-styles.css" type="text/css"/>
       </Head>

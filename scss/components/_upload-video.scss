@@ -1,6 +1,6 @@
 .upload-video-wrapper{
     margin-top: 24px;
-    height: 200px;
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,4 +14,27 @@
 }
 .ant-upload{
     width: 100%;
+}
+.modal-upload{
+    .video-wrapper{
+        position: relative;
+        background-color: $color--background;
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        video{
+            height: 300px;
+        }
+        .video-button{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    }
+    .modal-chart-button-wrapper{
+        margin-top: 16px;
+    }
 }
