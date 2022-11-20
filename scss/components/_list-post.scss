@@ -24,6 +24,13 @@
         }
     }
 }
+
+.list-post-content-body{
+    li {
+        list-style-type: disc;
+        margin-left: 16px;
+    }
+}
 .post-card-horizontal-container{
     display: flex;
     padding: 18px 0px;

@@ -1,0 +1,40 @@
+[
+  {
+    "title": "Quy định",
+    "childrens": [
+      {
+        "title": "Nội quy diễn đàn",
+        "key": "1"
+      },
+      {
+        "title": "Thỏa thuận cung cấp và sử dụng dịch vụ",
+        "key": "2"
+      },
+      {
+        "title": "Về việc đưa tin trên diễn đàn",
+        "key": "3"
+      },
+      {
+        "title": "Chửi nhau, xúc phạm nhau sẽ lập tức bị treo nick",
+        "key": "4"
+      }
+    ]
+  },
+  {
+    "title": "Hướng dẫn sử dụng",
+    "childrens": [
+      {
+        "title": "Đăng ký tài khoản",
+        "key": "5"
+      },
+      {
+        "title": "Khôi phục tài khoản khi quên mật khẩu",
+        "key": "6"
+      },
+      {
+        "title": "Cách tạo bài viết mới",
+        "key": "7"
+      }
+    ]
+  }
+]

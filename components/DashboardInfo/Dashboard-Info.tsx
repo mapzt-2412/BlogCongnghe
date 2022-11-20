@@ -1,11 +1,66 @@
-import { Input } from "antd";
+import { Input, message } from "antd";
 import Search from "antd/lib/transfer/search";
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
+import { getToken } from "../../libs/common";
+import UploadImage from "../CreatePost/UploadImage";
+import PropertiesService from "../../services/properties.service";
+import { Router } from "next/router";
+import { ROUTE_DASHBOARD } from "../../libs/constants";
 
 const DashboardInfo = () => {
   const onSearch = (value: string) => console.log(value);
+  const [reqData, setReqData] = useState({
+    nickname: "",
+    phone: "",
+    avatar: "",
+    description: "",
+    username:""
+  });
+  const [token, setToken] = useState();
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    if (getToken()) {
+      setToken(getToken());
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      PropertiesService.getProfile(token).then((data) =>
+        setData(data.data.data)
+      );
+    }
+  }, [token]);
+
+  const handleChangeThumbnail = (value) => {
+    setReqData({
+      ...reqData,
+      avatar: value,
+    });
+    // if(value) {
+    //   document.getElementById("avatar-data")?.style.fontSize(small);
+    // }
+  };
+
+  const handleChange = (e) => {
+    setReqData({ ...reqData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (data) => {
+      PropertiesService.updateUserInfo(data,getToken()).then((data) => {
+        if(data){
+          message.success('Thông tin đã được cập nhật');}
+          // Router.push(ROUTE_DASHBOARD)}
+        // setReqData(data)
+        // message.success('Thông tin đã được cập nhật');
+        
+        // console.log("canh")
+    })
+    
+  }
   return (
     <div className="list-post-container">
       <div className="list-post-content">
@@ -48,24 +103,47 @@ const DashboardInfo = () => {
               <button className="btn-subcribe">Theo dõi</button>
             </div> */}
             <div className="dashboard-info-username">
-              <p>Họ và tên</p>
-              <Input />
+              <p>Tên đăng nhập</p>
+              <Input
+                // value={data?.nickname}
+                onChange={handleChange}
+                name="username"
+              />
             </div>
+            {data?.username ? (<><p>{data?.username}</p></>)
+             : (<><p>Chưa có dữ liệu</p></>)}
             <div className="dashboard-info-username">
-              <p>Ngày sinh</p>
-              <Input />
+              <p>Biệt danh</p>
+              <Input
+                // value={data?.nickname}
+                onChange={handleChange}
+                name="nickname"
+              />
             </div>
+            {data?.nickname ? (<><p>{data?.nickname}</p></>)
+             : (<><p>Chưa có dữ liệu</p></>)}
             <div className="dashboard-info-username">
               <p>Điện thoại</p>
-              <Input />
+              <Input onChange={handleChange} name="phone" />
             </div>
+            {data?.phone ? (<><p>{data?.phone}</p></>)
+             : (<><p>Chưa có dữ liệu</p></>)}
             <div className="dashboard-info-username">
-              <p>Địa chỉ</p>
-              <Input />
+              <p>Mô tả</p>
+              <Input
+
+                onChange={handleChange}
+                name="description"
+              />
             </div>
+            {data?.description ? (<><p>{data?.description}</p></>)
+             : (<><p>Chưa có dữ liệu</p></>)}
+            <UploadImage handleChangeThumbnail={handleChangeThumbnail} />
+            {/* {data?.avatar ? (<><p>{data?.avatar}</p></>)
+             : (<><p>Chưa có dữ liệu</p></>)} */}
           </div>
           <div className="dashboard-info-btn">
-            <button>LƯU THAY ĐỔI</button>
+            <button onClick={() => handleSubmit(reqData)}>LƯU THAY ĐỔI</button>
           </div>
         </div>
       </div>
