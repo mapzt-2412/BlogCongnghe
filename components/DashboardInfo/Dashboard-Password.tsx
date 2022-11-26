@@ -1,11 +1,27 @@
 import { Input } from "antd";
 import Search from "antd/lib/transfer/search";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
+import PropertiesService from "../../services/properties.service";
 
 const DashboardPassword = () => {
+  const [data, setData] = useState();
   const onSearch = (value: string) => console.log(value);
+
+  const handleChange = (e) => {
+    setData({...data, [e.target.name]: e.target.value});
+    // console.log(data)
+  }
+
+  const handleChangePassword = () => {
+    if(data?.email !== "") {
+      PropertiesService.requestResetPassword(data).then((data) => {
+        console.log(data)
+      })
+    }
+  }
+
   return (
     <div className="list-post-container">
       <div className="list-post-content">
@@ -47,7 +63,7 @@ const DashboardPassword = () => {
               </div>
               <button className="btn-subcribe">Theo dõi</button>
             </div> */}
-            <div className="dashboard-info-username">
+            {/* <div className="dashboard-info-username">
               <p>Mật khẩu hiện tại</p>
               <Input.Password type="password" className="dashboard-password" />
             </div>
@@ -58,10 +74,21 @@ const DashboardPassword = () => {
             <div className="dashboard-info-username">
               <p>Xác nhận mật khẩu mới</p>
               <Input.Password type="password" className="dashboard-password" />
+            </div> */}
+            <div className="dashboard-info-username">
+              <p>Nhập email</p>
+              <Input
+                type="text"
+                placeholder="Email"
+                // value={formValues.username}
+                onChange={handleChange}
+                name="email"
+                required
+              />
             </div>
           </div>
           <div className="dashboard-info-btn">
-            <button>LƯU THAY ĐỔI</button>
+            <button onClick={handleChangePassword}>Đổi mật khẩu</button>
           </div>
         </div>
       </div>

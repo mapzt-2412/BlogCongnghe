@@ -17,9 +17,27 @@ interface IListPostProps {
 }
 const ListPost: FC<IListPostProps> = ({data, id, type, setData}) => {
   const [isList , setList] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const changeLayout = () => {
     setList(!isList);
   }
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      if (window.innerWidth <= 768) {
+        setIsMobile(true);
+      }else {
+        setIsMobile(false);
+      }
+      window.addEventListener("resize", (event) => {
+        if (window.innerWidth <= 768) {
+          setIsMobile(true);
+        } else {
+          setIsMobile(false);
+        }
+      });
+    }
+  },[]);
   return (
     <div className="list-post-container">
       <div className="list-post-content">
@@ -27,7 +45,7 @@ const ListPost: FC<IListPostProps> = ({data, id, type, setData}) => {
           <div className="list-post-topic">
             <p>{id}</p>
           </div>
-          <div className="list-post-sort">
+          <div className="list-post-sort" style={{ display: isMobile ? "none" : "" }}>
             <div onClick={changeLayout}>
               {
                 !isList ? <IconListSort /> : <IconListSortActive />

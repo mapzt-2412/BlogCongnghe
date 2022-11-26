@@ -19,7 +19,9 @@
             right: -48px;
             position: absolute;
         }
-        
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
     }
     .create-post-content-item.thumbnail{
         display: flex;
@@ -43,6 +45,9 @@
             margin-bottom: 16px;
         }
     }
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 }
 .create-post-memu{
     width: 27%;
@@ -54,6 +59,11 @@
         margin-bottom: 16px;
         border-bottom: 1px solid $color--text1;
         @include font-18;
+    }
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        background: none;
+        padding: 0;
     }
 }
 .create-post-container{
@@ -98,6 +108,9 @@
         margin-bottom: 0px;
         margin-top: 2px;
     }
+    @media screen and (max-width: 768px) {
+        margin-left: 0;
+    }
 }
 .save-draft{
     p{
@@ -109,6 +122,7 @@
     p{
         color: $color--light;
     }
+    margin-top: 16px;
 }
 .create-post-content-list-button{
     margin-top: 64px;
@@ -116,6 +130,10 @@
     display: flex;
     justify-content: right;
     align-items: center;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        display: block;
+    }
 }
 .add-content-description{
     width: 85%;
@@ -125,6 +143,9 @@
     justify-content: center;
     color: $color--text1;
     margin-top: 15px;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 }
 .video-upload{
     display: flex;

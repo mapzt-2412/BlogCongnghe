@@ -33,6 +33,10 @@
                 color: $color--light;
             }
         }
+        @media screen and (max-width: 768px) {
+            transform: translateX(0);
+            margin-top: 0;
+        }
     }
     .header-button {
         @media screen and (min-width: 768px) {
@@ -40,9 +44,17 @@
         }
         @media screen and (max-width: 768px) {
             display: inline-flex;
-            // justify-content: end;
+            // margin-left: 24px;
         }
     }
+
+    .header-button.header-create-post {
+        @media screen and (max-width: 768px) {
+            margin-left: 18px;
+            vertical-align: super;
+        }
+    }
+
     .header-login {
         border-right: 1px solid $color--border;
         padding-right: 16px;
@@ -60,6 +72,12 @@
     .header-logout {
         @media screen and (min-width: 768px) {
             display: none;
+        }
+        @media screen and (max-width: 768px) {
+            margin-top: 24px;
+            p {
+                color: $color--light;
+            }
         }
     }
 }

@@ -56,6 +56,9 @@ class PropertiesService {
     updateDraft(data,token){
         return instanceNoSpiner.put("/drafts/update-draft", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
     }
+    updateUserInfo(data,token){
+        return instanceNoSpiner.put("/users/update-info", JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}})
+    }
     deleteArticle(data,token){
         return http.delete("/articles/delete-article", {data:JSON.stringify(data) , headers: {'Authorization': "Bearer " + token}})
     }
@@ -124,6 +127,12 @@ class PropertiesService {
     }
     verifyAccount(token){
         return http.get(`/auth/verify/${token}` , null)
+    }
+    requestResetPassword(data){
+        return http.post(`/auth/request-reset-password`, JSON.stringify(data))
+    }
+    handleResetPassword(data) {
+        return http.post(`/auth/handle-reset-password`, JSON.stringify(data))
     }
 }
 

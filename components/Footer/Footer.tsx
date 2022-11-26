@@ -27,7 +27,7 @@ const Footer = () => {
             <div className="footer-item">
                 <IconTwitter/>
             </div>
-            <div className="footer-item">
+            <div className="footer-item last">
                 <IconGithub/>
             </div>
         </div>

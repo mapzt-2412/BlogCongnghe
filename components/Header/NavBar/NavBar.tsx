@@ -20,7 +20,7 @@ import IconSignin from "../../../assets/icon/IconSignin";
 import IconSignup from "../../../assets/icon/IconSignup";
 import AvatarDefaultSmall from "../../../assets/icon/AvatarDefaultSmall";
 import IconUploadArticle from "../../../assets/icon/IconUploadArticle";
-import { deleteToken } from "../../../libs/common";
+import { deleteToken, getToken } from "../../../libs/common";
 
 const data = [
   "Trong tương lai, mô hình kinh doanh chuyển sang online",
@@ -38,6 +38,8 @@ const NavBar = ({
 }) => {
   const [isShowTopic, setIsShowTopic] = useState(false);
   const [topics, setTopics] = useState([]);
+  // const [token, setToken] = useState();
+  const [data, setData] = useState();
   // const [isHide, setIsHide] = useState(true)
   const onMouseEnter = (item) => {
     if (item === "topic" && !isShowTopic) {
@@ -54,7 +56,14 @@ const NavBar = ({
     PropertiesService.getTopics().then((data) => setTopics(data.data.data));
   }, []);
 
-  // useEffect(() => {},[])
+  useEffect(() => {
+    if (getToken()) {
+      // setToken(getToken());
+      PropertiesService.getProfile(getToken()).then((data) =>
+        setData(data.data.data)
+      );
+    }
+  }, []);
   const title = [
     {
       title: "Trang chủ",
@@ -107,11 +116,11 @@ const NavBar = ({
 
   const handleDelete = () => {
     deleteToken();
-  }
-  
+  };
+
   const handleAccount = () => {
     router.push(`/${data?.username}/dashboard`);
-  }
+  };
 
   const router = useRouter();
   const changePage = (route) => {
@@ -160,42 +169,42 @@ const NavBar = ({
         <CloseOutlined />
       </div>
       {token ? (
-            <>
-              <div className="header-button header-login">
-                {/* <Dropdown overlay={menu} placement="bottom">
-                  <Space>
-                    <Link href={`/${data?.id}`}> */}
-                      <AvatarDefaultSmall width={32} height={32} />
-                    {/* </Link>
-                  </Space>
-                </Dropdown> */}
-              </div>
-              <Link href={"/create-post"}>
-                <div className="header-button header-create-post">
-                  <IconUploadArticle />
-                  Tạo bài viết
-                </div>
-              </Link>
-            </>
-          ) : (
-            <div className="menu-mobile-footer">
-        <div
-          className="header-button header-login"
-          onClick={() => toggleModal("Login")}
-        >
-          <IconSignin className="icon-signin-mobile" />
-          Đăng nhập
+        <>
+          <div className="header-button header-login">
+            {/* <Dropdown overlay={menu} placement="bottom"> */}
+              <Space>
+                <Link href={`/${data?.id}`}>
+                  <AvatarDefaultSmall width={32} height={32} />
+                </Link>
+              </Space>
+            {/* </Dropdown> */}
+          </div>
+          <Link href={"/create-post"}>
+            <div className="header-button header-create-post">
+              <IconUploadArticle />
+              Tạo bài viết
+            </div>
+          </Link>
+        </>
+      ) : (
+        <div className="menu-mobile-footer">
+          <div
+            className="header-button header-login"
+            onClick={() => toggleModal("Login")}
+          >
+            <IconSignin className="icon-signin-mobile" />
+            Đăng nhập
+          </div>
+          <div
+            className="header-button header-register"
+            onClick={() => toggleModal("Register")}
+          >
+            <IconSignup className="icon-signup-mobile" />
+            Đăng ký{" "}
+          </div>
         </div>
-        <div
-          className="header-button header-register"
-          onClick={() => toggleModal("Register")}
-        >
-          <IconSignup className="icon-signup-mobile" />
-          Đăng ký{" "}
-        </div>
-      </div>
-          )}
-      
+      )}
+
       {title.map((value) => (
         <div
           key={value.title}
@@ -235,13 +244,15 @@ const NavBar = ({
       >
         <ListTrend title={"Danh sách chủ đề"} data={topics} />
       </div>
-      
-      {token ? 
-      (<div className="header-logout">
+
+      {token ? (
+        <div className="header-logout">
           <p onClick={handleDelete}>Đăng xuất</p>
           <p onClick={handleAccount}>Tài khoản cá nhân</p>
-      </div>) 
-      : ("")}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -24,6 +24,13 @@
         }
     }
 }
+
+.list-post-content-body{
+    li {
+        list-style-type: disc;
+        margin-left: 16px;
+    }
+}
 .post-card-horizontal-container{
     display: flex;
     padding: 18px 0px;
@@ -44,6 +51,13 @@
         .post-author-profile{
             padding-right: 17px;
             border-right: 1px solid $color--border1;
+            @media screen and (max-width: 768px) {
+                margin-top: 16px;
+                margin-bottom: 8px;
+            }
+        }
+        @media screen and (max-width: 768px) {
+            display: block;
         }
     }
     .post-interactive{
@@ -55,6 +69,10 @@
             svg{
                 margin-left: 8px;
             }
+        @media screen and (max-width: 768px) {
+            padding-left: 0;
+            padding-right: 16px
+        }
         }
     }
 }

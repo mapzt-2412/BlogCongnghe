@@ -5,6 +5,11 @@
     .post-detail-title{
         @include font-21;
         font-family: $font-medium, sans-serif;
+        p {
+            @media screen and (max-width: 768px) {
+                margin-bottom: 0;
+            }
+        }
     }
     .post-detail-author{
         display: flex;
@@ -21,7 +26,10 @@
         .post-author-profile{
             padding-right: 16px;
         }
-        
+        @media screen and (max-width: 768px) {
+            display: block;
+            margin-top: 8px;
+        } 
     }
     .post-detail-time{
         display: flex;
@@ -38,6 +46,10 @@
             color: $color--text2;
             margin-right: 4px;
         }
+        @media screen and (max-width: 768px) {
+            border-left: none;
+            padding-top: 8px;
+        }  
     }
     .post-detail-content{
         padding-bottom: 16px;
@@ -47,6 +59,11 @@
             text-align: justify;
         }
     }
+
+    @media screen and (max-width: 768px) {
+        width: 88%;
+    }
+
 }
 .interactive{
     height: 40px;
@@ -70,7 +87,27 @@
     background: $color--blue;
 }
 .interactive-container{
-    display: flex;
+    display: flex-row;
+    @media screen and (max-width: 768px) {
+        display: block;
+    }
+    .interactive-normal-class {
+        display: flex;
+        .interactive {
+            @media screen and (max-width: 768px) {
+                margin-right: 0;
+            }
+        }
+    }
+    .interactive-advance-class {
+        display: flex;
+        margin-top: 8px;
+        @media screen and (max-width: 768px) {
+            display: flex;
+            margin-top: 8px;
+            align-items: center;
+        }
+    }
 }
 .comment-input{
     padding: 32px 0px;
