@@ -57,6 +57,7 @@ const CreatePost = () => {
   const [isModalVideoVisible, setIsModalVideoVisible] = useState(false);
   const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
   const [isModalMapVisible, setIsModalMapVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState<SortableItemProps[]>([]);
   const [dataContent, setDataContent] = useState([]);
   const [reqData, setReqData] = useState({
@@ -72,6 +73,7 @@ const CreatePost = () => {
   const [tag, setTag] = useState([]);
   const [dataDefault, setDataDefault] = useState();
   const [isCreateDraft, setIsCreateDraft] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   // const initialData = {
   //   topicId:'',
   //   tags: [],
@@ -99,6 +101,18 @@ const CreatePost = () => {
         />
       );
     }
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -246,6 +260,23 @@ const CreatePost = () => {
       content: JSON.stringify(dataContent),
     });
   }, [dataContent]);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      if (window.innerWidth <= 768) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+      window.addEventListener("resize", (event) => {
+        if (window.innerWidth <= 768) {
+          setIsMobile(true);
+        } else {
+          setIsMobile(false);
+        }
+      });
+    }
+  }, []);
 
   const showModalChart = () => {
     setIsModalChartVisible(true);
@@ -531,13 +562,17 @@ const CreatePost = () => {
                 )
             )}
           </ul>
-          <div className="create-post-content-item add-content">
+          <div
+            className="create-post-content-item add-content"
+            onClick={showModal}
+          >
             <IconAddDraft />
           </div>
+
           <p className="add-content-description">
-            {
-              "(Thêm tiện ích bằng cách chọn các thành phần ở bên phải vào khung trên)"
-            }
+            {isMobile
+              ? "(Thêm tiện ích bằng cách nhấn vào khung trên)"
+              : "(Thêm tiện ích bằng cách rê các thành phần ở bên phải vào khung trên)"}
           </p>
           <div className="create-post-content-list-button">
             <div
@@ -556,23 +591,62 @@ const CreatePost = () => {
             </div>
           </div>
         </div>
-        <div className="create-post-memu">
-          <div className="create-post-memu-title">THÊM TIỆN ÍCH</div>
-          <div className="create-post-memu-content">
-            <Row gutter={[16, 16]}>
-              {memu.map((value, index) => (
-                <Col className="create-post-memu-item" span={12} key={index}>
-                  <div className="memu-item-icon-wrapper">
-                    <div className="memu-item-icon" onClick={value.callBack}>
-                      {value.lable}
+        {isMobile ? (
+          <Modal
+            visible={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <div
+              className="create-post-memu"
+              // style={{ display: isMobile ? "none" : "" }}
+            >
+              <div className="create-post-memu-title">THÊM TIỆN ÍCH</div>
+              <div className="create-post-memu-content">
+                <Row gutter={[16, 16]}>
+                  {memu.map((value, index) => (
+                    <Col
+                      className="create-post-memu-item"
+                      span={12}
+                      key={index}
+                    >
+                      <div className="memu-item-icon-wrapper">
+                        <div
+                          className="memu-item-icon"
+                          onClick={value.callBack}
+                        >
+                          {value.lable}
+                        </div>
+                        <p>{value.title}</p>
+                      </div>
+                    </Col>
+                  ))}
+                </Row>
+              </div>
+            </div>
+          </Modal>
+        ) : (
+          <div
+            className="create-post-memu"
+            // style={{ display: isMobile ? "none" : "" }}
+          >
+            <div className="create-post-memu-title">THÊM TIỆN ÍCH</div>
+            <div className="create-post-memu-content">
+              <Row gutter={[16, 16]}>
+                {memu.map((value, index) => (
+                  <Col className="create-post-memu-item" span={12} key={index}>
+                    <div className="memu-item-icon-wrapper">
+                      <div className="memu-item-icon" onClick={value.callBack}>
+                        {value.lable}
+                      </div>
+                      <p>{value.title}</p>
                     </div>
-                    <p>{value.title}</p>
-                  </div>
-                </Col>
-              ))}
-            </Row>
+                  </Col>
+                ))}
+              </Row>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

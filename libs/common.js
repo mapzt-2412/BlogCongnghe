@@ -5,10 +5,10 @@ export const formatDate = (date) => {
 }
 
 export const SliceString = (string , end) => {
-    if(string.length < end){
+    if(string?.length < end){
         return string;
     }else{
-        return string.slice(0, end) + " ...";
+        return string?.slice(0, end) + " ...";
     }
 }
 

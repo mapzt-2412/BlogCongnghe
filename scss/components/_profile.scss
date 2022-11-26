@@ -1,5 +1,6 @@
 .medium-container{
-    margin: 0px 10%;
+    // margin: 0px 16px;
+    padding: 0px 20px;
     .profile-user-info{
         position: relative;
         background: $color--background;
@@ -20,6 +21,14 @@
             &-item{
                 margin-right: 34px;
                 margin-bottom: 34px;
+                @media screen and (max-width: 768px) {
+                    margin-right: 0;
+                    margin-bottom: 8px;
+                }
+            }
+            @media screen and (max-width: 768px) {
+                display: block;
+                align-items:initial;
             }
         }
         .profile-user-post{
@@ -27,11 +36,22 @@
             &-item{
                 padding: 0px 24px;
                 border-left: 1px solid $color--border1;
+                @media screen and (max-width: 768px) {
+                    padding: 0px;
+                    border: none;
+                    margin-bottom: 4px;
+                }
             }
             &-item.first{
                 border: none;
             }
+            @media screen and (max-width: 768px) {
+                display: block;
+            }
         }
+    }
+    @media screen and (max-width: 768px) {
+        width: 100%;
     }
 }
 .profile-user-content{
@@ -50,6 +70,9 @@
                 color: $color--dark;
             }
         }
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
     }
     .dashboard-detail {
         background-color: $color--background;
@@ -58,6 +81,9 @@
     }
     .profile-list-post {
         width: 100%;
+    }
+    @media screen and (max-width: 768px) {
+        display: block;
     }
 }
 

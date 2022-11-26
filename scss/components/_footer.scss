@@ -7,5 +7,11 @@
     margin-top: 56px;
     .footer-item{
         margin-right: 40px;
+        
+    }
+    .footer-item.last {
+        @media screen and (max-width: 768px) {
+            margin-right: 0px;
+        }
     }
 }

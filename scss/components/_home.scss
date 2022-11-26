@@ -19,6 +19,11 @@
             flex: none;
         }
     }
+    .ant-row {
+        @media screen and (max-width: 768px) {
+            display: block;
+        }
+    }
     .slick-dots{
         li{
             width: 12px;

@@ -37,9 +37,9 @@ const Dashboard = () => {
       PropertiesService.getBookMark(token).then((data) =>
         setDataBookmark(data.data.data)
       );
-      // PropertiesService.getDraftByUser(token).then((data) =>
-      //   setDataDraft(data.data.data)
-      // );
+      PropertiesService.getDraftByUser(token).then((data) =>
+        setDataDraft(data.data.data)
+      );
     }
   }, [token]);
 
