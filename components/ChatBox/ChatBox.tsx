@@ -124,7 +124,7 @@ const ChatBox = () => {
 
   const renderChart = (value, index) => {
     console.log(value)
-    if (value.sendUser == getId()) {
+    if (value.sendUser === +getId()) {
       return (
         <div className="chat-send" key={index}>
           <div className="chat-content">{value.content}</div>

@@ -22,7 +22,7 @@ const ShortVideoCard = ({ value,onClick }) => {
       <Player
         src={value[0].data}
         fluid={false}
-        width={135}
+        width={'100%'}
         height={225}
         ref={ref}
         muted={true}

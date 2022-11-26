@@ -68,6 +68,10 @@
     p{
         color: $color--text2;
     }
+    &.date-picker {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 .modal-button{
     height: 40px;

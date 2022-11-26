@@ -1,5 +1,5 @@
 import http, { instanceNoSpiner } from './http-common';
-
+import { DEFAULT_PAGE_SIZE } from '../libs/commonConstants';
 class PropertiesService {
     login(data) {
         return http.get("/", JSON.stringify(data))
@@ -34,8 +34,12 @@ class PropertiesService {
     getDraftByUser(token){
         return http.get("/drafts", {headers: {'Authorization': "Bearer " + token}})
     }
-    getStory(token){
-        return http.get("/articles/story",{headers: {'Authorization': "Bearer " + token}})
+    getStory(param, token){
+        let params = '';
+        for(let x in param){
+            params += `&${x}=${param[x]}`
+        }
+        return http.get(`/articles/story?limit=${DEFAULT_PAGE_SIZE}${params}`,{headers: {'Authorization': "Bearer " + token}})
     }
     createVideo(data, token){
         return http.post("/articles/media", {headers: {'Authorization': "Bearer " + token}}, JSON.stringify(data))

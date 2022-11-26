@@ -19,57 +19,29 @@ import { UserInfo } from "./_app";
 // }
 const NewsFeeds = () => {
   const [data, setData] = useState();
-//   const [tab, setTab] = useState("Login");
-//   const [token, setToken] = useState();
-//   const handleOk = () => {
-//     setIsModalLoginVisible(false);
-//   };
-//   const handleCancel = () => {
-//     setIsModalLoginVisible(false);
-//   };
-//   const renderContent = (tab) => {
-//     if (tab === "Login") {
-//       return <Login setTab={setTab} setData={setData} data={data} />;
-//     } else if (tab === "Register") {
-//       return <Register setTab={setTab} />;
-//     }
-//   };
-//   useEffect(() => {
-//     setTab(tabName);
-//   }, [tabName]);
-//   useEffect(() => {
-//     if (getToken()) {
-//       setToken(getToken());
-//     }
-//   }, []);
-//   useEffect(() => {
-//     if (token) {
-//       PropertiesService.getProfile(token).then((data) =>
-//         setData(data.data.data)
-//       );
-//     }
-//   }, [token]);
-const { shortVideoIds } = useContext(UserInfo);
+  const [page, setPage] = useState(1);
+  
+  const { shortVideoIds } = useContext(UserInfo);
 
-useEffect(() => {
-  PropertiesService.getStory(getToken()).then((data) =>
-        setData(data.data.data.myStories)
-      );
-},[])
+  useEffect(() => {
+    PropertiesService.getStory({page: page}, getToken()).then((data) =>
+      setData(data.data.data.myStories)
+    );
+  }, [page]);
 
-const router = useRouter();
-if(getToken()===false) {
-  router.push(ROUTE_HOME);
-}
+  const router = useRouter();
+  if (getToken() === false) {
+    router.push(ROUTE_HOME);
+  }
   return (
     <>
       <div className="main-container">
-                <Path data={{content: "Bảng tin"}}/>
-                <ListShortVideo data={data} />
-                <div className="post-detail-container">
-                    <ListPost data={[]} id={""} />
-                </div>
-            </div>
+        <Path data={{ content: "Bảng tin" }} />
+        <ListShortVideo data={data} page={page} setPage = {setPage}/>
+        <div className="post-detail-container">
+          <ListPost data={[]} id={""} />
+        </div>
+      </div>
       {/* {token ? (
         <div className="main-container">
           <Path data={{ content: "Bảng tin" }} />

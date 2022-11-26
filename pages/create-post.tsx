@@ -35,6 +35,7 @@ import UploadVideo from "../components/CreatePost/UploadVideo";
 import UploadImage from "../components/CreatePost/UploadImage";
 import EditorWrapper from "../components/CreatePost/Editor/EditorWrapper";
 import ModalConfirm from "../components/ModalConfirm/ModalConfirm";
+import ModalCreate from "../components/ModalConfirm/ModalCreate";
 import AreaChart from "../components/CreatePost/Chart/AreaChart";
 import { getToken } from "../libs/common";
 import Router, { useRouter } from "next/router";
@@ -51,6 +52,7 @@ const MapBox = dynamic(() => import("../components/CreatePost/Map"), {
 const CreatePost = () => {
   const { post } = useRouter().query;
   const { draft } = useRouter().query;
+  const [isModalCreateVisible, setIsModalCreateVisible] = useState(false);
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
   const [isModalContentVisible, setIsModalContentVisible] = useState(false);
   const [isModalVoteVisible, setIsModalVoteVisible] = useState(false);
@@ -192,7 +194,7 @@ const CreatePost = () => {
     },
     [post]
   );
-  console.log(dataContent);
+console.log(reqData)
   useEffect(() => {
     if (post) {
       PropertiesService.getArticleById(post, getToken()).then((data) =>
@@ -205,27 +207,27 @@ const CreatePost = () => {
     }
   }, [post, draft, setEditData]);
 
-  const handleSubmit = (data) => {
+  const handleSubmit = useCallback(() => {
     if (post) {
-      PropertiesService.updateArticle(data, getToken()).then((data) => {
+      PropertiesService.updateArticle(reqData, getToken()).then((data) => {
         message.success("Lưu bài thành công");
         Router.push("/");
       });
     } else {
-      PropertiesService.createArticle(data, getToken()).then((data) => {
+      PropertiesService.createArticle(reqData, getToken()).then((data) => {
         message.success("Đăng bài thành công");
         Router.push("/");
       });
     }
-  };
-  const addData = (data) => {
+  },[reqData]);
+  const addData = useCallback((data) => {
     setData((pre) => [...pre, data]);
-  };
-  const addDataContent = (data) => {
+  },[]);
+  const addDataContent = useCallback((data) => {
     setDataContent([...dataContent, data]);
-  };
+  },[dataContent]);
 
-  const changeDataContent = (i, data) => {
+  const changeDataContent = useCallback((i, data) => {
     const dataValue = dataContent.findIndex((value) => value?.data.key === i);
     console.log(dataValue);
     if (dataValue !== -1) {
@@ -238,12 +240,14 @@ const CreatePost = () => {
     } else {
       setDataContent((pre) => [...pre, data]);
     }
-  };
+  },[]);
 
   useEffect(() => {
-    setReqData({
-      ...reqData,
-      content: JSON.stringify(dataContent),
+    setReqData(pre => {
+      return {
+        ...reqData,
+        content: JSON.stringify(dataContent),
+      }
     });
   }, [dataContent]);
 
@@ -266,38 +270,38 @@ const CreatePost = () => {
     setIsModalMapVisible(!isModalMapVisible);
   }
 
-  const handleChangeTopic = (value: string) => {
+  const handleChangeTopic = useCallback((value: string) => {
     setReqData({
       ...reqData,
       topicId: value,
     });
-  };
-  const handleChangeTag = (value: string) => {
+  },[reqData]);
+  const handleChangeTag = useCallback((value: string) => {
     setReqData({
       ...reqData,
       tags: value,
     });
-  };
-  const handleChangeInput = (event) => {
+  },[reqData]);
+  const handleChangeInput = useCallback((event) => {
     setReqData({
       ...reqData,
       [event.target.name]: event.target.value,
     });
-  };
-  const handleChangeThumbnail = (value) => {
+  },[reqData]);
+  const handleChangeThumbnail = useCallback((value) => {
     setReqData({
       ...reqData,
       thumbnail: value,
     });
-  };
-  const onSearch = (value: string) => {
+  },[reqData]);
+  const onSearch = useCallback((value: string) => {
     console.log("search:", value);
-  };
+  },[]);
 
-  const handleDelete = (index) => {
+  const handleDelete = useCallback((index) => {
     const result = data.filter((value, i) => i !== index);
     setData(result);
-  };
+  },[]);
 
   const memu = [
     {
@@ -333,10 +337,6 @@ const CreatePost = () => {
           lable: <Quiz setContent={setContent} content={content} />,
           title: "Câu hỏi",
         }),
-    },
-    {
-      lable: <IconRating />,
-      title: "Đánh giá",
     },
   ];
   let draggedItem;
@@ -414,6 +414,12 @@ const CreatePost = () => {
           setIsModalConfirmVisible={setIsModalConfirmVisible}
           reqData={reqData}
           draftID={draftID}
+        />
+        <ModalCreate
+        isModalCreateVisible ={isModalCreateVisible}
+        setIsModalCreateVisible={setIsModalCreateVisible}
+        setReqData={setReqData}
+        handleSubmit={handleSubmit}
         />
         <div className="create-post-content">
           <div className="create-post-content-item">
@@ -549,7 +555,7 @@ const CreatePost = () => {
             </div>
             <div
               className="create-post-content-button save-article"
-              onClick={() => handleSubmit(reqData)}
+              onClick={() => setIsModalCreateVisible(true)}
             >
               <IconUploadArticle />
               {post ? <p>LƯU BÀI VIẾT</p> : <p>ĐĂNG BÀI VIẾT</p>}

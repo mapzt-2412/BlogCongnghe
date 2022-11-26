@@ -1,4 +1,11 @@
-import React, { memo, useRef, useState, useEffect, useCallback, useContext } from "react";
+import React, {
+  memo,
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+} from "react";
 import IconClose from "./../../assets/icon/IconClose";
 import IconArrowLeft from "./../../assets/icon/IconArrowLeft";
 import IconArrowRight from "./../../assets/icon/IconArrowRight";
@@ -10,9 +17,7 @@ import ListComment from "../../components/Interactive/Comment/ListComment";
 import IconPlay from "./../../assets/icon/IconPlay";
 import { useRouter } from "next/router";
 import { ROUTE_NEWSFEEDS, ROUTE_SHORTVIDEO } from "./../../libs/constants";
-import ShortVideoContext, {
-  Context,
-} from "./context";
+import ShortVideoContext, { Context } from "./context";
 import { UserInfo } from "../_app";
 import PropertiesService from "../../services/properties.service";
 
@@ -31,63 +36,76 @@ const ShortVideo = () => {
     comment: 10,
     time: "20200202",
   });
-  const [url, setUrl] = useState();
+  const [url, setUrl] = useState({
+    data: ""
+  });
   const [interactives, setInteractives] = useState();
-  const [comment , setComment] = useState();
+  const [comment, setComment] = useState();
   const [navigate, setNavigate] = useState({
-    pre: 0, 
+    pre: 0,
     next: 0,
   });
-  console.log(shortVideoIds)
+
   useEffect(() => {
-    if(shortVideoIds && id){
-      const index = shortVideoIds.reduce((_, value, index) => value === id && index, 0)
-      console.log(index)
-      if(index === shortVideoIds.length){
+    if (shortVideoIds && id) {
+      let index;
+      shortVideoIds.find((value, i) => {
+        if (value === +id) {
+          index = i;
+        }
+      });
+      console.log(index);
+      if (index === shortVideoIds.length) {
         setNavigate({
           pre: shortVideoIds[index - 1],
           next: shortVideoIds[0],
-        })
-      }else if(index === 0){
+        });
+      } else if (index === 0) {
         setNavigate({
           pre: shortVideoIds[shortVideoIds.length],
           next: shortVideoIds[1],
-        })
-      }else{
+        });
+      } else {
         setNavigate({
           pre: shortVideoIds[index - 1],
           next: shortVideoIds[index + 1],
-        })
+        });
       }
     }
-  },[id, shortVideoIds])
+  }, [id, shortVideoIds]);
   useEffect(() => {
-    if(id){
+    if (id) {
       PropertiesService.getArticleById(id, getToken()).then((data) => {
-        setUrl(JSON.parse(data.data.data.content)[0])
-        setData(pre => {
-          return{
+        setUrl(JSON.parse(data.data.data.content)[0]);
+        setData((pre) => {
+          return {
             ...pre,
-            ...data.data.data
-          }
+            ...data.data.data,
+          };
         });
-        setInteractives(data.data.data.interactives)
-      })
-      PropertiesService.getComment(id).then((data) => setComment(data.data.data))
+        setInteractives(data.data.data.interactives);
+      });
+      PropertiesService.getComment(id).then((data) =>
+        setComment(data.data.data)
+      );
     }
-  },[id])
+  }, [id]);
 
   const handlePlay = () => {
     setIsPlay(!isPlay);
   };
-  
+
   const handleClose = () => {
     router.replace(ROUTE_NEWSFEEDS);
   };
-  const handleNavigation = () => {
+  const handleNavigationNext = () => {
     router.push(ROUTE_SHORTVIDEO + `/${navigate.next}`);
   };
-  console.log(url)
+
+  const handleNavigationPre = () => {
+    router.push(ROUTE_SHORTVIDEO + `/${navigate.pre}`);
+  };
+
   return (
     <div className="short-video-container">
       <div className="short-video-content">
@@ -107,16 +125,24 @@ const ShortVideo = () => {
         <button type="button" className="close-button" onClick={handleClose}>
           <IconClose />
         </button>
-        <button type="button" className="pre-button" onClick={handleNavigation}>
-          <IconArrowLeft />
-        </button>
-        <button
-          type="button"
-          className="next-button"
-          onClick={handleNavigation}
-        >
-          <IconArrowRight />
-        </button>
+        {navigate.pre && (
+          <button
+            type="button"
+            className="pre-button"
+            onClick={handleNavigationPre}
+          >
+            <IconArrowLeft />
+          </button>
+        )}
+        {navigate.next && (
+          <button
+            type="button"
+            className="next-button"
+            onClick={handleNavigationNext}
+          >
+            <IconArrowRight />
+          </button>
+        )}
       </div>
       <div className="short-video-info">
         <div className="short-video-author">

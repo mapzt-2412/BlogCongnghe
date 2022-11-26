@@ -62,10 +62,6 @@ const Map = ({ isModalMapVisible, setIsModalMapVisible }) => {
           trackUserLocation: true,
         })
       );
-      map.onMapScroll(data => 
-        {
-          console.log(data);
-        })
       
     }
     setIsFirstRender(true);

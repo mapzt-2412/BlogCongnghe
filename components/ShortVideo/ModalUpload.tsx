@@ -42,10 +42,8 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
 
   const [reqData, setReqData] = useState({
     topicId: 14,
-    // tags: [],
     thumbnail: "story",
     title: "",
-    // description: "",
     content: [{
       type: "",
       data: "",
@@ -73,15 +71,16 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
       }
     });
     setIsModalVideoVisible(false);
+    setReqData({
+      topicId: 14,
+      thumbnail: "story",
+      title: "",
+      content: [{
+        type: "",
+        data: "",
+      }]
+    })
   };
-
-  // const handleChangeThumbnail = (value) => {
-  //     // setReqData({
-  //     //   ...reqData,
-  //     //   thumbnail: value,
-  //     // });
-  //     console.log("canh")
-  //   };
 
   const handleChangeInput = (event) => {
     setReqData({
@@ -94,7 +93,7 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
     setReqData({
       ...reqData,
       content: [{
-        type: "story",
+        type: "story",  
         data: value,
       }],
     });

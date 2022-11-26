@@ -57,7 +57,7 @@ const PostCardHorizontal = ({ data, type }) => {
                     <p>{ data.title }</p>
                     <div className="post-card-horizontal-desc">
                         
-                    {  SliceString(data.description,stringLengthDescription) }
+                    {SliceString(data.description ? data.description : '',stringLengthDescription) }
                     </div>
                 </div>
                 <div className="post-card-horizontal-footer">

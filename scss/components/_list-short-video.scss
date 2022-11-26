@@ -16,7 +16,7 @@
     .short-video{
         position: relative;
         margin: 0px 8px;
-        width: 8.87%;
+        width: calc((100% - 160px) / 10);
         height: 225px;
         border-radius: 10px;
         img{
@@ -56,11 +56,38 @@
     }
 }
 .carousel-next{
-    text-align: right;
-    margin-top: 40px;
-    margin-bottom: 50px;
-    margin-right: 80px;
+    top: 20px;
+    right: 10px;
     svg{
         cursor: pointer;
     }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+.carousel-pre{
+    top: 20px;
+    left: 10px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg{
+        cursor: pointer;
+    }
+    transform: rotate(180deg);
+}
+.carousel-button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 40px;
+}
+.noti{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
