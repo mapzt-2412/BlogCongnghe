@@ -6,10 +6,15 @@ import { Input } from "antd";
 import PropertiesService from "../../../services/properties.service";
 import { useRouter } from 'next/router';
 import { getToken } from "../../../libs/common";
+import userService from "../../../services/user.service";
 
 const Comment = ({ data, level, handleInteractiveLastChild }) => {
     const [isShowReply, setIsShowReply] = useState(false);
     const [isShowInput, setIsShowInput] = useState(false);
+    const [like, setLike] = useState(data?.liked);
+    const [dislike, setDislike] = useState(data?.disliked);
+    const [likeNum, setLikeNum] = useState(data?.likeNum);
+    const [dislikeNum, setDislikeNum] = useState(data?.dislikeNum);
     const [comment, setComment] = useState(data?.children);
     const [cmtAuthor, setCmtAuthor] = useState("");
     const refInput = useRef(null);
@@ -21,9 +26,10 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
     }
     useEffect(() => {
       if(id){ 
-        setRequestData({...requestData, articleId: id})
+        setRequestData(pre => ({...pre, articleId: id}))
       }
     },[id])
+
     const handleChangeInput = (e) => {
       setRequestData({...requestData, comment: e.target.value})
     }
@@ -56,6 +62,24 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
             }
         }
     }
+
+    const togglelike = () => {
+      userService.toggleLikeCmt({commentId: data?.id, status: !like}, getToken()).then((data) => {
+        setLike(data.data.data.like);
+        setDislike(data.data.data.dislike);
+        setDislikeNum(data.data.data.dislikeNum);
+        setLikeNum(data.data.data.likeNum);
+      })
+    }
+
+    const toggleDislike = () => {
+      userService.toggleDislikeCmt({commentId: data?.id, status: !dislike},  getToken()).then((data) => {
+        setLike(data.data.data.like);
+        setDislike(data.data.data.dislike);
+        setDislikeNum(data.data.data.dislikeNum);
+        setLikeNum(data.data.data.likeNum);
+      })
+    }
     return (
         <div className={`first-level-comment comment`}>
         <div className="comment-wrapper">
@@ -68,14 +92,15 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
             </div>
             <div className="comment-content">
               <div className="comment-info">
-                <p>{data?.author?.username}</p>
+                <p>{data?.user?.nickname}</p>
                 <span className="italic">{formatDate(data?.createdAt)}</span>
               </div>
               <p>{ data.content }</p>
             </div>
         </div>
         <div className="comment-interactive">
-            <p>Thích</p>
+            {like? <p onClick={togglelike}>{`${likeNum} Đã Thích`}</p> : <p onClick={togglelike}>{`${likeNum} Thích`}</p>}
+            {dislike? <p onClick={toggleDislike}>{`${dislikeNum} Đã Không Thích`}</p> : <p onClick={toggleDislike}>{`${dislikeNum} Không Thích`}</p>}
             <p onClick={() => handleInteractive("reply", data?.user.username)}>Phản hồi</p>
             <p>Chia sẻ</p>
         </div>

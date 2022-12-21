@@ -100,7 +100,7 @@ const PostDetail = () => {
         // setContent(data.data.data.content);
         setInteractives(data.data.data.interactives)
       })
-      PropertiesService.getComment(id).then((data) => setComment(data.data.data))
+      PropertiesService.getComment(id,getToken()).then((data) => setComment(data.data.data))
     }
   },[id])
   const renderContent = (type , data) => {

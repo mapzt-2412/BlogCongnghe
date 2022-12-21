@@ -10,41 +10,48 @@ import { URL } from "../../libs/constants";
 import { report } from "../../libs/commonConstants";
 import { FacebookShareButton } from "react-share";
 import { Modal, Radio, Select, Input, Button, RadioChangeEvent  } from 'antd';
+import userService from "../../services/user.service";
 
 const { Option } = Select;
 
 const Interactive = ({dataInteractive , id }) => {
-  const [like, setLike] = useState(dataInteractive?.isLike);
+  const [like, setLike] = useState(dataInteractive?.liked);
+  const [dislike, setDislike] = useState(dataInteractive?.disliked);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [likeNum, setLikeNum] = useState(0);
+  const [dislikeNum, setDislikeNum] = useState(0);
   const [bookmark, setBookmark] = useState(false);
   const [callApi, setCallApi] = useState(false);
   const [reportContent, setReportContent] = useState("");
   const [placement, SetPlacement] = useState('');
   const [data, setData ] = useState({
-    like: like,
     bookmark: bookmark,
     articleId: '',
   });
   useEffect(() => {
-    if(dataInteractive?.isLike){ 
-      setLike(dataInteractive?.isLike)
+    if(dataInteractive?.liked){ 
+      setLike(dataInteractive?.liked)
+    }
+    if(dataInteractive?.disliked){ 
+      setDislike(dataInteractive?.disliked)
     }
     if(dataInteractive?.isBookmark){
       setBookmark(dataInteractive?.isBookmark)
     }
-    if(dataInteractive?.interactives?.likeNum){
-      console.log(dataInteractive?.interactives?.likeNum)
-      setLikeNum(dataInteractive?.interactives?.likeNum)
+    if(dataInteractive?.likeNum){
+      setLikeNum(dataInteractive?.likeNum)
     }
-  },[dataInteractive?.isLike, dataInteractive?.isBookmark])
+    if(dataInteractive?.dislikeNum){
+      setDislikeNum(dataInteractive?.dislikeNum)
+    }
+  },[dataInteractive?.isBookmark, dataInteractive?.likeNum, dataInteractive?.dislikeNum, dataInteractive?.liked, dataInteractive?.disliked, dataInteractive?.likeNum, dataInteractive?.dislikeNum, dataInteractive])
 
   useEffect(()=>{
     if(callApi) {
       PropertiesService.likeArticle(data, getToken()).then((data) => console.log(data.data.data))
       setCallApi(false);
     }
-  },[data])
+  },[callApi, data])
 
   console.log(data)
 
@@ -52,15 +59,14 @@ const Interactive = ({dataInteractive , id }) => {
     setData((pre) => {
       return {
         ...pre,
-      like: like,
       bookmark: bookmark,
       }
     })
-  },[like, bookmark])
-  
+  },[bookmark])
+
   useEffect(() => {
     if(id){ 
-      setData({...data, articleId: id})
+      setData((pre) => ({...pre, articleId: id}))
     }
   },[id])
   const handleComment = () => {
@@ -69,12 +75,22 @@ const Interactive = ({dataInteractive , id }) => {
   const handleInteractive = (type) =>{
     if(type === "like"){
       setLike(!like);
-      if(like === true){
-        setLikeNum(likeNum - 1);
-      }else{
-        setLikeNum(likeNum + 1);
-      }
-      setData({...data, like: !like});
+      userService.toggleLike({articleId: id, status: !like}, getToken()).then((data) => {
+        console.log(data)
+        setLikeNum(data.data.data.likeNum);
+        setDislikeNum(data.data.data.dislikeNum);
+        setLike(data.data.data.like);
+        setDislike(data.data.data.dislike);
+      });
+      setCallApi(true);
+    }else if(type === "dislike"){
+      setDislike(!dislike);
+      userService.toggleDisliked({articleId: id, status: !dislike}, getToken()).then((data) => {
+        setLikeNum(data.data.data.likeNum);
+        setDislikeNum(data.data.data.dislikeNum);
+        setLike(data.data.data.like);
+        setDislike(data.data.data.dislike);
+      });
       setCallApi(true);
     }
     else if(type === "bookmark"){
@@ -111,6 +127,14 @@ const Interactive = ({dataInteractive , id }) => {
         
         <span>{likeNum}</span>
         Thích
+      </button>
+      <button className={"interactive dislike"} onClick={()=> handleInteractive("dislike")}>
+        {
+          dislike ? <IconLikeActive width={23} height={21} /> : <IconLike width={23} height={21} />
+        }
+        
+        <span>{dislikeNum}</span>
+        Không thích
       </button>
       <FacebookShareButton url={"https://www.bilibili.tv/vi/play/1060852?bstar_from=bstar-web.search-result.0.0"} className="interactive">
           <IconShare width={19} height={21} />

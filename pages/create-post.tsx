@@ -1,4 +1,4 @@
-import { Select, Input, Row, Col, message, Modal } from "antd";
+import { Select, Input, Row, Col, message, Modal, Spin } from "antd";
 import React, {
   FC,
   memo,
@@ -76,6 +76,7 @@ const CreatePost = () => {
   const [dataDefault, setDataDefault] = useState();
   const [isCreateDraft, setIsCreateDraft] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
   // const initialData = {
   //   topicId:'',
   //   tags: [],
@@ -332,7 +333,7 @@ console.log(reqData)
   const handleDelete = useCallback((index) => {
     const result = data.filter((value, i) => i !== index);
     setData(result);
-  },[]);
+  },[data]);
 
   const memu = [
     {
@@ -452,6 +453,9 @@ console.log(reqData)
         setReqData={setReqData}
         handleSubmit={handleSubmit}
         />
+        {
+          loading && <Spin/>
+        }
         <div className="create-post-content">
           <div className="create-post-content-item">
             <div className="create-post-content-left">Chủ đề</div>
@@ -641,7 +645,7 @@ console.log(reqData)
               <Row gutter={[16, 16]}>
                 {memu.map((value, index) => (
                   <Col className="create-post-memu-item" span={12} key={index}>
-                    <div className="memu-item-icon-wrapper">
+                    <div className="memu-item-icon-wrapper" onClick={() => setLoading(true)}>
                       <div className="memu-item-icon" onClick={value.callBack}>
                         {value.lable}
                       </div>

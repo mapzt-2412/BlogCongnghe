@@ -2,7 +2,7 @@ import http, { instanceNoSpiner } from './http-common';
 import { DEFAULT_PAGE_SIZE } from '../libs/commonConstants';
 class PropertiesService {
     login(data) {
-        return http.get("/", JSON.stringify(data))
+        return http.post("/auth/login", JSON.stringify(data))
     }
     register(data){
         return http.post("/auth/sign-up", JSON.stringify(data))
@@ -88,7 +88,10 @@ class PropertiesService {
     commentArticle(data, token){
         return instanceNoSpiner.post(`/users/comment`, JSON.stringify(data), {headers: {'Authorization': "Bearer " + token}} )
     }
-    getComment(id){
+    getComment(id, token){
+        if(token){
+            return http.get(`/articles/${id}/comment`, {headers: {'Authorization': "Bearer " + token}})
+        }
         return http.get(`/articles/${id}/comment`)
     }
     getFollowed(token){

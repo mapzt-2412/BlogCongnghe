@@ -12,24 +12,26 @@ import NavBar from "./NavBar/NavBar";
 import { useRouter } from "next/router";
 import { ROUTE_HOME, ROUTE_SHORTVIDEO } from "../../libs/constants";
 import ModalLogin from "./ModalLogin/ModalLogin";
-import { getToken, deleteToken, saveTheme, getTheme } from "../../libs/common";
+import { getToken, deleteToken, saveTheme, getTheme, handleError } from "../../libs/common";
 import PropertiesService from "../../services/properties.service";
 import Link from "next/link";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
 import { Switch } from "antd";
 import ChangeTheme from "../ChangeTheme";
+import ModalFeedback from "../ModalFeedback/ModalFeedback";
 
 const Header = (props) => {
   const router = useRouter();
   const [data, setData] = useState();
   const [tab, setTab] = useState("Login");
-  const [token, setToken] = useState();
+  const [token, setToken] = useState<string | false | undefined>();
   const [theme, setTheme] = useState(getTheme());
   const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);
   const [print, setPrint] = useState(false);
   const [keyword, setKeyword] = useState();
   const [isDisplaySearch, setIsDisplaySearch] = useState(false);
   const [isShowMenuMobile, setIsShowMenuMobile] = useState(false);
+  const [isModalFeedbackVisible, setIsModalFeedbackVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   // const [loginError, setLoginError] = useState<string | undefined>()
 
@@ -39,9 +41,14 @@ const Header = (props) => {
     }
     if (getToken()) {
       setToken(getToken());
-      PropertiesService.getProfile(getToken()).then((data) =>
-        setData(data.data.data)
-      );
+      PropertiesService.getProfile(getToken()).then((data) => {
+        console.log(data)
+        if (data.status === 200) {
+          setData(data.data.data);
+          return;
+        }
+        handleError(data.data.message);
+      });
     }
   }, []);
 
@@ -60,7 +67,7 @@ const Header = (props) => {
         }
       });
     }
-  },[]);
+  }, []);
 
   const onChangeTheme = (theme) => {
     saveTheme(theme);
@@ -92,12 +99,15 @@ const Header = (props) => {
   //   });
   // };
   const handleClick = ({ key }) => {
-    console.log(key);
-    if (key === "2") {
+    if (key === "3") {
       deleteToken();
-    } else if (key === "1") {
-      router.push(`/${data?.username}/dashboard`);
+      return;
     }
+    if (key === "2") {
+      setIsModalFeedbackVisible(true);
+      return;
+    }
+    router.push(`/${data?.username}/dashboard`);
   };
 
   const getData = (val) => {
@@ -118,6 +128,10 @@ const Header = (props) => {
         },
         {
           key: "2",
+          label: <div>Phản hồi với quản trị viên</div>,
+        },
+        {
+          key: "3",
           label: <div>Đăng xuất</div>,
         },
       ]}
@@ -132,9 +146,15 @@ const Header = (props) => {
           setIsModalLoginVisible={setIsModalLoginVisible}
           tabName={tab}
         />
-
+        <ModalFeedback
+          isModalVisible={isModalFeedbackVisible}
+          setModalVisible={setIsModalFeedbackVisible}
+        />
         <div className="header-logo">
-          <MenuOutlined className="icon-menu-mobile" onClick={() => setIsShowMenuMobile(true)}/>
+          <MenuOutlined
+            className="icon-menu-mobile"
+            onClick={() => setIsShowMenuMobile(true)}
+          />
           <div className="header-logo-pointer">
             <Link href={ROUTE_HOME}>
               <Logo />

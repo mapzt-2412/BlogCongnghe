@@ -67,7 +67,7 @@
 }
 .interactive{
     height: 40px;
-    padding: 0px 16px !important;
+    padding: 0px 12px !important;
     display: flex;
     align-items: center;
     border: none;
@@ -83,11 +83,16 @@
         margin-right: 4px;
     }
 }
+.interactive.dislike{
+    svg{
+        transform: rotate(180deg);
+    }
+}
 .interactive.active{
     background: $color--blue;
 }
 .interactive-container{
-    display: flex-row;
+    display: flex;
     @media screen and (max-width: 768px) {
         display: block;
     }

@@ -2,11 +2,10 @@ import React, { FC, memo } from 'react';
 import Image from 'next/image';
 import AvatarDefaultSmall from '../../../assets/icon/AvatarDefaultSmall';
 import IconTimming from '../../../assets/icon/IconTimming';
-import { SliceString } from '../../../libs/common';
+import { formatDate, SliceString } from '../../../libs/common';
 import { stringLengthTitle, stringLengthDescription } from '../../../libs/commonConstants';
 import moment from 'moment';
-import Link from "next/link"
-import vi from "moment/locale/vi";
+import Link from "next/link";
 
 interface IPostCardProps {
     data: {
@@ -53,7 +52,7 @@ const PostCard: FC<IPostCardProps> = ({ data, index, type }) => {
                     <IconTimming/>
                     <div className="post-duration">
                         {
-                            moment(data?.updatedAt, "YYYYMMDD").locale("vi", vi).fromNow()
+                            formatDate(data?.updatedAt)
                         }
                     </div>
                 </div>

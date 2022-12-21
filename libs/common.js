@@ -1,5 +1,7 @@
 import moment from 'moment';
 import vi from "moment/locale/vi";
+import { message } from 'antd';
+
 export const formatDate = (date) => {
     return moment.utc(date).locale("vi", vi).fromNow();
 }
@@ -62,4 +64,12 @@ export const getId = () => {
     }
 }
 
-// export const checkJWT
+export const handleError = (content) => {
+    if(content === 'jwt expired'){
+        deleteToken();
+        message.warn('Vui lòng đăng nhập lại')
+        return;
+    }
+    message.error(content);
+};
+

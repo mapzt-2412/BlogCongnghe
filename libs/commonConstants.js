@@ -73,5 +73,5 @@ export const color = [
         type: "Other"
     },
   ]
-
+  
   export const DEFAULT_PAGE_SIZE = 9;

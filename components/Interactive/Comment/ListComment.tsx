@@ -13,7 +13,7 @@ const ListComment = ({ comment, setComment}) => {
   }
   useEffect(() => {
     if(id){ 
-      setData({...data, articleId: id})
+      setData(pre => ({...pre, articleId: id}))
     }
   },[id])
   const handleKeyDown = (e) => {
