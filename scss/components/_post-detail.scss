@@ -1,236 +1,245 @@
-.post-detail-container{
-    width: 55%;
-    margin: auto;
-    min-height: calc(100vh - 88px - 190px - 56px);
-    .post-detail-title{
-        @include font-21;
-        font-family: $font-medium, sans-serif;
-        p {
-            @media screen and (max-width: 768px) {
-                margin-bottom: 0;
-            }
-        }
+.post-detail-container {
+  width: 55%;
+  margin: auto;
+  min-height: calc(100vh - 88px - 190px - 56px);
+  .post-detail-title {
+    @include font-21;
+    font-family: $font-medium, sans-serif;
+    p {
+      @media screen and (max-width: 768px) {
+        margin-bottom: 0;
+      }
     }
-    .post-detail-author{
-        display: flex;
-        align-items: center;
-        margin-bottom: 28px;
-        button{
-            margin-left: 16px;
-            height: 16px;
-            @include font-8;
-            display: flex;
-            align-items: center;
-            background-color: $color--blue;
-        }
-        .post-author-profile{
-            padding-right: 16px;
-        }
-        @media screen and (max-width: 768px) {
-            display: block;
-            margin-top: 8px;
-        } 
-    }
-    .post-detail-time{
-        display: flex;
-        align-items: center;
-        padding: 0px 16px;
-        border-left: 1px solid $color--border1;
-        p{
-            margin-bottom: 0px;
-            color: $color--text1;
-            @include font-14;
-        }
-        span{
-            @include font-14;
-            color: $color--text2;
-            margin-right: 4px;
-        }
-        @media screen and (max-width: 768px) {
-            border-left: none;
-            padding-top: 8px;
-        }  
-    }
-    .post-detail-content{
-        padding-bottom: 16px;
-        border-bottom: 1px solid $color--text1;
-        .post-detail-main-content{
-            margin-top: 24px;
-            text-align: justify;
-        }
-    }
-
-    @media screen and (max-width: 768px) {
-        width: 88%;
-    }
-
-}
-.interactive{
-    height: 40px;
-    padding: 0px 12px !important;
+  }
+  .post-detail-author {
     display: flex;
     align-items: center;
+    margin-bottom: 28px;
+    button {
+      margin-left: 16px;
+      height: 16px;
+      @include font-8;
+      display: flex;
+      align-items: center;
+      background-color: $color--blue;
+    }
+    .post-author-profile {
+      padding-right: 16px;
+    }
+    @media screen and (max-width: 768px) {
+      display: block;
+      margin-top: 8px;
+    }
+  }
+  .post-detail-time {
+    display: flex;
+    align-items: center;
+    padding: 0px 16px;
+    border-left: 1px solid $color--border1;
+    p {
+      margin-bottom: 0px;
+      color: $color--text1;
+      @include font-14;
+    }
+    span {
+      @include font-14;
+      color: $color--text2;
+      margin-right: 4px;
+    }
+    @media screen and (max-width: 768px) {
+      border-left: none;
+      padding-top: 8px;
+    }
+  }
+  .post-detail-content {
+    padding-bottom: 16px;
+    border-bottom: 1px solid $color--text1;
+    .post-detail-main-content {
+      margin-top: 24px;
+      text-align: justify;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 88%;
+  }
+}
+.interactive {
+  height: 40px;
+  padding: 0px 12px !important;
+  display: flex;
+  align-items: center;
+  border: none;
+  margin-right: 16px;
+  background: $color--background !important;
+  cursor: pointer;
+  @include font-16;
+  svg {
+    margin-right: 8px;
+  }
+  span {
+    color: $color--dark;
+    margin-right: 4px;
+  }
+}
+.interactive.dislike {
+  svg {
+    transform: rotate(180deg);
+  }
+}
+.interactive.active {
+  background: $color--blue;
+}
+.interactive-container {
+  display: flex;
+  @media screen and (max-width: 768px) {
+    display: block;
+  }
+  .interactive-normal-class {
+    display: flex;
+    .interactive {
+      @media screen and (max-width: 768px) {
+        margin-right: 0;
+      }
+    }
+  }
+  .interactive-advance-class {
+    display: flex;
+    margin-top: 8px;
+    @media screen and (max-width: 768px) {
+      display: flex;
+      margin-top: 8px;
+      align-items: center;
+    }
+  }
+}
+.comment-input {
+  padding: 32px 0px;
+  border-bottom: 1px solid $color--border1;
+  input {
+    height: 48px;
+    border-radius: 3px;
     border: none;
+    background: $color--background;
+  }
+}
+.comment-wrapper {
+  padding: 32px 0px;
+  display: flex;
+  .comment-avatar {
     margin-right: 16px;
-    background: $color--background !important;
-    cursor: pointer;
-    @include font-16;
-    svg{
-        margin-right: 8px;
-    }
-    span{
-        color: $color--dark;
-        margin-right: 4px;
-    }
-}
-.interactive.dislike{
-    svg{
-        transform: rotate(180deg);
-    }
-}
-.interactive.active{
-    background: $color--blue;
-}
-.interactive-container{
-    display: flex;
-    @media screen and (max-width: 768px) {
-        display: block;
-    }
-    .interactive-normal-class {
-        display: flex;
-        .interactive {
-            @media screen and (max-width: 768px) {
-                margin-right: 0;
-            }
-        }
-    }
-    .interactive-advance-class {
-        display: flex;
-        margin-top: 8px;
-        @media screen and (max-width: 768px) {
-            display: flex;
-            margin-top: 8px;
-            align-items: center;
-        }
-    }
-}
-.comment-input{
-    padding: 32px 0px;
-    border-bottom: 1px solid $color--border1;
-    input{
-        height: 48px;
-        border-radius: 3px;
-        border: none;
-        background: $color--background;
-    }
-}
-.comment-wrapper{
-    padding: 32px 0px;
-    display: flex;
-    .comment-avatar{
-        margin-right: 16px;
-    }
-    .comment-content{
-        width: 100%;
-        padding: 16px;
-        background: $color--background;
-        border-radius: 3px;
-        p{
-            @include font-14-21;
-            margin: 0px;
-        }
-        .comment-info{
-            display: flex;
-            margin-bottom: 18px;
-            p{
-                @include font-14;
-                margin-right: 16px;
-            }
-            span{
-                @include font-12;
-            }
-        }
-    }
-}
-.child-level-comment{
-    margin-left: 48px;
-    padding-left: 16px;
-    border-left: 2px solid $color--border1;
-    .see-more{
-        cursor: pointer;
-        color: $color--blue;
-    }
-    .comment-wrapper{
-        padding: 0px;
-        padding-bottom: 8px;   
-    }
-    .comment-interactive{
-        margin-top: -8px;
-    }
-}
-.comment-interactive{
-    display: flex;
-    margin-left: 48px;
-    margin-top: -32px;
-    p{
-        cursor: pointer;
-        margin-right: 16px;
-        color: $color--blue;
-    }
-}
-.comment-input-reply{
-    display: flex;
-    align-items: center;
-    margin: 16px 0px;
-    margin-left: 48px;
-    height: 40px;
-    padding: 0 16px;
+  }
+  .comment-content {
+    width: 100%;
+    padding: 16px;
     background: $color--background;
     border-radius: 3px;
-    span{
-        color: $color--blue;
+    p {
+      @include font-14-21;
+      margin: 0px;
     }
-    input{
-        border: none;
-        background: $color--background;
-        width: 100%;
+    .comment-info {
+      display: flex;
+      margin-bottom: 18px;
+      p {
+        @include font-14;
+        margin-right: 16px;
+      }
+      span {
+        @include font-12;
+      }
     }
-    input:focus-visible{
-        outline: none;
-    }
-    
+  }
 }
-.comment-container{
-    margin-bottom: 50px;
+.child-level-comment {
+  margin-left: 48px;
+  padding-left: 16px;
+  border-left: 2px solid $color--border1;
+  .see-more {
+    cursor: pointer;
+    color: $color--blue;
+  }
+  .comment-wrapper {
+    padding: 0px;
+    padding-bottom: 8px;
+  }
+  .comment-interactive {
+    margin-top: -6px;
+  }
 }
-.path-container{
+.comment-interactive {
+  display: flex;
+  padding-left: 16px;
+  margin-left: 48px;
+  margin-top: -30px;
+  p {
+    cursor: pointer;
+    margin-right: 16px;
+    color: $color--blue;
     display: flex;
-    margin-top: -15px;
-    margin-bottom: 24px;
-    .path-title{
-        color: $color--text1;
+    // align-items: center;
+    svg{
+        margin-left: 4px;
     }
+  }
+  .dislike {   
+    svg {
+      transform: rotate(180deg);
+    }
+  }
 }
-.slash{
+.comment-input-reply {
+  display: flex;
+  align-items: center;
+  margin: 16px 0px;
+  margin-left: 48px;
+  height: 40px;
+  padding: 0 16px;
+  background: $color--background;
+  border-radius: 3px;
+  span {
+    color: $color--blue;
+  }
+  input {
+    border: none;
+    background: $color--background;
+    width: 100%;
+  }
+  input:focus-visible {
+    outline: none;
+  }
+}
+.comment-container {
+  margin-bottom: 50px;
+}
+.path-container {
+  display: flex;
+  margin-top: -15px;
+  margin-bottom: 24px;
+  .path-title {
     color: $color--text1;
-    margin: 0px 4px;
+  }
 }
-.react-share__ShareButton{
-    display: flex;
-    align-items: center;
+.slash {
+  color: $color--text1;
+  margin: 0px 4px;
+}
+.react-share__ShareButton {
+  display: flex;
+  align-items: center;
 }
 .ant-radio-group {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    label{
-        height: auto;
-        padding: 8px;
-        margin-bottom: 8px;
-    }
+  label {
+    height: auto;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
 }
-.interactive-report{
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
+.interactive-report {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }

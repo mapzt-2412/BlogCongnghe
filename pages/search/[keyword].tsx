@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { memo, useEffect, useState } from "react";
 import ListPost from "../../components/ListPost/ListPost";
 import PropertiesService from "../../services/properties.service";
-const searchField = () => {
+const SearchField = () => {
     const {keyword} = useRouter().query;
     const [data, setData] = useState();
     useEffect(() => {
@@ -18,4 +18,4 @@ const searchField = () => {
     </>
 }
 
-export default memo(searchField);
+export default memo(SearchField);

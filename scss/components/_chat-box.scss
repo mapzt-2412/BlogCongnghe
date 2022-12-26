@@ -105,6 +105,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    .chat-box-dot{
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        background-color: red;
+        position: absolute;
+        top: 0px;
+        right: 5px;
+        opacity: 0.8;
+    }
 }
 .spin-loading{
     width: 100%;

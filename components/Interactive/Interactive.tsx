@@ -136,7 +136,7 @@ const Interactive = ({dataInteractive , id }) => {
         <span>{dislikeNum}</span>
         Không thích
       </button>
-      <FacebookShareButton url={"https://www.bilibili.tv/vi/play/1060852?bstar_from=bstar-web.search-result.0.0"} className="interactive">
+      <FacebookShareButton url={`${process.env.REACT_APP_BASE_URL}/post/${id}`} className="interactive">
           <IconShare width={19} height={21} />
           Chia sẻ
       </FacebookShareButton>

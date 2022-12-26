@@ -1,5 +1,5 @@
-import { Input, Dropdown, Menu, Space } from "antd";
-import React, { memo, useEffect } from "react";
+import { Input, Dropdown, Menu, Space, Popover, notification } from "antd";
+import React, { memo, useCallback, useEffect } from "react";
 import { useState } from "react";
 import IconSearch from "../../assets/icon/IconSearch";
 import IconSignin from "../../assets/icon/IconSignin";
@@ -12,13 +12,25 @@ import NavBar from "./NavBar/NavBar";
 import { useRouter } from "next/router";
 import { ROUTE_HOME, ROUTE_SHORTVIDEO } from "../../libs/constants";
 import ModalLogin from "./ModalLogin/ModalLogin";
-import { getToken, deleteToken, saveTheme, getTheme, handleError } from "../../libs/common";
+import {
+  getToken,
+  deleteToken,
+  saveTheme,
+  getTheme,
+  handleError,
+  getId,
+} from "../../libs/common";
 import PropertiesService from "../../services/properties.service";
 import Link from "next/link";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
 import { Switch } from "antd";
 import ChangeTheme from "../ChangeTheme";
 import ModalFeedback from "../ModalFeedback/ModalFeedback";
+import IconNoti from "../../assets/icon/IconNoti";
+import Notification from "../Notification/Notification";
+import io from "socket.io-client";
+
+const socket = io(process.env.REACT_APP_APPROVE_URL);
 
 const Header = (props) => {
   const router = useRouter();
@@ -27,13 +39,28 @@ const Header = (props) => {
   const [token, setToken] = useState<string | false | undefined>();
   const [theme, setTheme] = useState(getTheme());
   const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);
-  const [print, setPrint] = useState(false);
   const [keyword, setKeyword] = useState();
   const [isDisplaySearch, setIsDisplaySearch] = useState(false);
   const [isShowMenuMobile, setIsShowMenuMobile] = useState(false);
   const [isModalFeedbackVisible, setIsModalFeedbackVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  // const [api, contextHolder] = notification.useNotification();
   // const [loginError, setLoginError] = useState<string | undefined>()
+
+  const openNotification = useCallback((data) => {
+    if(data.type === 'Success'){
+       notification.success({
+        message: `Thông báo`,
+        description: 'Bài viết duyệt thành công',
+      });
+    }else{
+      notification.error({
+        message: `Thông báo`,
+        description: 'Bài viết của bạn duyệt không thành công',
+      });
+    }
+    
+  },[]);
 
   useEffect(() => {
     if (getTheme() === "dark") {
@@ -42,7 +69,7 @@ const Header = (props) => {
     if (getToken()) {
       setToken(getToken());
       PropertiesService.getProfile(getToken()).then((data) => {
-        console.log(data)
+        console.log(data);
         if (data.status === 200) {
           setData(data.data.data);
           return;
@@ -69,6 +96,18 @@ const Header = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (getId()) {
+      console.log(`approveResult ${getId()}`);
+      socket.on(`approveResult ${getId()}`, (data) => {
+        console.log(data)
+        openNotification(data)
+      });
+    }
+    return () => {
+      socket.off(`approveResult ${getId()}`);
+    };
+  }, [openNotification]);
   const onChangeTheme = (theme) => {
     saveTheme(theme);
     setTheme(theme);
@@ -180,6 +219,16 @@ const Header = (props) => {
         <div className="header-profile">
           {token ? (
             <>
+              <Popover
+                content={<Notification />}
+                title="Thông báo"
+                trigger="click"
+              >
+                <div className="header-button-noti">
+                  <IconNoti />
+                </div>
+              </Popover>
+
               <div className="header-button header-login">
                 <Dropdown overlay={menu} placement="bottom">
                   <Space>

@@ -14,6 +14,7 @@ import AreaChart from "../../components/createPost/Chart/AreaChart";
 import { getToken } from "../../libs/common";
 
 import showdown from "showdown";
+import Head from "next/head";
 
 const converter = new showdown.Converter();
 
@@ -133,11 +134,22 @@ const PostDetail = () => {
     }
   }
   const handleFollow = () => {
-    PropertiesService.userFollow({userFollowedId: data.author.id}, getToken()).then((data) => {
+    PropertiesService.userFollow({userFollowedId: data.user.id}, getToken()).then((data) => {
       console.log(data)
     } )
   }
+  console.log(data?.tags)
   return (
+    <>
+    <Head>
+      <title>{data?.title}</title>
+      <meta name="keywords" content={data?.title}></meta>
+      <meta property="og:type" content="article" />
+      <meta property="og:description" content={`${data?.description} , ${data?.tags.map(value => value.name).join(',')}`}></meta>
+      <meta property="og:title" content={data?.title}></meta>
+      <meta property="og:image" content={data?.thumbnail}></meta>
+      <meta property="og:url" content={`${process.env.REACT_APP_BASE_URL}/post/${id}`} />
+    </Head>
     <div className="post-detail-container">
       <Path data={{title: ["Technology"], content: data?.title}}/>
       <div className="post-detail-title">
@@ -158,7 +170,7 @@ const PostDetail = () => {
               <AvatarDefaultSmall />
             )}
           </div>
-          <Link href={`/${data?.author?.id}`}>{data?.user?.nickname ? data?.user?.nickname : "Người dùng hệ thống" }</Link>
+          <Link href={`/${data?.user?.id}`}>{data?.user?.nickname ? data?.user?.nickname : "Người dùng hệ thống" }</Link>
             {
               !data?.isFollow && 
             <Button type="primary" onClick={handleFollow}>
@@ -192,6 +204,7 @@ const PostDetail = () => {
       <ListComment comment={comment} setComment={setComment}/>
       <Recommend posts={trends}/>
     </div>
+    </>
   );
 };
 export default memo(PostDetail);

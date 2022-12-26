@@ -17,7 +17,6 @@ import {
   handleError,
 } from "../../libs/common";
 import IconHideChatBox from "../../assets/icon/IconHideChatBox";
-import IconClose from "../../assets/icon/IconClose";
 import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import IconChatBox from "../../assets/icon/IconChatBox";
 import { UserInfo } from "../../pages/_app.js";
@@ -27,6 +26,7 @@ const socket = io(process.env.REACT_APP_API_URL);
 
 const ChatBox = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);
+  const [newMessage, setNewMessage] = useState(false);
   const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);
   const [content, setContent] = useState("");
   const [isShow, setIsShow] = useState(false);
@@ -79,22 +79,24 @@ const ChatBox = () => {
 
   useEffect(() => {
     if (getToken()) {
-      PropertiesService.getMessage(getToken()).then((data) => {
-        if (data.status === 200) {
-          setUser(data.data.Data);
-          setIdReceive(data.data.Data[0]?.id);
-          if (data.data.Data[0]?.id) {
-            PropertiesService.getMessageByUser(
-              data.data.Data[0]?.id,
-              getToken()
-            ).then((data) => setDataMessage(data.data.data));
+      PropertiesService.getMessage(getToken())
+        .then((data) => {
+          if (data.status === 200) {
+            setUser(data.data.Data);
+            setIdReceive(data.data.Data[0]?.id);
+            if (data.data.Data[0]?.id) {
+              PropertiesService.getMessageByUser(
+                data.data.Data[0]?.id,
+                getToken()
+              ).then((data) => setDataMessage(data.data.data));
+            }
+            return;
           }
-          return;
-        }
-        handleError(data.data.message);
-      }).catch((data) =>  {
-        handleError(data.response.data.message)
-      });
+          handleError(data.data.message);
+        })
+        .catch((data) => {
+          handleError(data.response.data.message);
+        });
     }
   }, []);
 
@@ -106,11 +108,21 @@ const ChatBox = () => {
       setIsLoading(false);
     });
   };
+  useEffect(() => {
+    if (getId()) {
+      console.log(getId());
+      socket.on(getId(), (data) => {
+        setNewMessage(true);
+      });
+    }
+    return () => {
+      socket.off(getId());
+    };
+  }, []);
 
   useEffect(() => {
     if (idReceive > getId()) {
       socket.on(idReceive + " " + getId(), (data) => {
-        console.log(data.id !== getId());
         if (data.id !== getId() && dataMessage.length !== 0) {
           setDataMessage([...dataMessage, data]);
         }
@@ -163,6 +175,7 @@ const ChatBox = () => {
   };
 
   const handleShowChat = () => {
+    setNewMessage(false);
     if (getToken()) {
       setIsShow(true);
     } else {
@@ -227,6 +240,7 @@ const ChatBox = () => {
       ) : (
         <>
           <div className="chat-box-hidden" onClick={handleShowChat}>
+            {newMessage && <div className="chat-box-dot"></div>}
             <IconChatBox />
           </div>
         </>

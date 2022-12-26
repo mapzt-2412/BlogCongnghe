@@ -17,7 +17,7 @@ import ListComment from "../../components/Interactive/Comment/ListComment";
 import IconPlay from "./../../assets/icon/IconPlay";
 import { useRouter } from "next/router";
 import { ROUTE_NEWSFEEDS, ROUTE_SHORTVIDEO } from "./../../libs/constants";
-import ShortVideoContext, { Context } from "./context";
+import ShortVideoContext, { Context } from "./../../components/Context/context";
 import { UserInfo } from "../_app";
 import PropertiesService from "../../services/properties.service";
 
