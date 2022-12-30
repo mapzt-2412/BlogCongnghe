@@ -1,7 +1,7 @@
 import React from "react";
 import { FC, memo, useRef, useEffect, useState, useMemo } from "react";
 import { Modal, Row, Col, Radio, Button, message } from "antd";
-import EditorWrapper from "./editor/EditorWrapper";
+import EditorWrapper from "./Editor/EditorWrapper";
 import { getToken } from "../../libs/common";
 import { Tabs } from "antd";
 import Logo from "../../assets/icon/Logo";
@@ -57,7 +57,7 @@ const Content: FC<IContentProps> = ({
   };
   useEffect(() => {
     editorRef.current = {
-      ClassicEditor: require("./editor/ckeditor"),
+      ClassicEditor: require("./Editor/ckeditor"),
     };
     setEditorLoaded(true);
   }, []);

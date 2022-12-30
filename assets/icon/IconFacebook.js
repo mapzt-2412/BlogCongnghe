@@ -1,6 +1,6 @@
 import * as React from "react"
 
-function IconFacebook(props) {
+function IconFaceBook(props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,4 +23,4 @@ function IconFacebook(props) {
   )
 }
 
-export default IconFacebook
+export default IconFaceBook

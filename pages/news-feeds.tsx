@@ -3,7 +3,7 @@ import ListShortVideo from "../components/ShortVideo/ListShortVideo";
 import ListPost from "../components/ListPost/ListPost";
 import Path from "../components/Path";
 import { getToken } from "../libs/common";
-import PropertiesService from "../../BlogCongnghe/services/properties.service";
+import PropertiesService from "../services/properties.service";
 import ModalLogin from "../components/Header/ModalLogin/ModalLogin";
 import Login from "../components/Header/ModalLogin/Login";
 import { Modal } from "antd";

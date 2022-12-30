@@ -10,7 +10,7 @@ import { Button } from "antd";
 import Path from "../../components/Path";
 import PropertiesService from "../../services/properties.service";
 import { useRouter } from "next/router";
-import AreaChart from "../../components/createPost/Chart/AreaChart";
+import AreaChart from "../../components/CreatePost/Chart/AreaChart";
 import { getToken } from "../../libs/common";
 
 import showdown from "showdown";
