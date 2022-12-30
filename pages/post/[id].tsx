@@ -9,7 +9,7 @@ import AvatarDefaultSmall from "../../assets/icon/AvatarDefaultSmall";
 import { Button } from "antd";
 import Path from "../../components/Path";
 import PropertiesService from "../../services/properties.service";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import AreaChart from "../../components/createPost/Chart/AreaChart";
 import { getToken } from "../../libs/common";
 
@@ -20,58 +20,57 @@ const converter = new showdown.Converter();
 
 const trends = [
   {
-      title: "Trong tương lai, mô hình kinh doanh chuyển sang online", 
-      image: "/slide1.jpg",
+    title: "Trong tương lai, mô hình kinh doanh chuyển sang online",
+    image: "/slide1.jpg",
   },
   {
-      title: "Trong tương lai, mô hình kinh doanh chuyển sang online", 
-      image: "/slide2.jpg",
+    title: "Trong tương lai, mô hình kinh doanh chuyển sang online",
+    image: "/slide2.jpg",
   },
   {
-      title: "Trong tương lai, mô hình kinh doanh chuyển sang online", 
-      image: "/slide3.jpg",
+    title: "Trong tương lai, mô hình kinh doanh chuyển sang online",
+    image: "/slide3.jpg",
   },
   {
-      title: "Trong tương lai, mô hình kinh doanh chuyển sang online", 
-      image: "/slide4.jpg",
+    title: "Trong tương lai, mô hình kinh doanh chuyển sang online",
+    image: "/slide4.jpg",
   },
 ];
 
-
 const tags = [
-    {
-        title: "#IOS", 
-        link: "/",
-    },
-    {
-        title: "#IOS", 
-        link: "/",
-    },
-    {
-        title: "#IOS", 
-        link: "/",
-    },
-    {
-        title: "#IOS", 
-        link: "/",
-    },
-    {
-        title: "#IOS", 
-        link: "/",
-    },
-    {
-        title: "#IOádasdasdS", 
-        link: "/",
-    },
-    {
-        title: "#IOádasdS", 
-        link: "/",
-    },
-    {
-        title: "#IOSấdasd", 
-        link: "/",
-    },
-]
+  {
+    title: "#IOS",
+    link: "/",
+  },
+  {
+    title: "#IOS",
+    link: "/",
+  },
+  {
+    title: "#IOS",
+    link: "/",
+  },
+  {
+    title: "#IOS",
+    link: "/",
+  },
+  {
+    title: "#IOS",
+    link: "/",
+  },
+  {
+    title: "#IOádasdasdS",
+    link: "/",
+  },
+  {
+    title: "#IOádasdS",
+    link: "/",
+  },
+  {
+    title: "#IOSấdasd",
+    link: "/",
+  },
+];
 
 const data = {
   title:
@@ -87,124 +86,168 @@ const data = {
   share: 1,
 };
 
-const PostDetail = () => {
+const PostDetail = (props) => {
   const { id } = useRouter().query;
   const [data, setData] = useState();
   const [content, setContent] = useState([]);
   const [comment, setComment] = useState();
   const [interactives, setInteractives] = useState();
+
   useEffect(() => {
-    if(id){
+    if (id) {
       PropertiesService.getArticleById(id, getToken()).then((data) => {
         setData(data.data.data);
         setContent(JSON.parse(data.data.data.content));
         // setContent(data.data.data.content);
-        setInteractives(data.data.data.interactives)
-      })
-      PropertiesService.getComment(id,getToken()).then((data) => setComment(data.data.data))
+        setInteractives(data.data.data.interactives);
+      });
+      PropertiesService.getComment(id, getToken()).then((data) =>
+        setComment(data.data.data)
+      );
     }
-  },[id])
-  const renderContent = (type , data) => {
-    if(type === "chart"){
-      return <AreaChart dataChart = {data}/>
-    }else if(type === "video"){
+  }, [id]);
+  const renderContent = (type, data) => {
+    if (type === "chart") {
+      return <AreaChart dataChart={data} />;
+    } else if (type === "video") {
       return (
         <div className="video-upload">
-                <video 
-                src={data}
-                loop
-                autoPlay
-                muted
-                controls
-                />
-                </div>
-      )
-    }else if(type === "content"){
-      if(data?.key === "normal"){
+          <video src={data} loop autoPlay muted controls />
+        </div>
+      );
+    } else if (type === "content") {
+      if (data?.key === "normal") {
         return (
-          <div dangerouslySetInnerHTML={{ __html: `${data.data}` }} className={"ck-content"}/>
-        )
-      }else{
+          <div
+            dangerouslySetInnerHTML={{ __html: `${data.data}` }}
+            className={"ck-content"}
+          />
+        );
+      } else {
         const html = converter.makeHtml(data.data);
         return (
-          <div dangerouslySetInnerHTML={{ __html: `${html}` }} className={"ck-markdown-content"} /> 
-        )
+          <div
+            dangerouslySetInnerHTML={{ __html: `${html}` }}
+            className={"ck-markdown-content"}
+          />
+        );
       }
-      
     }
-  }
+  };
   const handleFollow = () => {
-    PropertiesService.userFollow({userFollowedId: data.user.id}, getToken()).then((data) => {
-      console.log(data)
-    } )
-  }
-  console.log(data?.tags)
+    PropertiesService.userFollow(
+      { userFollowedId: data.user.id },
+      getToken()
+    ).then((data) => {
+      console.log(data);
+    });
+  };
+  console.log(props);
+
   return (
     <>
-    <Head>
-      <title>{data?.title}</title>
-      <meta name="keywords" content={data?.title}></meta>
-      <meta property="og:type" content="article" />
-      <meta property="og:description" content={`${data?.description} , ${data?.tags.map(value => value.name).join(',')}`}></meta>
-      <meta property="og:title" content={data?.title}></meta>
-      <meta property="og:image" content={data?.thumbnail}></meta>
-      <meta property="og:url" content={`${process.env.REACT_APP_BASE_URL}/post/${id}`} />
-    </Head>
-    <div className="post-detail-container">
-      <Path data={{title: ["Technology"], content: data?.title}}/>
-      <div className="post-detail-title">
-        <p>{data?.title}</p>
-      </div>
-      <div className="post-detail-author">
-        <div className="post-author-profile">
-          <div className="post-author-avatar">
-            {data?.authorImage ? (
-              <Image
-                src={data?.authorImage}
-                width={24}
-                height={24}
-                layout="responsive"
-                alt="avatar"
-              />
-            ) : (
-              <AvatarDefaultSmall />
+      <Head>
+        <title>{props?.apiResponse?.data.title}</title>
+        <meta name="keywords" content={props?.apiResponse?.data.title}></meta>
+        <meta property="og:type" content="article" />
+        <meta
+          property="og:description"
+          content={`${
+            props?.apiResponse?.data.description
+          } , ${props?.apiResponse?.data.tags
+            ?.map((value) => value.name)
+            .join(",")}`}
+        ></meta>
+        <meta property="og:title" content={props?.apiResponse?.data.title}></meta>
+        <meta
+          property="og:image"
+          content={props?.apiResponse?.data.thumbnail}
+        ></meta>
+        <meta
+          property="og:url"
+          content={`${process.env.REACT_APP_BASE_URL}/post/${id}`}
+        />
+      </Head>
+      <div className="post-detail-container">
+        <Path data={{ title: ["Technology"], content: data?.title }} />
+        <div className="post-detail-title">
+          <p>{data?.title}</p>
+        </div>
+        <div className="post-detail-author">
+          <div className="post-author-profile">
+            <div className="post-author-avatar">
+              {data?.authorImage ? (
+                <Image
+                  src={data?.authorImage}
+                  width={24}
+                  height={24}
+                  layout="responsive"
+                  alt="avatar"
+                />
+              ) : (
+                <AvatarDefaultSmall />
+              )}
+            </div>
+            <Link href={`/${data?.user?.id}`}>
+              {data?.user?.nickname
+                ? data?.user?.nickname
+                : "Người dùng hệ thống"}
+            </Link>
+            {!data?.isFollow && (
+              <Button type="primary" onClick={handleFollow}>
+                + Theo dõi
+              </Button>
             )}
           </div>
-          <Link href={`/${data?.user?.id}`}>{data?.user?.nickname ? data?.user?.nickname : "Người dùng hệ thống" }</Link>
-            {
-              !data?.isFollow && 
-            <Button type="primary" onClick={handleFollow}>
-              + Theo dõi
-            </Button> 
-            }
-        </div>
-        <div className="post-detail-time">
+          <div className="post-detail-time">
             <span>Ngày đăng: </span>
-            <p>{ data?.updatedAt.split("T")[0] }</p>
-        </div>
-        <div className="post-detail-time">
+            <p>{data?.updatedAt.split("T")[0]}</p>
+          </div>
+          <div className="post-detail-time">
             <span>Bình luận: </span>
-            <p>{ comment?.length }</p>
-        </div>        
-      </div>
-      <div className="post-detail-content">
-        <Image src={data?.thumbnail} width={654} height={300} layout="responsive" alt="post-image"/>
-        <div className="post-detail-main-content">
-            {
-              content?.map((value) => 
-              <>
-              {renderContent(value.type, value.data)}
-              </>
-              )
-            }
+            <p>{comment?.length}</p>
+          </div>
         </div>
-        <HotTags tags={data?.tags ? data?.tags : []}/>
-        <Interactive dataInteractive={data} id={id}/>
+        <div className="post-detail-content">
+          <Image
+            src={data?.thumbnail}
+            width={654}
+            height={300}
+            layout="responsive"
+            alt="post-image"
+          />
+          <div className="post-detail-main-content">
+            {content?.map((value) => (
+              <>{renderContent(value.type, value.data)}</>
+            ))}
+          </div>
+          <HotTags tags={data?.tags ? data?.tags : []} />
+          <Interactive dataInteractive={data} id={id} />
+        </div>
+        <ListComment comment={comment} setComment={setComment} />
+        <Recommend posts={trends} />
       </div>
-      <ListComment comment={comment} setComment={setComment}/>
-      <Recommend posts={trends}/>
-    </div>
     </>
   );
 };
+export async function getServerSideProps(context) {
+  let url = `https://blog-cong-nghe.herokuapp.com/articles/${context.params.id}`;
+
+  let requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const res = await fetch(url, requestOptions);
+  const resJson = await res.json();
+
+  return {
+    props: {
+      apiResponse: resJson,
+    },
+  };
+}
+
 export default memo(PostDetail);

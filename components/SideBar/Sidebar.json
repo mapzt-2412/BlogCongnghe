@@ -13,6 +13,10 @@
       {
         "title": "Bảng tin đã đăng",
         "key" : "3"
+      },
+      {
+        "title": "Thông báo về bài viết",
+        "key" : "10"
       }
     ]
   },

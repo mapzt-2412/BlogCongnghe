@@ -41,7 +41,7 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
   };
 
   const [reqData, setReqData] = useState({
-    topicId: 14,
+    topicId: 2,
     thumbnail: "story",
     title: "",
     content: [{
@@ -72,7 +72,7 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
     });
     setIsModalVideoVisible(false);
     setReqData({
-      topicId: 14,
+      topicId: 2,
       thumbnail: "story",
       title: "",
       content: [{

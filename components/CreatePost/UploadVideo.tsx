@@ -8,10 +8,11 @@ import type { UploadProps } from "antd";
 interface IUploadProps {
   isModalVideoVisible: boolean;
   setIsModalVideoVisible: (isModalVideoVisible: boolean) => void;
-  addData?: (data: any) => void;
-  addDataContent?: (data: any) => void;
+  addData: (data: any) => void;
+  addDataContent: (data: any) => void;
   type?: string;
   addUrl?: (url: string) => void;
+  setListVideo: (data: any) => void;
 }
 const UploadVideo: FC<IUploadProps> = ({
   isModalVideoVisible,
@@ -20,6 +21,7 @@ const UploadVideo: FC<IUploadProps> = ({
   addDataContent,
   type,
   addUrl,
+  setListVideo,
 }) => {
   const [videoUrl, setVideoUrl] = useState("");
   const [isPlay, setIsPlay] = useState(true);
@@ -35,7 +37,7 @@ const UploadVideo: FC<IUploadProps> = ({
     },
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+        setListVideo(pre => [...pre, info.file.response.url])
       }
       if (info.file.status === "done") {
         setVideoUrl(info.file.response.url);

@@ -98,7 +98,6 @@ const Header = (props) => {
 
   useEffect(() => {
     if (getId()) {
-      console.log(`approveResult ${getId()}`);
       socket.on(`approveResult ${getId()}`, (data) => {
         console.log(data)
         openNotification(data)

@@ -10,7 +10,6 @@ import { Modal } from "antd";
 import Register from "../components/Header/ModalLogin/Register";
 import { useRouter } from "next/router";
 import { ROUTE_HOME } from "../libs/constants";
-import ShortVideoContext from "./short-video/context";
 import { UserInfo } from "./_app";
 // interface IModalLoginProps {
 //   isModalLoginVisible: boolean | undefined;

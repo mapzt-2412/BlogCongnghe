@@ -13,6 +13,7 @@ import DashboardPassword from "../../components/DashboardInfo/Dashboard-Password
 import Follower from "../../components/Follower/Follower";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import { ROUTE_HOME } from "../../libs/constants";
+import NotificationArticle from "../../components/DashboardInfo/NotificationArticle";
 
 const Dashboard = () => {
   const { id } = useRouter().query;
@@ -72,7 +73,6 @@ const Dashboard = () => {
             />
           ))}
         </div>
-
         <div className="profile-list-post">
           {key === "1" && (
             <ListPost
@@ -92,6 +92,7 @@ const Dashboard = () => {
           {key === "8" && (
             <ListPost data={dataBookmark} id={"Bài viết đã đăng"} />
           )}
+          {key === "10" && (<NotificationArticle/>)}
         </div>
       </div>
     </div>

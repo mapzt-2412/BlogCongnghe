@@ -7,6 +7,7 @@ import { getToken } from "../../libs/common";
 import Router from "next/router";
 import { ROUTE_HOME } from "../../libs/constants";
 import { DatePicker, Space } from 'antd';
+import moment from "moment";
 
 const ModalCreate = ({isModalCreateVisible, setIsModalCreateVisible, setReqData, handleSubmit}) => {
 
@@ -14,7 +15,7 @@ const ModalCreate = ({isModalCreateVisible, setIsModalCreateVisible, setReqData,
       setReqData(pre => {
         return {
           ...pre, 
-          dateTime: dateString,
+          dateTime: moment(date).format('YYYY-MM-DD-HH-mm'),
         }
       })
     },[setReqData])
@@ -32,7 +33,7 @@ const ModalCreate = ({isModalCreateVisible, setIsModalCreateVisible, setReqData,
             <div className="modal-content date-picker">
                 <p>Chọn thời gian đăng bài</p>
                 <div>
-                <DatePicker onChange={onChange} />
+                <DatePicker showTime onChange={onChange} format="YYYY-MM-DD HH:mm"/>
                 </div>
             </div>
             <div className="modal-button-center">

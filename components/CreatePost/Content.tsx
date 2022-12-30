@@ -18,6 +18,7 @@ interface IContentProps {
   addDataContent?: (data) => void;
   handlEditContent?: (data) => void;
   changeDataContent?: (i, data) => void;
+  setListImage: (data: string[]) => void;
 }
 const Content: FC<IContentProps> = ({
   isModalContentVisible,
@@ -27,6 +28,7 @@ const Content: FC<IContentProps> = ({
   dataContent,
   addDataContent,
   changeDataContent,
+  setListImage,
 }) => {
   const editorRef = useRef();
   const [isMarkdownRender, setIsMarkdownRender] = useState(false);
@@ -87,16 +89,15 @@ const Content: FC<IContentProps> = ({
           licenseKey: "",
           autosave: {
             save(editor) {
-              return setData((pre) => {
-                return {
-                  ...pre,
-                  data: editor.getData(),
-                };
-              });
+              console.log(editor)
+              return setData((pre) => ({
+                ...pre,
+                data: editor.getData(),
+              }));
             },
           },
           simpleUpload: {
-            // The URL that the images are uploaded to.
+            // The URL that the images are uploaded to`.
             uploadUrl: process.env.REACT_APP_API_URL + "/articles/media",
 
             // Enable the XMLHttpRequest.withCredentials property.

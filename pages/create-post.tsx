@@ -17,7 +17,6 @@ import IconTable from "./../assets/icon/IconTable";
 import IconPoll from "./../assets/icon/IconPoll";
 import IconMap from "./../assets/icon/IconMap";
 import IconQuestion from "./../assets/icon/IconQuestion";
-import IconLink from "./../assets/icon/IconLink";
 import IconCancel from "./../assets/icon/IconCancel";
 import IconSaveDraft from "./../assets/icon/IconSaveDraft";
 import IconUploadArticle from "./../assets/icon/IconUploadArticle";
@@ -69,6 +68,8 @@ const CreatePost = () => {
     title: "",
     description: "",
     content: "",
+    videos: [],
+    images: [],
   });
   const [content, setContent] = useState<any[]>();
   const [topic, setTopic] = useState([]);
@@ -77,6 +78,10 @@ const CreatePost = () => {
   const [isCreateDraft, setIsCreateDraft] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [listImage, setListImage] = useState([]);
+  const [listVideo, setListVideo] = useState([]); 
+
+  console.log(reqData)
   // const initialData = {
   //   topicId:'',
   //   tags: [],
@@ -117,6 +122,19 @@ const CreatePost = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  useEffect(() => {
+    setReqData(pre => ({
+      ...pre,
+      images: listImage
+    }))
+  },[listImage])
+
+  useEffect(() => {
+    setReqData(pre => ({
+      ...pre,
+      videos: listVideo
+    }))
+  },[listVideo])
 
   useEffect(() => {
     if (draft || post) {
@@ -175,6 +193,7 @@ const CreatePost = () => {
           content: data.data.data?.content,
         };
       });
+      setListImage(pre => [...pre, data.data.data?.thumbnail]);
       if (data.data.data.content) {
         JSON.parse(data.data.data.content).map((value) => {
           if (value?.type === "content") {
@@ -321,6 +340,7 @@ console.log(reqData)
     });
   },[reqData]);
   const handleChangeThumbnail = useCallback((value) => {
+    setListImage(pre => [...pre, value]);
     setReqData({
       ...reqData,
       thumbnail: value,
@@ -433,12 +453,14 @@ console.log(reqData)
           addData={addData}
           addDataContent={addDataContent}
           changeDataContent={changeDataContent}
+          setListImage={setListImage}
         />
         <UploadVideo
           isModalVideoVisible={isModalVideoVisible}
           setIsModalVideoVisible={setIsModalVideoVisible}
           addData={addData}
           addDataContent={addDataContent}
+          setListVideo={setListVideo}
         />
         <MapBox isModalMapVisible ={isModalMapVisible} setIsModalMapVisible={setIsModalMapVisible}/>
         <ModalConfirm
@@ -541,6 +563,7 @@ console.log(reqData)
                 width={500}
                 height={200}
                 layout="responsive"
+                alt="thumbnail"
               />
             </div>
           )}
