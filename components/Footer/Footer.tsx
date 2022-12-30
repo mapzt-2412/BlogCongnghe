@@ -1,6 +1,6 @@
 import React from "react";
 import { memo } from "react";
-import IconFacebook from "../../assets/icon/IconFaceBook";
+import IconFacebook from "../../assets/icon/IconFacebook";
 import IconYouTube from './../../assets/icon/IconYoutube';
 import IconInsta from './../../assets/icon/IconInsta';
 import IconTwitter from './../../assets/icon/IconTwitter';
