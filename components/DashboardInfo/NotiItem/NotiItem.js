@@ -20,17 +20,18 @@ const NotiItem = ({ content }) => {
           <div className="notification-item">
             <div className="notification-title">{content.message}</div>
             <div className="notification-content">
-              <div
-                className="view-detail"
-                onClick={() => setViewDetail(!viewDetail)}
-              >
-                {viewDetail ? "Ẩn" : "Xem chi tiết"}
-              </div>
+              {content.type === "error" && (
+                <div
+                  className="view-detail"
+                  onClick={() => setViewDetail(!viewDetail)}
+                >
+                  {viewDetail ? "Ẩn" : "Xem chi tiết"}
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-
       {viewDetail && <NotiItemDetail content={content} />}
     </>
   );

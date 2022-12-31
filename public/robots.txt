@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: undefined
+Host: https://www.hcmut-bkblog.tech
 
 # Sitemaps
-Sitemap: undefined/sitemap.xml
+Sitemap: https://www.hcmut-bkblog.tech/sitemap.xml

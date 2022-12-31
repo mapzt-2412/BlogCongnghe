@@ -39,7 +39,10 @@
   .image-fault {
     &-image {
       width: 30%;
-      margin-right: 20p;
+      margin-right: 20px;
+      video{
+        width: 100%;
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 module.exports = {
-    siteUrl: 'https://hcmut-bkblog.tech',
+    siteUrl: 'https://www.hcmut-bkblog.tech',
     generateRobotsTxt: true,
-    outDir: './out',
+    outDir: './public',
 }
