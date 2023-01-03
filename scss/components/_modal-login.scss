@@ -98,3 +98,20 @@
         margin-top: 10px;
     }
 }
+.modal-body-item{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    &-left{
+        width: 30%;
+    }
+    &-right{
+        width: 70%;
+        .ant-select{
+            width: 100%;
+        }
+        .ant-picker{
+            width: 100%;
+        }
+    }
+}

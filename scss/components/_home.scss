@@ -74,8 +74,9 @@
     }
 }
 .carousel-item{
-    height: 480px;
+    min-height: 480px;
     .carousel-title{
+        margin-top: -68px;
         position: relative;
         display: flex;
         align-items: center;

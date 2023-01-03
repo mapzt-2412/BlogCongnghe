@@ -77,11 +77,10 @@ const CreatePost = () => {
   const [dataDefault, setDataDefault] = useState();
   const [isCreateDraft, setIsCreateDraft] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loadding, setLoadding] = useState(false);
   const [listImage, setListImage] = useState([]);
-  const [listVideo, setListVideo] = useState([]); 
+  const [listVideo, setListVideo] = useState([]);
 
-  console.log(reqData)
   // const initialData = {
   //   topicId:'',
   //   tags: [],
@@ -123,18 +122,18 @@ const CreatePost = () => {
     setIsModalOpen(false);
   };
   useEffect(() => {
-    setReqData(pre => ({
+    setReqData((pre) => ({
       ...pre,
-      images: listImage
-    }))
-  },[listImage])
+      images: listImage,
+    }));
+  }, [listImage]);
 
   useEffect(() => {
-    setReqData(pre => ({
+    setReqData((pre) => ({
       ...pre,
-      videos: listVideo
-    }))
-  },[listVideo])
+      videos: listVideo,
+    }));
+  }, [listVideo]);
 
   useEffect(() => {
     if (draft || post) {
@@ -174,10 +173,16 @@ const CreatePost = () => {
 
     return () => clearInterval(countInterval);
   }, [draftID, isCreateDraft, post, reqData]);
-  useEffect(() => {
-    PropertiesService.getTopics().then((data) => setTopic(data.data.data));
-    PropertiesService.getTags().then((data) => setTag(data.data.data));
+
+  const addData = useCallback((data) => {
+    setData((pre) => [...pre, data]);
   }, []);
+  const addDataContent = useCallback(
+    (data) => {
+      setDataContent([...dataContent, data]);
+    },
+    [dataContent]
+  );
 
   const setEditData = useCallback(
     (data) => {
@@ -193,7 +198,7 @@ const CreatePost = () => {
           content: data.data.data?.content,
         };
       });
-      setListImage(pre => [...pre, data.data.data?.thumbnail]);
+      setListImage((pre) => [...pre, data.data.data?.thumbnail]);
       if (data.data.data.content) {
         JSON.parse(data.data.data.content).map((value) => {
           if (value?.type === "content") {
@@ -226,20 +231,8 @@ const CreatePost = () => {
       }
       setDataContent(data.data.data);
     },
-    [post]
+    [addData, post]
   );
-console.log(reqData)
-  useEffect(() => {
-    if (post) {
-      PropertiesService.getArticleById(post, getToken()).then((data) =>
-        setEditData(data)
-      );
-    } else if (draft) {
-      PropertiesService.getDraftById(draft, getToken()).then((data) =>
-        setEditData(data)
-      );
-    }
-  }, [post, draft, setEditData]);
 
   const handleSubmit = useCallback(() => {
     if (post) {
@@ -253,36 +246,30 @@ console.log(reqData)
         Router.push("/");
       });
     }
-  },[reqData]);
-  const addData = useCallback((data) => {
-    setData((pre) => [...pre, data]);
-  },[]);
-  const addDataContent = useCallback((data) => {
-    setDataContent([...dataContent, data]);
-  },[dataContent]);
-
-  const changeDataContent = useCallback((i, data) => {
-    const dataValue = dataContent.findIndex((value) => value?.data.key === i);
-    console.log(dataValue);
-    if (dataValue !== -1) {
-      let arr = dataContent;
-      arr[dataValue] = {
-        data: data.data,
-        type: data.type,
-      };
-      setDataContent(arr);
-    } else {
-      setDataContent((pre) => [...pre, data]);
-    }
-  },[]);
+  }, [post, reqData]);
+  console.log('reqData:',JSON.parse(reqData.content));
+  const changeDataContent = useCallback(
+    (i, data) => {
+      const dataValue = dataContent.findIndex((value) => value?.data.key === i);
+      if (dataValue !== -1) {
+        let arr = dataContent;
+        arr[dataValue] = {
+          data: data.data,
+          type: data.type,
+        };
+        setDataContent(arr);
+      } else {
+        setDataContent((pre) => [...pre, data]);
+      }
+    },
+    [dataContent]
+  );
 
   useEffect(() => {
-    setReqData(pre => {
-      return {
-        ...reqData,
-        content: JSON.stringify(dataContent),
-      }
-    });
+    setReqData((pre) => ({
+      ...pre,
+      content: JSON.stringify(dataContent),
+    }));
   }, [dataContent]);
 
   useEffect(() => {
@@ -319,41 +306,56 @@ console.log(reqData)
   };
   const showModalMap = () => {
     setIsModalMapVisible(!isModalMapVisible);
-  }
+  };
 
-  const handleChangeTopic = useCallback((value: string) => {
-    setReqData({
-      ...reqData,
-      topicId: value,
-    });
-  },[reqData]);
-  const handleChangeTag = useCallback((value: string) => {
-    setReqData({
-      ...reqData,
-      tags: value,
-    });
-  },[reqData]);
-  const handleChangeInput = useCallback((event) => {
-    setReqData({
-      ...reqData,
-      [event.target.name]: event.target.value,
-    });
-  },[reqData]);
-  const handleChangeThumbnail = useCallback((value) => {
-    setListImage(pre => [...pre, value]);
-    setReqData({
-      ...reqData,
-      thumbnail: value,
-    });
-  },[reqData]);
+  const handleChangeTopic = useCallback(
+    (value: string) => {
+      setReqData({
+        ...reqData,
+        topicId: value,
+      });
+    },
+    [reqData]
+  );
+  const handleChangeTag = useCallback(
+    (value: string) => {
+      setReqData({
+        ...reqData,
+        tags: value,
+      });
+    },
+    [reqData]
+  );
+  const handleChangeInput = useCallback(
+    (event) => {
+      setReqData({
+        ...reqData,
+        [event.target.name]: event.target.value,
+      });
+    },
+    [reqData]
+  );
+  const handleChangeThumbnail = useCallback(
+    (value) => {
+      setListImage((pre) => [...pre, value]);
+      setReqData({
+        ...reqData,
+        thumbnail: value,
+      });
+    },
+    [reqData]
+  );
   const onSearch = useCallback((value: string) => {
     console.log("search:", value);
-  },[]);
+  }, []);
 
-  const handleDelete = useCallback((index) => {
-    const result = data.filter((value, i) => i !== index);
-    setData(result);
-  },[data]);
+  const handleDelete = useCallback(
+    (index) => {
+      const result = data.filter((value, i) => i !== index);
+      setData(result);
+    },
+    [data]
+  );
 
   const memu = [
     {
@@ -366,11 +368,11 @@ console.log(reqData)
       title: "Video",
       callBack: () => showModalVideo(),
     },
-    {
-      lable: <IconPoll />,
-      title: "Bình chọn",
-      callBack: () => showModalVote(),
-    },
+    // {
+    //   lable: <IconPoll />,
+    //   title: "Bình chọn",
+    //   callBack: () => showModalVote(),
+    // },
     {
       lable: <IconTable />,
       title: "Bảng",
@@ -381,15 +383,15 @@ console.log(reqData)
       title: "Bản đồ",
       callBack: () => showModalMap(),
     },
-    {
-      lable: <IconQuestion />,
-      title: "Câu hỏi",
-      callBack: () =>
-        addData({
-          lable: <Quiz setContent={setContent} content={content} />,
-          title: "Câu hỏi",
-        }),
-    },
+    // {
+    //   lable: <IconQuestion />,
+    //   title: "Câu hỏi",
+    //   callBack: () =>
+    //     addData({
+    //       lable: <Quiz setContent={setContent} content={content} />,
+    //       title: "Câu hỏi",
+    //     }),
+    // },
   ];
   let draggedItem;
   const onDragStart = (e, index) => {
@@ -419,8 +421,11 @@ console.log(reqData)
   const onDragEnd = () => {
     draggedItem = null;
   };
-  
+
   const handleKeyDown = (event) => {
+    if (reqData?.tags.length >= 4) {
+      return;
+    }
     if (event.keyCode == 13) {
       let tag = reqData?.tags ? reqData?.tags : [];
       tag.push(event.target.value);
@@ -431,6 +436,23 @@ console.log(reqData)
     }
   };
 
+  useEffect(() => {
+    PropertiesService.getTopics().then((data) => setTopic(data.data.data));
+    PropertiesService.getTags().then((data) => setTag(data.data.data));
+  }, []);
+
+  useEffect(() => {
+    if (post) {
+      PropertiesService.getArticleById(post, getToken()).then((data) =>
+        setEditData(data)
+      );
+    } else if (draft) {
+      PropertiesService.getDraftById(draft, getToken()).then((data) =>
+        setEditData(data)
+      );
+    }
+  }, [post, draft, setEditData]);
+  
   return (
     <div className="medium-container">
       <Path data={{ content: "Tạo bài viết" }} />
@@ -454,6 +476,7 @@ console.log(reqData)
           addDataContent={addDataContent}
           changeDataContent={changeDataContent}
           setListImage={setListImage}
+          setLoadding={setLoadding}
         />
         <UploadVideo
           isModalVideoVisible={isModalVideoVisible}
@@ -462,7 +485,10 @@ console.log(reqData)
           addDataContent={addDataContent}
           setListVideo={setListVideo}
         />
-        <MapBox isModalMapVisible ={isModalMapVisible} setIsModalMapVisible={setIsModalMapVisible}/>
+        <MapBox
+          isModalMapVisible={isModalMapVisible}
+          setIsModalMapVisible={setIsModalMapVisible}
+        />
         <ModalConfirm
           isModalConfirmVisible={isModalConfirmVisible}
           setIsModalConfirmVisible={setIsModalConfirmVisible}
@@ -470,14 +496,12 @@ console.log(reqData)
           draftID={draftID}
         />
         <ModalCreate
-        isModalCreateVisible ={isModalCreateVisible}
-        setIsModalCreateVisible={setIsModalCreateVisible}
-        setReqData={setReqData}
-        handleSubmit={handleSubmit}
+          isModalCreateVisible={isModalCreateVisible}
+          setIsModalCreateVisible={setIsModalCreateVisible}
+          setReqData={setReqData}
+          handleSubmit={handleSubmit}
         />
-        {
-          loading && <Spin/>
-        }
+        {/* {loadding && <div className="loadding-screen"><Spin /></div>} */}
         <div className="create-post-content">
           <div className="create-post-content-item">
             <div className="create-post-content-left">Chủ đề</div>
@@ -517,7 +541,17 @@ console.log(reqData)
                 value={reqData?.tags}
               >
                 {tag.map((value, index) => (
-                  <Option value={value?.name} key={index}>
+                  <Option
+                    value={value?.name}
+                    key={index}
+                    disabled={
+                      reqData.tags.length > 3
+                        ? reqData.tags.includes(value?.name)
+                          ? false
+                          : true
+                        : false
+                    }
+                  >
                     {value?.name}
                   </Option>
                 ))}
@@ -625,11 +659,7 @@ console.log(reqData)
           </div>
         </div>
         {isMobile ? (
-          <Modal
-            visible={isModalOpen}
-            onOk={handleOk}
-            onCancel={handleCancel}
-          >
+          <Modal visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <div
               className="create-post-memu"
               // style={{ display: isMobile ? "none" : "" }}
@@ -668,7 +698,7 @@ console.log(reqData)
               <Row gutter={[16, 16]}>
                 {memu.map((value, index) => (
                   <Col className="create-post-memu-item" span={12} key={index}>
-                    <div className="memu-item-icon-wrapper" onClick={() => setLoading(true)}>
+                    <div className="memu-item-icon-wrapper" s>
                       <div className="memu-item-icon" onClick={value.callBack}>
                         {value.lable}
                       </div>

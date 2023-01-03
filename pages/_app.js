@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps }) {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(spinnerService.getData().subscribe((status) => {
-        console.log(status)
         setIsLoading(status === "start");
       }))
 }, [])

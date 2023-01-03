@@ -19,6 +19,7 @@ interface IContentProps {
   handlEditContent?: (data) => void;
   changeDataContent?: (i, data) => void;
   setListImage: (data: string[]) => void;
+  setLoadding: (data: boolean) => void;
 }
 const Content: FC<IContentProps> = ({
   isModalContentVisible,
@@ -29,13 +30,14 @@ const Content: FC<IContentProps> = ({
   addDataContent,
   changeDataContent,
   setListImage,
+  setLoadding,
 }) => {
   const editorRef = useRef();
   const [isMarkdownRender, setIsMarkdownRender] = useState(false);
   const [isModalUploadVisible, setIsModalUploadVisible] = useState(false);
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
-  const [data, setData] = useState("");
+  const [data, setData] = useState({});
   const [key, setKey] = useState("normal");
   const [keyChange, setKeyChange] = useState("normal");
   const [typeUpload, setTypeUpload] = useState("");
@@ -61,9 +63,9 @@ const Content: FC<IContentProps> = ({
     };
     setEditorLoaded(true);
   }, []);
-  console.log(data);
+
   useEffect(() => {
-    if (data) {
+    if (data && changeDataContent) {
       changeDataContent(id, {
         type: "content",
         data: {
@@ -73,7 +75,7 @@ const Content: FC<IContentProps> = ({
         },
       });
     }
-  }, [data, key]);
+  }, [changeDataContent, data, id, key]);
 
   useEffect(() => {
     if (dataContent) {
@@ -89,7 +91,6 @@ const Content: FC<IContentProps> = ({
           licenseKey: "",
           autosave: {
             save(editor) {
-              console.log(editor)
               return setData((pre) => ({
                 ...pre,
                 data: editor.getData(),
@@ -127,7 +128,7 @@ const Content: FC<IContentProps> = ({
         });
     }
   }, [editorRef, id, editorLoaded, isModalContentVisible, dataContent]);
-  
+
   useEffect(() => {
     if (
       editorRef?.current.ClassicEditor &&
