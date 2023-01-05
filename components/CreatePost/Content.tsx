@@ -43,6 +43,7 @@ const Content: FC<IContentProps> = ({
   const [typeUpload, setTypeUpload] = useState("");
   const [urlMedia, setUrlMedia] = useState();
   const [isRenderEditor, setIsRenderEditor] = useState(false);
+  const [isRenderEditorMarkdown, setIsRenderEditorMarkdown] = useState(false);
   const handleChangeDataContent = useCallback(() => {
     if (id.includes("_edit")) {
       if (dataEditor && changeDataContent && id) {
@@ -150,7 +151,7 @@ const Content: FC<IContentProps> = ({
       editorRef?.current.ClassicEditor &&
       isModalContentVisible &&
       isMarkdownRender === false &&
-      !isRenderEditor
+      !isRenderEditorMarkdown
     ) {
       editorRef?.current.ClassicEditor.EditorMarkdown.create(
         document.querySelector(`.editor-markdown-${id}`),
@@ -208,56 +209,24 @@ const Content: FC<IContentProps> = ({
     isMarkdownRender,
     setDataEditor,
     isRenderEditor,
+    isRenderEditorMarkdown,
   ]);
   const handleOk = () => {
+    setIsModalContentVisible(false);
     if (editor) {
-      editor
-        .destroy()
+      editor?.destroy()
         .then(() => {
           setDataEditor("");
-          // } else {
-          //   if (id && dataEditor) {
-          //     // addData({
-          //     //   title: "Nội dung",
-          //     //   lable: (
-          //     //     <EditorWrapper
-          //     //       dataContent={{
-          //     //         data: data.data,
-          //     //         type: key,
-          //     //         key: id,
-          //     //       }}
-          //     //     />
-          //     //   ),
-          //     // });
-          //     addDataContent({
-          //       type: "content",
-          //       data: {
-          //         data: dataEditor.data,
-          //         type: key,
-          //         key: id,
-          //       },
-          //       id: genHexString(7)
-          //     });
-          //   }
-          // }
-          if (editor) {
-            editor.setData("");
-            setEditorLoaded(false);
-          }
-          console.log("ngu");
+          setEditorLoaded(false);
           setIsModalContentVisible(false);
         })
         .catch((error) => {
           console.log(error);
         });
     }
-    if (isMarkdownRender) {
-      editorMarkdown
-        .destroy()
+    if (isMarkdownRender && editorMarkdown) {
+      editorMarkdown?.destroy()
         .then(() => {
-          if (editorMarkdown) {
-            editorMarkdown.setData("");
-          }
           setIsModalContentVisible(false);
         })
         .catch((error) => {
@@ -265,6 +234,7 @@ const Content: FC<IContentProps> = ({
         });
     }
     setIsRenderEditor(false);
+    setIsRenderEditorMarkdown(false);
   };
   const handleCancel = () => {
     if (editor) {
@@ -375,27 +345,7 @@ const Content: FC<IContentProps> = ({
           </Tabs.TabPane>
           <Tabs.TabPane tab="Markdown" key="markdown">
             {editorLoaded ? (
-              <>
-                <div className="editor-buttons">
-                  <div
-                    className="button upload-image"
-                    onClick={() => handleClickButton("image")}
-                  >
-                    Thêm hình ảnh
-                  </div>
-                </div>
-                {urlMedia && (
-                  <div className="editor-code-block">
-                    <pre>
-                      <code>{urlMedia}</code>
-                    </pre>
-                    <div className="copy-button" onClick={handleCopy}>
-                      copy
-                    </div>
-                  </div>
-                )}
-                <div className={`editor-markdown-${id}`}></div>
-              </>
+              <div className={`editor-markdown-${id}`}></div>
             ) : (
               <div>Editor loading</div>
             )}
