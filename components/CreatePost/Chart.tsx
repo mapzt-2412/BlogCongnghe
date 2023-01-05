@@ -27,6 +27,7 @@ import IconBarChart from "../../assets/icon/IconBarChart";
 import IconBack from "../../assets/icon/IconBack";
 import TableData from "./EditChartData/TableData";
 import MatrixTable from "./EditChartData/MatrixTable";
+import { genHexString } from "../../libs/common";
 
 interface IChartProps {
   isModalChartVisible: boolean | undefined;
@@ -76,17 +77,18 @@ const Chart: FC<IChartProps> = ({
         }
   );
   const handleOk = () => {
-    if (addData) {
-      addData({
-        lable: (
-          <ChartWrapper type={typeChart} dataTable={data} isTable={false} />
-        ),
-        title: "Biểu đồ",
-      });
+    if (addDataContent) {
+      // addData({
+        // lable: (
+        //   <ChartWrapper type={typeChart} dataTable={data} isTable={false} />
+        // ),
+        // title: "Biểu đồ",
+      // });
       addDataContent(
         {
           type: "chart",
           data: {...data, typeChart: typeChart},
+          id: genHexString(7)
         }
       );
       setTypeChart("");

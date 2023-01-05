@@ -2,7 +2,7 @@ import React, { memo, useState, FC } from "react";
 import { Button, message, Upload, Modal } from "antd";
 import IconMovie from "../../assets/icon/IconMovie";
 import IconUploadArticle from "../../assets/icon/IconUploadArticle";
-import { getToken } from "../../libs/common";
+import { getToken, genHexString } from "../../libs/common";
 import type { UploadProps } from "antd";
 
 interface IUploadProps {
@@ -51,27 +51,28 @@ const UploadVideo: FC<IUploadProps> = ({
     setIsModalVideoVisible(false);
   };
   const handleSubmit = () => {
-    if (type) {
+    if (type && addUrl) {
       addUrl(videoUrl);
     } else {
-      addData({
-        title: "video",
-        lable: (
-          <div className="video-upload">
-            <video
-              src={videoUrl}
-              loop
-              autoPlay
-              muted
-              controls
-              onClick={handlePlay}
-            />
-          </div>
-        ),
-      });
+      // addData({
+      //   title: "video",
+      //   lable: (
+      //     <div className="video-upload">
+      //       <video
+      //         src={videoUrl}
+      //         loop
+      //         autoPlay
+      //         muted
+      //         controls
+      //         onClick={handlePlay}
+      //       />
+      //     </div>
+      //   ),
+      // });
       addDataContent({
         type: "video",
         data: videoUrl,
+        id: genHexString(7)
       });
     }
 

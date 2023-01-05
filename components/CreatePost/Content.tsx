@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { FC, memo, useRef, useEffect, useState, useMemo } from "react";
 import { Modal, Row, Col, Radio, Button, message } from "antd";
 import EditorWrapper from "./Editor/EditorWrapper";
-import { getToken } from "../../libs/common";
+import { getToken, genHexString } from "../../libs/common";
 import { Tabs } from "antd";
 import Logo from "../../assets/icon/Logo";
 import UploadVideo from "./UploadVideo";
@@ -18,64 +18,66 @@ interface IContentProps {
   addDataContent?: (data) => void;
   handlEditContent?: (data) => void;
   changeDataContent?: (i, data) => void;
-  setListImage: (data: string[]) => void;
-  setLoadding: (data: boolean) => void;
+  setListImage?: (data: string[]) => void;
+  setLoadding?: (data: boolean) => void;
+  id: string;
+  dataEditor: string;
+  setDataEditor: (data: string) => void;
 }
 const Content: FC<IContentProps> = ({
   isModalContentVisible,
   setIsModalContentVisible,
-  addData,
-  handlEditContent,
   dataContent,
-  addDataContent,
   changeDataContent,
-  setListImage,
-  setLoadding,
+  id,
+  dataEditor,
+  setDataEditor,
 }) => {
   const editorRef = useRef();
   const [isMarkdownRender, setIsMarkdownRender] = useState(false);
   const [isModalUploadVisible, setIsModalUploadVisible] = useState(false);
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [isModalConfirmVisible, setIsModalConfirmVisible] = useState(false);
-  const [data, setData] = useState({});
   const [key, setKey] = useState("normal");
   const [keyChange, setKeyChange] = useState("normal");
   const [typeUpload, setTypeUpload] = useState("");
   const [urlMedia, setUrlMedia] = useState();
-
-  function genHexString(len) {
-    const hex = "0123456789ABCDEF";
-    let output = "";
-    for (let i = 0; i < len; ++i) {
-      output += hex.charAt(Math.floor(Math.random() * hex.length));
+  const [isRenderEditor, setIsRenderEditor] = useState(false);
+  const handleChangeDataContent = useCallback(() => {
+    if (id.includes("_edit")) {
+      if (dataEditor && changeDataContent && id) {
+        changeDataContent(id.replace("_edit", ""), {
+          type: "content",
+          data: {
+            data: dataEditor.data,
+            type: key,
+            key: id.replace("_edit", ""),
+          },
+          id: id.replace("_edit", ""),
+        });
+      }
+    } else if (dataEditor && changeDataContent && id) {
+      changeDataContent(id, {
+        type: "content",
+        data: {
+          data: dataEditor.data,
+          type: key,
+          key: id,
+        },
+        id: id,
+      });
     }
-    return output;
-  }
-
-  const id = useMemo(() => genHexString(7), []);
-
-  const handleChangeDataContent = (i, data) => {
-    changeDataContent(i, data);
-  };
+  }, [changeDataContent, dataEditor, id, key]);
+  console.log("rerender");
   useEffect(() => {
     editorRef.current = {
       ClassicEditor: require("./Editor/ckeditor"),
     };
     setEditorLoaded(true);
-  }, []);
-
+  }, [isModalContentVisible]);
   useEffect(() => {
-    if (data && changeDataContent) {
-      changeDataContent(id, {
-        type: "content",
-        data: {
-          data: data.data,
-          type: key,
-          key: id,
-        },
-      });
-    }
-  }, [changeDataContent, data, id, key]);
+    handleChangeDataContent();
+  }, [handleChangeDataContent]);
 
   useEffect(() => {
     if (dataContent) {
@@ -84,14 +86,19 @@ const Content: FC<IContentProps> = ({
   }, [dataContent]);
 
   useEffect(() => {
-    if (editorRef?.current.ClassicEditor && isModalContentVisible) {
+    if (
+      editorRef?.current.ClassicEditor &&
+      isModalContentVisible &&
+      !isRenderEditor
+    ) {
+      console.log(document.querySelector(`.editor-${id}`));
       editorRef?.current.ClassicEditor.Editor.create(
         document.querySelector(`.editor-${id}`),
         {
           licenseKey: "",
           autosave: {
             save(editor) {
-              return setData((pre) => ({
+              return setDataEditor((pre: string) => ({
                 ...pre,
                 data: editor.getData(),
               }));
@@ -117,6 +124,7 @@ const Content: FC<IContentProps> = ({
           if (dataContent) {
             editor.setData(dataContent.data);
           }
+          setIsRenderEditor(true);
         })
         .catch((error) => {
           console.error("Oops, something went wrong!");
@@ -127,13 +135,22 @@ const Content: FC<IContentProps> = ({
           console.error(error);
         });
     }
-  }, [editorRef, id, editorLoaded, isModalContentVisible, dataContent]);
+  }, [
+    editorRef,
+    id,
+    editorLoaded,
+    isModalContentVisible,
+    dataContent,
+    setDataEditor,
+    isRenderEditor,
+  ]);
 
   useEffect(() => {
     if (
       editorRef?.current.ClassicEditor &&
       isModalContentVisible &&
-      isMarkdownRender === false
+      isMarkdownRender === false &&
+      !isRenderEditor
     ) {
       editorRef?.current.ClassicEditor.EditorMarkdown.create(
         document.querySelector(`.editor-markdown-${id}`),
@@ -141,7 +158,7 @@ const Content: FC<IContentProps> = ({
           licenseKey: "",
           autosave: {
             save(editor) {
-              return setData((pre) => {
+              return setDataEditor((pre) => {
                 return {
                   ...pre,
                   data: editor.getData(),
@@ -170,6 +187,7 @@ const Content: FC<IContentProps> = ({
             editorMarkdown.setData(dataContent.data);
           }
           setIsMarkdownRender(true);
+          setIsRenderEditor(true);
         })
         .catch((error) => {
           console.error("Oops, something went wrong!");
@@ -180,49 +198,53 @@ const Content: FC<IContentProps> = ({
           console.error(error);
         });
     }
-  }, [editorRef, id, editorLoaded, isModalContentVisible, dataContent, key]);
+  }, [
+    editorRef,
+    id,
+    editorLoaded,
+    isModalContentVisible,
+    dataContent,
+    key,
+    isMarkdownRender,
+    setDataEditor,
+    isRenderEditor,
+  ]);
   const handleOk = () => {
     if (editor) {
       editor
         .destroy()
         .then(() => {
-          if (handlEditContent) {
-            handlEditContent(data);
-            handleChangeDataContent(dataContent.data.key, {
-              type: "content",
-              data: {
-                data: data.data,
-                type: key,
-                key: id,
-              },
-            });
-          } else {
-            if (addData && data) {
-              addData({
-                title: "Nội dung",
-                lable: (
-                  <EditorWrapper
-                    dataContent={{
-                      data: data.data,
-                      type: key,
-                      key: id,
-                    }}
-                  />
-                ),
-              });
-              addDataContent({
-                type: "content",
-                data: {
-                  data: data.data,
-                  type: key,
-                  key: id,
-                },
-              });
-            }
-          }
+          setDataEditor("");
+          // } else {
+          //   if (id && dataEditor) {
+          //     // addData({
+          //     //   title: "Nội dung",
+          //     //   lable: (
+          //     //     <EditorWrapper
+          //     //       dataContent={{
+          //     //         data: data.data,
+          //     //         type: key,
+          //     //         key: id,
+          //     //       }}
+          //     //     />
+          //     //   ),
+          //     // });
+          //     addDataContent({
+          //       type: "content",
+          //       data: {
+          //         data: dataEditor.data,
+          //         type: key,
+          //         key: id,
+          //       },
+          //       id: genHexString(7)
+          //     });
+          //   }
+          // }
           if (editor) {
             editor.setData("");
+            setEditorLoaded(false);
           }
+          console.log("ngu");
           setIsModalContentVisible(false);
         })
         .catch((error) => {
@@ -242,6 +264,7 @@ const Content: FC<IContentProps> = ({
           console.log(error);
         });
     }
+    setIsRenderEditor(false);
   };
   const handleCancel = () => {
     if (editor) {
@@ -267,7 +290,7 @@ const Content: FC<IContentProps> = ({
     setIsModalConfirmVisible(false);
   };
   const handleChangeTabs = (key) => {
-    if (data !== "") {
+    if (dataEditor !== "") {
       setIsModalConfirmVisible(true);
       setKeyChange(key);
     } else {
@@ -276,7 +299,7 @@ const Content: FC<IContentProps> = ({
   };
   const handleModalChangeTabs = () => {
     setKey(keyChange);
-    setData("");
+    setDataEditor("");
     handleCancelModalConfirm();
     editor.setData("");
     if (isMarkdownRender) {
@@ -296,6 +319,7 @@ const Content: FC<IContentProps> = ({
     navigator.clipboard.writeText(urlMedia);
     message.success(`Sao chép thành công`);
   };
+
   return (
     <Modal
       visible={isModalContentVisible}
@@ -341,7 +365,7 @@ const Content: FC<IContentProps> = ({
         addUrl={handleSubmitUpload}
       />
       <div className="editor-content-wrapper">
-        <Tabs onChange={handleChangeTabs} activeKey={key}>
+        <Tabs onChange={handleChangeTabs} activeKey={key ? key : "normal"}>
           <Tabs.TabPane tab="Trình soạn thảo văn bản" key="normal">
             {editorLoaded ? (
               <div className={`editor-${id}`}></div>
@@ -349,13 +373,7 @@ const Content: FC<IContentProps> = ({
               <div>Editor loading</div>
             )}
           </Tabs.TabPane>
-          <Tabs.TabPane
-            tab="Markdown"
-            key="markdown"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
+          <Tabs.TabPane tab="Markdown" key="markdown">
             {editorLoaded ? (
               <>
                 <div className="editor-buttons">

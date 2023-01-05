@@ -36,14 +36,12 @@ import EditorWrapper from "../components/CreatePost/Editor/EditorWrapper";
 import ModalConfirm from "../components/ModalConfirm/ModalConfirm";
 import ModalCreate from "../components/ModalConfirm/ModalCreate";
 import AreaChart from "../components/CreatePost/Chart/AreaChart";
-import { getToken } from "../libs/common";
+import { genHexString, getToken } from "../libs/common";
 import Router, { useRouter } from "next/router";
 import Image from "next/image";
 import ChartWrapper from "../components/CreatePost/Chart/ChartWrapper";
-
 const { Option } = Select;
 const { TextArea } = Input;
-
 const MapBox = dynamic(() => import("../components/CreatePost/Map"), {
   ssr: false,
 });
@@ -61,59 +59,123 @@ const CreatePost = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState<SortableItemProps[]>([]);
   const [dataContent, setDataContent] = useState([]);
+  const [listId, setListId] = useState<number[]>([]);
+  const [isRender, setIsRender] = useState(false);
   const [reqData, setReqData] = useState({
     topicId: "",
     tags: [],
     thumbnail: "",
     title: "",
     description: "",
-    content: "",
+    content: "[]",
     videos: [],
     images: [],
   });
-  const [content, setContent] = useState<any[]>();
+  // const [content, setContent] = useState<any[]>();
   const [topic, setTopic] = useState([]);
   const [tag, setTag] = useState([]);
-  const [dataDefault, setDataDefault] = useState();
+  // const [dataDefault, setDataDefault] = useState();
   const [isCreateDraft, setIsCreateDraft] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [loadding, setLoadding] = useState(false);
   const [listImage, setListImage] = useState([]);
   const [listVideo, setListVideo] = useState([]);
-
-  // const initialData = {
-  //   topicId:'',
-  //   tags: [],
-  //   thumbnail:'',
-  //   title: '',
-  //   description: '',
-  //   content: '',
-  // };
+  const [key, setKey] = useState("");
+  const [dataEditor, setDataEditor] = useState("");
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [draftID, setDraftID] = useState();
-  const renderContent = (type, data) => {
-    if (type === "chart") {
-      return <AreaChart dataChart={data} />;
-    } else if (type === "video") {
-      return (
-        <div className="video-upload">
-          <video src={data} loop autoPlay muted controls />
-        </div>
-      );
-    } else if (type === "content") {
-      return (
-        <div
-          dangerouslySetInnerHTML={{ __html: `${data}` }}
-          className={"ck-content"}
-        />
+  const [draggedItem, setDaraggedItem] = useState<SortableItemProps>();
+
+  const changeDataContent = useCallback((i, data) => {
+    setDataContent((pre) => {
+      const dataValue = pre.findIndex((value) => value?.data.key === i);
+      if (dataValue !== -1) {
+        let arr = pre;
+        arr[dataValue] = {
+          data: data.data,
+          type: data.type,
+          id: i,
+        };
+        return [...arr];
+      } else {
+        return [...pre, data];
+      }
+    });
+  }, []);
+
+  const renderContent = useCallback(
+    (data) => {
+      if (!data) {
+        return;
+      }
+      if (data.type === "chart") {
+        return {
+          lable: (
+            <ChartWrapper
+              type={data.typeChart}
+              dataTable={data}
+              isModal={false}
+            />
+          ),
+          title: "Biểu đồ",
+          id: data.id,
+        };
+      } else if (data.type === "video") {
+        return {
+          title: "video",
+          lable: (
+            <div className="video-upload">
+              <video src={data.data.videoUrl} loop autoPlay muted controls />
+            </div>
+          ),
+          id: data.id,
+        };
+      } else if (data.type === "content") {
+        return {
+          title: "Nội dung",
+          lable: (
+            <EditorWrapper
+              dataContent={{
+                data: data.data.data,
+                type: data.data.type,
+                key: data.data.key,
+                id: data.id,
+              }}
+              changeDataContent={changeDataContent}
+            />
+          ),
+          id: data.id,
+        };
+      }
+    },
+    [changeDataContent]
+  );
+
+  useEffect(() => {
+    if (reqData.content !== '"{}"' && !isRender) {
+      console.log(JSON.parse(reqData.content));
+      setData(
+        JSON.parse(reqData.content)?.map((value) => renderContent(value))
       );
     }
-  };
+  }, [isRender, renderContent, reqData]);
 
+  useEffect(() => {
+    setData((pre) =>
+      pre.filter(function (element) {
+        return element !== undefined;
+      })
+    );
+  }, [reqData]);
+  const deleteDataContent = useCallback((id, data) => {
+    return data.filter((_, index) => index !== id);
+  }, []);
   const showModal = () => {
     setIsModalOpen(true);
   };
-
+  const handleChangeListId = useCallback((data: number) => {
+    setListId((pre) => [...pre, data]);
+  }, []);
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -121,12 +183,16 @@ const CreatePost = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  useEffect(() => {
-    setReqData((pre) => ({
-      ...pre,
-      images: listImage,
-    }));
-  }, [listImage]);
+
+  const sortReqDataByid = useCallback(
+    (listId) => {
+      console.log("listId", listId);
+      return listId.map((idx) => {
+        return JSON.parse(reqData.content).find((value) => value?.id === idx);
+      });
+    },
+    [reqData.content]
+  );
 
   useEffect(() => {
     setReqData((pre) => ({
@@ -145,7 +211,6 @@ const CreatePost = () => {
     if (isCreateDraft === false && isFirstRender === false) {
       if (reqData.topicId !== "" && reqData.title !== "") {
         PropertiesService.createDraft(reqData, getToken()).then((data) => {
-          console.log(data);
           if (data.data.data) {
             setDraftID(data.data.data.id);
           } else {
@@ -204,7 +269,7 @@ const CreatePost = () => {
           if (value?.type === "content") {
             addData({
               title: "Nội dung",
-              lable: <EditorWrapper dataContent={value?.data} />,
+              lable: <EditorWrapper dataContent={value?.data} changeDataContent={changeDataContent}/>,
             });
           } else if (value?.type === "video") {
             addData({
@@ -231,39 +296,36 @@ const CreatePost = () => {
       }
       setDataContent(data.data.data);
     },
-    [addData, post]
+    [addData, changeDataContent, post]
   );
 
   const handleSubmit = useCallback(() => {
+    const listImage = Array.from(
+      new DOMParser()
+        .parseFromString(reqData.content, "text/html")
+        .querySelectorAll("img")
+    ).map((img) => img.getAttribute("src"));
+    const listImageFormatter = listImage
+      .map((img) => img?.replace('\\"', ""))
+      .map((img) => img?.replace('\\"', ""));
     if (post) {
-      PropertiesService.updateArticle(reqData, getToken()).then((data) => {
+      PropertiesService.updateArticle(
+        { ...reqData, images: [...listImage, ...listImageFormatter] },
+        getToken()
+      ).then((data) => {
         message.success("Lưu bài thành công");
         Router.push("/");
       });
     } else {
-      PropertiesService.createArticle(reqData, getToken()).then((data) => {
+      PropertiesService.createArticle(
+        { ...reqData, images: [...reqData.images, ...listImageFormatter] },
+        getToken()
+      ).then((data) => {
         message.success("Đăng bài thành công");
         Router.push("/");
       });
     }
   }, [post, reqData]);
-  console.log('reqData:',JSON.parse(reqData.content));
-  const changeDataContent = useCallback(
-    (i, data) => {
-      const dataValue = dataContent.findIndex((value) => value?.data.key === i);
-      if (dataValue !== -1) {
-        let arr = dataContent;
-        arr[dataValue] = {
-          data: data.data,
-          type: data.type,
-        };
-        setDataContent(arr);
-      } else {
-        setDataContent((pre) => [...pre, data]);
-      }
-    },
-    [dataContent]
-  );
 
   useEffect(() => {
     setReqData((pre) => ({
@@ -292,10 +354,8 @@ const CreatePost = () => {
   const showModalChart = () => {
     setIsModalChartVisible(true);
   };
-  const showModalVote = () => {
-    setIsModalVoteVisible(true);
-  };
   const showModalContent = () => {
+    setKey(genHexString(7));
     setIsModalContentVisible(true);
   };
   const showModalVideo = () => {
@@ -352,9 +412,14 @@ const CreatePost = () => {
   const handleDelete = useCallback(
     (index) => {
       const result = data.filter((value, i) => i !== index);
-      setData(result);
+      setReqData((pre) => ({
+        ...pre,
+        content: JSON.stringify(
+          sortReqDataByid(result.map((value) => value?.id))
+        ),
+      }));
     },
-    [data]
+    [data, sortReqDataByid]
   );
 
   const memu = [
@@ -393,33 +458,44 @@ const CreatePost = () => {
     //     }),
     // },
   ];
-  let draggedItem;
+  // let draggedItem;
   const onDragStart = (e, index) => {
-    draggedItem = data[index];
+    setIsRender(true);
+    setDaraggedItem(data[index]);
+    console.log("start", draggedItem?.id);
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/html", e.target.parentNode);
     e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
   };
-
   const onDragOver = (e, index) => {
     e.preventDefault();
     const draggedOverItem = data[index];
-
+    console.log("over", draggedItem);
+    if (!draggedItem) {
+      return;
+    }
     // if the item is dragged over itself, ignore
     if (draggedItem === draggedOverItem) {
       return;
     }
 
     // filter out the currently dragged item
-    let items = data.filter((item) => item !== draggedItem);
-
+    let items = data.filter((item) => item?.id !== draggedItem?.id);
+    console.log("index", items);
     // add the dragged item after the dragged over item
     items.splice(index, 0, draggedItem);
-    setData(items);
+
+    setReqData((pre) => ({
+      ...pre,
+      content: JSON.stringify(sortReqDataByid(items.map((value) => value?.id))),
+    }));
+    // setData(items);
   };
 
   const onDragEnd = () => {
-    draggedItem = null;
+    setIsRender(false);
+    setDaraggedItem(null);
+    // draggedItem = null;
   };
 
   const handleKeyDown = (event) => {
@@ -452,7 +528,7 @@ const CreatePost = () => {
       );
     }
   }, [post, draft, setEditData]);
-  
+
   return (
     <div className="medium-container">
       <Path data={{ content: "Tạo bài viết" }} />
@@ -475,8 +551,11 @@ const CreatePost = () => {
           addData={addData}
           addDataContent={addDataContent}
           changeDataContent={changeDataContent}
-          setListImage={setListImage}
           setLoadding={setLoadding}
+          id={key}
+          setDataEditor={setDataEditor}
+          dataEditor={dataEditor}
+          // deleteDataContent={deleteDataContent}
         />
         <UploadVideo
           isModalVideoVisible={isModalVideoVisible}
@@ -605,7 +684,7 @@ const CreatePost = () => {
             {data.map(
               (value, index) =>
                 value && (
-                  <li key={index} onDragOver={(e) => onDragOver(e, index)}>
+                  <li key={value?.id} onDragOver={(e) => onDragOver(e, index)}>
                     <div
                       className="create-post-content-item item"
                       key={index}

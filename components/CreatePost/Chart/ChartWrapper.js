@@ -11,7 +11,6 @@ const ChartWrapper = ({ type, dataTable, isModal }) => {
   const [data, setData] = useState(dataTable);
   const [isModalChartVisible, setIsModalChartVisible] = useState(false);
 
-  console.log(type)
   const handlEditTable = useCallback ((data) => {
     setData(data)
   },[])
