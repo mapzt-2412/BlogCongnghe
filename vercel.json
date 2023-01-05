@@ -1,5 +1,5 @@
 {
-    "rewrites": [
-      {"source": ":8080", "destination": "https://admin-blog-cong-nghe.vercel.app/"}
-    ]
-  }
+  "rewrites": [
+    {"source": "/admin", "destination": "https://admin-blog-cong-nghe.vercel.app/"}
+  ]
+}
