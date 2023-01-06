@@ -22,7 +22,7 @@ const Topic = ({ data }) => {
                     <Link href={`/list-post/${data?.name}`}>
                         <div className="topic-see-more">
                             Xem thêm
-                            <IconNext className="icon-next-mobile" />
+                            
                         </div>
                     </Link>
                     

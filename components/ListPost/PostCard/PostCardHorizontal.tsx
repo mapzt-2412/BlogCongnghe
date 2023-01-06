@@ -52,7 +52,7 @@ const PostCardHorizontal = ({ data, type }) => {
                 </Link>
             </div>
             <div className="post-card-horizontal-content">
-                <div className="post-card-horizontal-title" onClick={()=> Route.push( ROUTE_CREATE_POST + `?post=${data.id}`)}>
+                <div className="post-card-horizontal-title" onClick={()=> Route.push( `/post/${data?.id}`)}>
                     <p>{ data.title }</p>
                     <div className="post-card-horizontal-desc">
                     {SliceString(data.description ? data.description : '',stringLengthDescription) }

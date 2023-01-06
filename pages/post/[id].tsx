@@ -176,14 +176,16 @@ const PostDetail = (props) => {
         <div className="post-detail-author">
           <div className="post-author-profile">
             <div className="post-author-avatar">
-              {data?.authorImage ? (
-                <Image
-                  src={data?.authorImage}
+              {data?.user.avatar ? (
+                <div className="avatar-small">
+                  <Image
+                  src={data?.user.avatar}
                   width={24}
                   height={24}
                   layout="responsive"
                   alt="avatar"
                 />
+                </div>
               ) : (
                 <AvatarDefaultSmall />
               )}

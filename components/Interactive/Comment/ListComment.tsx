@@ -28,7 +28,8 @@ const ListComment = ({ comment, setComment}) => {
         <Input placeholder="Viết bình luận" id={"comment-input"} value={data?.comment} onChange={handleChangeInput} onKeyDown={handleKeyDown}/>
       </div>
       <div className="list-comment">
-        {comment?.map((value, index) => (
+        {
+        comment?.map((value, index) => (
           <Comment data={ value } key={index}/>
         ))}
       </div>

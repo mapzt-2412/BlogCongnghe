@@ -29,13 +29,13 @@ interface IPostCardProps {
 }
 
 const PostCard: FC<IPostCardProps> = ({ data, index, type }) => {
-    const NavigateToProfile = () => {
-        Route.push(`/${data?.user.id}`)
-    }
-    const NavigateToArticle = () => {
-        Route.push(`/post/${data?.id}`)
-    }
-    return (
+  const NavigateToProfile = () => {
+    Route.push(`/${data?.user.id}`);
+  };
+  const NavigateToArticle = () => {
+    Route.push(`/post/${data?.id}`);
+  };
+  return (
     <div className={"post-card-container " + (index === 2 ? "right" : "")}>
       <div className="post-card-image">
         <Link href={`/post/${data?.id}`}>
@@ -56,14 +56,16 @@ const PostCard: FC<IPostCardProps> = ({ data, index, type }) => {
           <div className="post-author">
             <div className="post-author-profile" onClick={NavigateToProfile}>
               <div className="post-author-avatar">
-                {data?.authorImage ? (
-                  <Image
-                    src={data?.authorImage}
-                    width={24}
-                    height={24}
-                    layout="responsive"
-                    alt="avatar"
-                  />
+                {data?.user.avatar ? (
+                  <div className="avatar-small">
+                    <Image
+                      src={data?.user.avatar}
+                      width={24}
+                      height={24}
+                      layout="responsive"
+                      alt="avatar"
+                    />
+                  </div>
                 ) : (
                   <AvatarDefaultSmall />
                 )}

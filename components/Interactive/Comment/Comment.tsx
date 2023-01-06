@@ -101,8 +101,10 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
     <div className={`first-level-comment comment`}>
       <div className="comment-wrapper">
         <div className="comment-avatar">
-          {data.avatar ? (
-            <Image src={data.avatar} width={32} height={32} alt="avatar" />
+          {data.user.avatar ? (
+            <div className="avatar-small">
+              <Image src={data.user.avatar} width={32} height={32} alt="avatar" />
+            </div>
           ) : (
             <AvatarDefaultSmall width={32} height={32} />
           )}
@@ -145,15 +147,15 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
       {comment?.length > 1 && !isShowReply ? (
         <>
           <div className="child-level-comment comment">
+            <Comment
+              data={comment[0]}
+              level={CmtLevel + 1}
+              handleInteractiveLastChild={handleInteractive}
+            />
             <p
               className="see-more"
               onClick={handleShowReply}
             >{`Xem Thêm bình luận cũ hơn`}</p>
-            <Comment
-              data={comment[comment?.length - 1]}
-              level={CmtLevel + 1}
-              handleInteractiveLastChild={handleInteractive}
-            />
           </div>
         </>
       ) : (

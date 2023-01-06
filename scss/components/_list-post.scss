@@ -36,10 +36,12 @@
   padding: 18px 0px;
   border-bottom: 1px solid $color--border1;
   .post-card-horizontal-image {
+    cursor: pointer;
     width: 75%;
     margin-right: 24px;
   }
   .post-card-horizontal-content {
+    cursor: pointer;
     position: relative;
     width: 175%;
     display: flex;
