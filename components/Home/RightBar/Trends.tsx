@@ -4,12 +4,16 @@ import { ROUTE_TREND } from "../../../libs/constants";
 import RightBar from "./RightBar";
 import { memo } from 'react';
 import Image from "next/image";
+import Router from "next/router";
 
 const Trends = ({ trends }) => {
+  const NavigateToArticle = (id) => {
+    Router.push(`/post/${id}`)
+}
   return (
     <RightBar title="Xu Hướng">
       {trends?.map((value, index) => (
-        <div className="trend-item" key={index}>
+        <div className="trend-item" key={index} onClick={() => NavigateToArticle(value.id)}>
           <div className="trend-image">
             <Image
               src={value.thumbnail}
