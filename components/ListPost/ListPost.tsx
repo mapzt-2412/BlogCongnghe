@@ -21,16 +21,29 @@ interface IListPostProps {
 const ListPost: FC<IListPostProps> = ({data, id, type, setData, deleteArticle, deleteDraft, handleReadMore}) => {
   const [isList , setList] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(true)
   const changeLayout = () => {
     setList(!isList);
   }
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      if (window.innerWidth <= 768) {
+      if(window.innerHeight <= 1080) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+    }
+  })
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      if (window.innerWidth <= 768||window.innerHeight <= 1080) {
         setIsMobile(true);
+        setIsVisible(true);
       }else {
         setIsMobile(false);
+        setIsVisible(true);
       }
       window.addEventListener("resize", (event) => {
         if (window.innerWidth <= 768) {

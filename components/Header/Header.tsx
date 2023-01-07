@@ -203,7 +203,7 @@ const Header = (props) => {
           <div className="header-search">
             <Input
               placeholder="Nhập từ khóa tìm kiếm"
-              prefix={<IconSearch />}
+              prefix={<IconSearch />} 
               type="text"
               onChange={getData}
               onKeyDown={handleKeyDown}
