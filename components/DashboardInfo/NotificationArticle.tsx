@@ -17,7 +17,7 @@ const NotificationArticle = () => {
     <>
       <div className="list-post-content-header">
         <div className="list-post-topic">
-          <p>Thông báo về bài viết</p>
+          <p>Bài viết không được duyệt</p>
         </div>
       </div>
       {noti?.map((value, index) => (
