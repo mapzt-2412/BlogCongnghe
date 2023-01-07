@@ -24,8 +24,10 @@
 .modal-password {
     display: flex;
     justify-content: right;
-    a{
+    p{
         color: $color--text5;
+        font-family: $font-regular, sans-serif;
+        cursor: pointer;
     }
 }
 

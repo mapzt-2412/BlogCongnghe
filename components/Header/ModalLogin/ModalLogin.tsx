@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { FC } from "react";
 import { memo } from "react";
 import Logo from "../../../assets/icon/Logo";
+import ForgetPassword from "./forgetPassword";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -39,6 +40,9 @@ const renderContent = (tab) => {
     }
     else if(tab === "Register") {
         return <Register setTab={setTab}/>
+    }
+    else if(tab === "forgetPassword") {
+      return <ForgetPassword setTab={setTab} />
     }
 }
   return (

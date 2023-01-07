@@ -4,6 +4,7 @@ import { memo } from "react";
 import PropertiesService from "../../services/properties.service";
 import { useRouter } from "next/router";
 import { getToken } from "../../libs/common";
+import { ROUTE_HOME } from "../../libs/constants";
 
 const ResetPassword = () => {
   const [data, setData] = useState();
@@ -14,10 +15,13 @@ const ResetPassword = () => {
     // console.log(data)
   };
 
+  const router = useRouter();
+
   const handleResetPassword = () => {
     if (data?.new_password !== "" && data?.confirm_password !== "") {
       PropertiesService.handleResetPassword(data).then((data) => {
         message.success('Đổi mật khẩu thành công');
+        router.push(ROUTE_HOME);
       });
     }else {
         message.error('Đổi mật khẩu không thành công');
@@ -38,7 +42,7 @@ const ResetPassword = () => {
   return (
     <>
     {id ? (<>
-    <div style={{width: "60%", margin: "0 auto"}}>
+    <div style={{width: "40%", margin: "0 auto"}}>
     <div className="dashboard-info-username">
         <p>Mật khẩu mới</p>
         <Input.Password
