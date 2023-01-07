@@ -24,7 +24,6 @@ const PostCardHorizontal = ({ data, type }) => {
           }else{
             Route.push( ROUTE_CREATE_POST + `?draft=${data.id}`)
           }
-            
         }else if(key === "2"){
             PropertiesService.deleteArticle({articleId: data.id}, getToken()).then((data) => console.log(data))
         }
@@ -53,15 +52,14 @@ const PostCardHorizontal = ({ data, type }) => {
                 </Link>
             </div>
             <div className="post-card-horizontal-content">
-                <div className="post-card-horizontal-title">
+                <div className="post-card-horizontal-title" onClick={()=> Route.push( `/post/${data?.id}`)}>
                     <p>{ data.title }</p>
                     <div className="post-card-horizontal-desc">
-                        
                     {SliceString(data.description ? data.description : '',stringLengthDescription) }
                     </div>
                 </div>
                 <div className="post-card-horizontal-footer">
-                    <div className="post-author-profile">
+                    <div className="post-author-profile" onClick={()=> Route.push(`/${data?.user?.id}`)}>
                         <div className="post-author-avatar"> 
                         {
                             data?.authorImage ?

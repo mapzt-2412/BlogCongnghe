@@ -55,8 +55,9 @@ const Profile = (props) => {
         if(token){
             if(id){
                 PropertiesService.getUserInfo(id, token).then(data => setData(data.data.data))
+                PropertiesService.getArticleByUserId(id).then(data => setListPost(data.data.data))
             }
-            PropertiesService.getArticleByUser(token).then(data => setListPost(data.data.data))
+            
         }
     },[token, id])
 

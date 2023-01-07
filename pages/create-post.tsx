@@ -121,11 +121,12 @@ const CreatePost = () => {
           id: data.id,
         };
       } else if (data.type === "video") {
+        console.log(data)
         return {
           title: "video",
           lable: (
             <div className="video-upload">
-              <video src={data.data.videoUrl} loop autoPlay muted controls />
+              <video src={data.data} loop autoPlay muted controls />
             </div>
           ),
           id: data.id,

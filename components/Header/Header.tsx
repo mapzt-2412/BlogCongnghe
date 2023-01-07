@@ -29,6 +29,7 @@ import ModalFeedback from "../ModalFeedback/ModalFeedback";
 import IconNoti from "../../assets/icon/IconNoti";
 import Notification from "../Notification/Notification";
 import io from "socket.io-client";
+import Image from "next/image";
 
 const socket = io(process.env.REACT_APP_APPROVE_URL);
 
@@ -232,7 +233,13 @@ const Header = (props) => {
                 <Dropdown overlay={menu} placement="bottom">
                   <Space>
                     <Link href={`/${data?.id}`}>
-                      <AvatarDefaultSmall width={32} height={32} />
+                      {
+                        data?.avatar ? 
+                        <div className="avatar-medium">
+                          <Image src={data?.avatar}  width={32} height={32} layout="responsive" alt="avt"/>
+                        </div>:
+                        <AvatarDefaultSmall width={32} height={32} />
+                      }
                     </Link>
                   </Space>
                 </Dropdown>
