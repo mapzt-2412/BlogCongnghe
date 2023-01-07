@@ -71,10 +71,8 @@ const CreatePost = () => {
     videos: [],
     images: [],
   });
-  // const [content, setContent] = useState<any[]>();
   const [topic, setTopic] = useState([]);
   const [tag, setTag] = useState([]);
-  // const [dataDefault, setDataDefault] = useState();
   const [isCreateDraft, setIsCreateDraft] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [loadding, setLoadding] = useState(false);
@@ -85,6 +83,7 @@ const CreatePost = () => {
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [draftID, setDraftID] = useState();
   const [draggedItem, setDaraggedItem] = useState<SortableItemProps>();
+  console.log(reqData);
 
   const changeDataContent = useCallback((i, data) => {
     setDataContent((pre) => {
@@ -154,10 +153,11 @@ const CreatePost = () => {
 
   useEffect(() => {
     if (reqData.content !== '"{}"' && !isRender) {
-      console.log(JSON.parse(reqData.content));
-      setData(
-        JSON.parse(reqData.content)?.map((value) => renderContent(value))
-      );
+      if (Array.isArray(JSON.parse(reqData.content))) {
+        setData(
+          JSON.parse(reqData.content)?.map((value) => renderContent(value))
+        );
+      }
     }
   }, [isRender, renderContent, reqData]);
 
@@ -168,9 +168,7 @@ const CreatePost = () => {
       })
     );
   }, [reqData]);
-  const deleteDataContent = useCallback((id, data) => {
-    return data.filter((_, index) => index !== id);
-  }, []);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -187,7 +185,6 @@ const CreatePost = () => {
 
   const sortReqDataByid = useCallback(
     (listId) => {
-      console.log("listId", listId);
       return listId.map((idx) => {
         return JSON.parse(reqData.content).find((value) => value?.id === idx);
       });
@@ -207,6 +204,7 @@ const CreatePost = () => {
       setIsCreateDraft(true);
     }
   }, [draft, post]);
+  console.log(dataContent)
 
   useEffect(() => {
     if (isCreateDraft === false && isFirstRender === false) {
@@ -243,12 +241,9 @@ const CreatePost = () => {
   const addData = useCallback((data) => {
     setData((pre) => [...pre, data]);
   }, []);
-  const addDataContent = useCallback(
-    (data) => {
-      setDataContent([...dataContent, data]);
-    },
-    [dataContent]
-  );
+  const addDataContent = useCallback((data) => {
+    setDataContent((pre) => [...pre, data]);
+  }, []);
 
   const setEditData = useCallback(
     (data) => {
@@ -257,7 +252,7 @@ const CreatePost = () => {
           ...pre,
           articleId: post && +post,
           topicId: data.data.data?.topic?.id,
-          tags: data.data.data?.tags,
+          tags: data.data.data?.tags.map(value => value.name),
           thumbnail: data.data.data?.thumbnail,
           title: data.data.data?.title,
           description: data.data.data?.description,
@@ -265,45 +260,11 @@ const CreatePost = () => {
         };
       });
       setListImage((pre) => [...pre, data.data.data?.thumbnail]);
-      if (data.data.data.content) {
-        JSON.parse(data.data.data.content).map((value) => {
-          if (value?.type === "content") {
-            addData({
-              title: "Nội dung",
-              lable: (
-                <EditorWrapper
-                  dataContent={value?.data}
-                  changeDataContent={changeDataContent}
-                />
-              ),
-            });
-          } else if (value?.type === "video") {
-            addData({
-              title: "video",
-              lable: (
-                <div className="video-upload">
-                  <video src={value?.data} loop autoPlay muted controls />
-                </div>
-              ),
-            });
-          } else if (value?.type === "chart") {
-            addData({
-              lable: (
-                <ChartWrapper
-                  type={value.data.typeChart}
-                  dataTable={value.data}
-                  isModal={false}
-                />
-              ),
-              title: "Biểu đồ",
-            });
-          }
-        });
-      }
-      setDataContent(data.data.data);
+      setDataContent(JSON.parse(data.data.data?.content));
     },
-    [addData, changeDataContent, post]
+    [post]
   );
+  console.log(dataContent)
 
   const handleSubmit = useCallback(() => {
     const listImage = Array.from(
@@ -333,7 +294,7 @@ const CreatePost = () => {
         Router.push("/");
       });
     }
-  }, [post, reqData]);
+  }, [draftID, post, reqData]);
 
   useEffect(() => {
     setReqData((pre) => ({

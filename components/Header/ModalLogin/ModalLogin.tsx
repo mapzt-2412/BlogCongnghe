@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { FC } from "react";
 import { memo } from "react";
 import Logo from "../../../assets/icon/Logo";
-import ForgetPassword from "./forgetPassword";
+import ForgetPassword from "./ForgetPassword";
 import Login from "./Login";
 import Register from "./Register";
 
