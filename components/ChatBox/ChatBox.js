@@ -34,7 +34,7 @@ const ChatBox = () => {
   const [user, setUser] = useState([]);
   const [idReceive, setIdReceive] = useState(0);
   const [dataMessage, setDataMessage] = useState([]);
-  const { userInfo } = useContext(UserInfo);
+  const { chatBox } = useContext(UserInfo);
   const refContent = useRef(null);
 
   const resetScrollEffect = useCallback(() => {
@@ -48,18 +48,18 @@ const ChatBox = () => {
   }, [resetScrollEffect, isShow, idReceive, isLoading, dataMessage]);
 
   useEffect(() => {
-    if (userInfo && getToken()) {
-      if (user.find((value) => value.id === userInfo.id)) {
-        getMessageUser(userInfo);
-        setIdReceive(userInfo.id);
+    if (chatBox && getToken()) {
+      if (user.find((value) => value.id === chatBox.id)) {
+        getMessageUser(chatBox);
+        setIdReceive(chatBox.id);
         setIsShow(true);
       } else {
         setIsShow(true);
-        setUser((pre) => [...pre, userInfo]);
-        setIdReceive(userInfo.id);
+        setUser((pre) => [...pre, chatBox]);
+        setIdReceive(chatBox.id);
       }
     }
-  }, [userInfo, user]);
+  }, [chatBox, user]);
 
   const sendMessage = () => {
     PropertiesService.createMessage(

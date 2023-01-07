@@ -53,12 +53,12 @@ const ModalCreate = ({
         <p>Vui lòng chọn</p>
       </div>
       <div className="modal-body">
-        <div className="modal-body-item">
+        {/* <div className="modal-body-item">
           <div className="modal-body-item-left">Chế độ đăng</div>
           <div className="modal-body-item-right">
             <Select options={options}/>
           </div>
-        </div>
+        </div> */}
         <div className="modal-body-item">
           <div className="modal-body-item-left">Thời gian đăng</div>
           <div className="modal-body-item-right">

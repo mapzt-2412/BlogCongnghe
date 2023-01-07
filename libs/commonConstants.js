@@ -74,4 +74,5 @@ export const color = [
     },
   ]
   
-  export const DEFAULT_PAGE_SIZE = 9;
+  export const DEFAULT_PAGE_SIZE = 5;
+  export const DEFAULT_PAGE_SIZE_VLOG = 12;

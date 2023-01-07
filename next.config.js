@@ -15,6 +15,7 @@ const nextConfig = {
     REACT_APP_BASE_URL: "https://www.hcmut-bkblog.tech",
     REACT_APP_MAPBOX_API_ACCESS_TOKEN: "pk.eyJ1IjoidG9hbnZvMjQxMiIsImEiOiJjbDgyb3Y2eGUwNnFiM3Bxa2d6dDA0YWpqIn0.zg3KoQGnQ-yDEsTmyoQAgg",
     REACT_APP_APPROVE_URL : "https://blog-cong-nghe-approve-server.herokuapp.com",
+    REACT_APP_PAGE_SIZE: "5",
   },
   exportPathMap: async function (defaultPathMap) {
     // 🚩the only difference is here, we spread the default pathMap

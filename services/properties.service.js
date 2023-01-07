@@ -1,5 +1,6 @@
 import http, { instanceNoSpiner } from './http-common';
 import { DEFAULT_PAGE_SIZE } from '../libs/commonConstants';
+
 class PropertiesService {
     login(data) {
         return http.post("/auth/login", JSON.stringify(data))
@@ -22,8 +23,8 @@ class PropertiesService {
     getTags(){
         return http.get("/tags")
     }
-    getArticleByUser(token){
-        return http.get("/users/my-articles", {headers: {'Authorization': "Bearer " + token}})
+    getArticleByUser(token, page){
+        return http.get(`/users/my-articles?page=${page}&limit=${DEFAULT_PAGE_SIZE}`, {headers: {'Authorization': "Bearer " + token}})
     }
     getArticleByUserId(id){
         return http.get(`/users/${id}/list-articles-by-user`)
@@ -129,7 +130,7 @@ class PropertiesService {
     }
     getTopicByScore() {
         // return http.get("/articles?sortBy=score&sortOrder=DESC&limit=4")
-        return http.get("/articles?limit=4")
+        return http.get("/articles?sortBy=score&sortOrder=DESC&limit=4")
     }
     verifyAccount(token){
         return http.get(`/auth/verify/${token}` , null)

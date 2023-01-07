@@ -11,13 +11,11 @@ import propertiesService from "../../services/properties.service";
 import IconCancel from "../../assets/icon/IconCancel";
 import IconConfirm from "../../assets/icon/IconConfirm";
 
-const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
-  const [videoUrl, setVideoUrl] = useState();
-  const [isPlay, setIsPlay] = useState(true);
-  const handlePlay = () => {
-    setIsPlay(!isPlay);
-  };
-
+const UploadVideo = ({
+  isModalVideoVisible,
+  setIsModalVideoVisible,
+  getStory,
+}) => {
   const props: UploadProps = {
     name: "upload",
     action: process.env.REACT_APP_API_URL + "/articles/media",
@@ -29,7 +27,6 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
         console.log(info.file, info.fileList);
       }
       if (info.file.status === "done") {
-        setVideoUrl(info.file.response.url);
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === "error") {
         message.error(`${info.file.name} file upload failed.`);
@@ -44,10 +41,12 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
     topicId: 2,
     thumbnail: "story",
     title: "",
-    content: [{
-      type: "",
-      data: "",
-    }],
+    content: [
+      {
+        type: "",
+        data: "",
+      },
+    ],
   });
   const validateError = () => {
     if (!reqData.title) {
@@ -64,7 +63,10 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
     if (!validateError()) {
       return;
     }
-    const requestData = { ...reqData, content: JSON.stringify(reqData.content) };
+    const requestData = {
+      ...reqData,
+      content: JSON.stringify(reqData.content),
+    };
     propertiesService.createArticle(requestData, getToken()).then((data) => {
       if (data.data.data) {
         console.log(data);
@@ -75,11 +77,14 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
       topicId: 2,
       thumbnail: "story",
       title: "",
-      content: [{
-        type: "",
-        data: "",
-      }]
-    })
+      content: [
+        {
+          type: "",
+          data: "",
+        },
+      ],
+    });
+    getStory();
   };
 
   const handleChangeInput = (event) => {
@@ -92,10 +97,12 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
   const handleChangeContent = (value) => {
     setReqData({
       ...reqData,
-      content: [{
-        type: "story",  
-        data: value,
-      }],
+      content: [
+        {
+          type: "story",
+          data: value,
+        },
+      ],
     });
   };
 
@@ -126,10 +133,12 @@ const UploadVideo = ({ isModalVideoVisible, setIsModalVideoVisible }) => {
             onClick={() => {
               setReqData({
                 ...reqData,
-                content:  [{
-                  type: "",
-                  data: "",
-                }],
+                content: [
+                  {
+                    type: "",
+                    data: "",
+                  },
+                ],
               });
             }}
           >

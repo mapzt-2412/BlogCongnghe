@@ -14,8 +14,11 @@ interface IListPostProps {
   id: string,
   type?: string,
   setData?: () => void,
+  deleteArticle?: (id: string) => void,
+  deleteDraft?: (id: string) => void,
+  handleReadMore?: () => void
 }
-const ListPost: FC<IListPostProps> = ({data, id, type, setData}) => {
+const ListPost: FC<IListPostProps> = ({data, id, type, setData, deleteArticle, deleteDraft, handleReadMore}) => {
   const [isList , setList] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const changeLayout = () => {
@@ -63,7 +66,7 @@ const ListPost: FC<IListPostProps> = ({data, id, type, setData}) => {
           {
             isList ? 
             data?.map((value, index) => (
-              <PostCardHorizontal data={value} key={index} type={type} setData={setData}/>
+              <PostCardHorizontal data={value} key={index} type={type} setData={setData} deleteArticle={deleteArticle} deleteDraft={deleteDraft}/>
             ))
             :
             <List
@@ -79,7 +82,7 @@ const ListPost: FC<IListPostProps> = ({data, id, type, setData}) => {
         </div>
       </div>
       <div className="list-post-footer">
-        <Button type="primary" ghost>
+        <Button type="primary" ghost onClick={handleReadMore}>
           Xem thêm
         </Button>
       </div>

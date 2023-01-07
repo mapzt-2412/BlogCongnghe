@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { ROUTE_SHORTVIDEO } from "../../libs/constants";
 // import UploadVideo from "../components/CreatePost/UploadVideo";
 
-const ListShortVideo = ({ data, page, setPage }) => {
+const ListShortVideo = ({ data, page, setPage, getStory }) => {
   const ref = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { setShortVideoIds } = useContext(UserInfo);
@@ -37,7 +37,7 @@ const ListShortVideo = ({ data, page, setPage }) => {
       if (data.length === 0) {
         setIsLastPage(true);
       }
-    } 
+    }
   }, [data, setShortVideoIds]);
 
   return (
@@ -50,6 +50,7 @@ const ListShortVideo = ({ data, page, setPage }) => {
         <ModalUpload
           isModalVideoVisible={isModalOpen}
           setIsModalVideoVisible={setIsModalOpen}
+          getStory={getStory}
         />
         {data?.length === 0 && <div className="noti">Không còn tin nửa</div>}
         {data?.map((value, index) => (

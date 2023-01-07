@@ -49,7 +49,7 @@ const Header = (props) => {
   // const [loginError, setLoginError] = useState<string | undefined>()
 
   const openNotification = useCallback((data) => {
-    if(data.type === 'Success'){
+    if(data.type === 'success'){
        notification.success({
         message: `Thông báo`,
         description: 'Bài viết duyệt thành công',

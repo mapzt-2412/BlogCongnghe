@@ -11,6 +11,9 @@ import Register from "../components/Header/ModalLogin/Register";
 import { useRouter } from "next/router";
 import { ROUTE_HOME } from "../libs/constants";
 import { UserInfo } from "./_app";
+import articleService from "../services/article.service";
+import { useMemo } from "react";
+import { useCallback } from "react";
 // interface IModalLoginProps {
 //   isModalLoginVisible: boolean | undefined;
 //   setIsModalLoginVisible: (data) => void;
@@ -19,14 +22,24 @@ import { UserInfo } from "./_app";
 const NewsFeeds = () => {
   const [data, setData] = useState();
   const [page, setPage] = useState(1);
-  
-  const { shortVideoIds } = useContext(UserInfo);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [articles, setArticles] = useState([]);
 
-  useEffect(() => {
-    PropertiesService.getStory({page: page}, getToken()).then((data) =>
+  const { shortVideoIds } = useContext(UserInfo);
+  const getStory = useCallback(() => {
+    PropertiesService.getStory({ page: page }, getToken()).then((data) =>
       setData(data.data.data.myStories)
     );
   }, [page]);
+  useEffect(() => {
+    getStory();
+  }, [getStory]);
+
+  useEffect(() => {
+    articleService
+      .getNewfeed(pageIndex, getToken())
+      .then((data) => setArticles(data.data.data));
+  }, [pageIndex]);
 
   const router = useRouter();
   if (getToken() === false) {
@@ -36,9 +49,9 @@ const NewsFeeds = () => {
     <>
       <div className="main-container">
         <Path data={{ content: "Bảng tin" }} />
-        <ListShortVideo data={data} page={page} setPage = {setPage}/>
+        <ListShortVideo data={data} page={page} setPage={setPage} getStory={getStory}/>
         <div className="post-detail-container">
-          <ListPost data={[]} id={""} />
+          <ListPost data={articles} id={"Bài viết dành cho bạn"} />
         </div>
       </div>
       {/* {token ? (

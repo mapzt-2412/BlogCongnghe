@@ -81,3 +81,22 @@ export const genHexString = (len) => {
   }
   return output;
 };
+
+export const level = {
+  sc: 8599,
+  tc: 34199,
+  cc: 68799,
+};
+
+export const renderLevel = (score) => {
+  if (score < 8599) {
+    return "Sơ cấp";
+  }
+  if (score < 34199) {
+    return "Trưng cấp";
+  }
+  if (score < 68799) {
+    return "Cao Cấp";
+  }
+  return "Chuyên gia";
+};

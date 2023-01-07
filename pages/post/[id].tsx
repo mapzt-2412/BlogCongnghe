@@ -15,6 +15,8 @@ import { getToken } from "../../libs/common";
 
 import showdown from "showdown";
 import Head from "next/head";
+import { spinnerService } from "../../services/spiner.service";
+import { Player } from "video-react";
 
 const converter = new showdown.Converter();
 
@@ -112,7 +114,14 @@ const PostDetail = (props) => {
     } else if (type === "video") {
       return (
         <div className="video-upload">
-          <video src={data} loop autoPlay muted controls />
+          <Player
+            src={data}
+            width={"100%"}
+            height={500}
+            fluid={false}
+            muted={true}
+            autoPlay
+          />
         </div>
       );
     } else if (type === "content") {
@@ -158,7 +167,10 @@ const PostDetail = (props) => {
             ?.map((value) => value.name)
             .join(",")}`}
         ></meta>
-        <meta property="og:title" content={props?.apiResponse?.data.title}></meta>
+        <meta
+          property="og:title"
+          content={props?.apiResponse?.data.title}
+        ></meta>
         <meta
           property="og:image"
           content={props?.apiResponse?.data.thumbnail}
@@ -169,7 +181,7 @@ const PostDetail = (props) => {
         />
       </Head>
       <div className="post-detail-container">
-        <Path data={{ title: ["Technology"], content: data?.title }} />
+        <Path data={{ title: [data?.topic.name], content: data?.title }} />
         <div className="post-detail-title">
           <p>{data?.title}</p>
         </div>
@@ -179,12 +191,12 @@ const PostDetail = (props) => {
               {data?.user.avatar ? (
                 <div className="avatar-small">
                   <Image
-                  src={data?.user.avatar}
-                  width={24}
-                  height={24}
-                  layout="responsive"
-                  alt="avatar"
-                />
+                    src={data?.user.avatar}
+                    width={24}
+                    height={24}
+                    layout="responsive"
+                    alt="avatar"
+                  />
                 </div>
               ) : (
                 <AvatarDefaultSmall />
@@ -211,19 +223,21 @@ const PostDetail = (props) => {
           </div>
         </div>
         <div className="post-detail-content">
-          <Image
-            src={data?.thumbnail}
-            width={654}
-            height={300}
-            layout="responsive"
-            alt="post-image"
-          />
+          {data?.topic.name !== "Vlog" && (
+            <Image
+              src={data?.thumbnail}
+              width={654}
+              height={300}
+              layout="responsive"
+              alt="post-image"
+            />
+          )}
           <div className="post-detail-main-content">
             {content?.map((value) => (
               <>{renderContent(value.type, value.data)}</>
             ))}
           </div>
-          <HotTags tags={data?.tags ? data?.tags : []} />
+          <HotTags tags={data?.tags ? data?.tags : []} title={"DANH SÁCH TAGS"} />
           <Interactive dataInteractive={data} id={id} />
         </div>
         <ListComment comment={comment} setComment={setComment} />

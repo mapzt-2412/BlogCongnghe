@@ -9,6 +9,7 @@
     }
 }
 .hot-comment-reply{
+    cursor: pointer;
     display: flex;
     justify-content: flex-end;
     @include font-14;

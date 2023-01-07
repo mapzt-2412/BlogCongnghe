@@ -42,3 +42,15 @@
         }
     }
 }
+.dashboard-item{
+    display: flex;
+    padding: 10px;
+    &-title{
+        margin-right: 8px;
+        @include font-18;
+        font-family: $font-bold;
+    }
+    &-content{
+        @include font-18;
+    }
+}

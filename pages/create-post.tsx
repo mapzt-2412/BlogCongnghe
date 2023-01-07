@@ -121,7 +121,7 @@ const CreatePost = () => {
           id: data.id,
         };
       } else if (data.type === "video") {
-        console.log(data)
+        console.log(data);
         return {
           title: "video",
           lable: (
@@ -270,7 +270,12 @@ const CreatePost = () => {
           if (value?.type === "content") {
             addData({
               title: "Nội dung",
-              lable: <EditorWrapper dataContent={value?.data} changeDataContent={changeDataContent}/>,
+              lable: (
+                <EditorWrapper
+                  dataContent={value?.data}
+                  changeDataContent={changeDataContent}
+                />
+              ),
             });
           } else if (value?.type === "video") {
             addData({
@@ -309,6 +314,8 @@ const CreatePost = () => {
     const listImageFormatter = listImage
       .map((img) => img?.replace('\\"', ""))
       .map((img) => img?.replace('\\"', ""));
+
+    PropertiesService.deleteDraft({ draftId: draftID }, getToken());
     if (post) {
       PropertiesService.updateArticle(
         { ...reqData, images: [...listImage, ...listImageFormatter] },
