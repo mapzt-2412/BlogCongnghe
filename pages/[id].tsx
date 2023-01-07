@@ -123,8 +123,9 @@ if(getToken()===false) {
             <div className="profile-user-info">
                 <div className="profile-user-info-avatar" >
                 {
-                    props.avatar ? 
-                    <Image src={ props.avatar } width={104} height={104} layout="responsive" alt="avatar"/> :
+                    data?.avatar ?
+                    <div> <Image src={ data?.avatar } width={104} height={104} layout="responsive" alt="avatar"/> </div>
+                     :
                     <AvatarDefaultSmall width={104} height={104} white/>
 
                 }

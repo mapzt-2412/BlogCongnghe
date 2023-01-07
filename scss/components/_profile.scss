@@ -1,6 +1,8 @@
 .medium-container{
     // margin: 0px 16px;
-    padding: 0px 20px;
+    // padding: 0px 20px;
+    width: 80%;
+    margin: 0 auto;
     .profile-user-info{
         position: relative;
         background: $color--background;
@@ -76,7 +78,7 @@
     }
     .dashboard-detail {
         background-color: $color--background;
-        padding: 24px;
+        padding: 16px;
         height: fit-content;
     }
     .profile-list-post {

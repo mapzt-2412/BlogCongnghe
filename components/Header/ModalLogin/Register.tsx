@@ -43,17 +43,18 @@ const Register = ({ setTab }) => {
           <p>Xác nhận mật khẩu</p>
           <Input.Password type="password" placeholder="Xác nhận mật khẩu" />
         </div>
-        <div className="modal-password">
+        {/* <div className="modal-password">
           <a href="#">Quên mật khẩu?</a>
-        </div>
+        </div> */}
         <div className="modal-btn-signin">
           <button onClick={register}>ĐĂNG KÝ</button>
         </div>
-        {/* <div className="modal-signup">
-          <p>
-            Chưa có tài khoản? <span>Đăng ký</span>
-          </p>
-        </div> */}
+        <div className="modal-signup">
+        <p>
+          Đã có tài khoản?{" "}
+          <span onClick={() => setTab("Login")}>Đăng nhập</span>
+        </p>
+      </div>
       </>
     );
   };

@@ -38,7 +38,8 @@ const ResetPassword = () => {
   return (
     <>
     {id ? (<>
-        <div className="dashboard-info-username">
+    <div style={{width: "60%", margin: "0 auto"}}>
+    <div className="dashboard-info-username">
         <p>Mật khẩu mới</p>
         <Input.Password
           type="password"
@@ -61,6 +62,7 @@ const ResetPassword = () => {
       <div className="dashboard-info-btn">
         <button onClick={handleResetPassword}>Đổi mật khẩu</button>
       </div>
+    </div>
     </>): ""}
       
     </>
