@@ -37,7 +37,7 @@ const DashboardPassword = () => {
             />
           </div> */}
         </div>
-        <div className="dashboard-info-center">
+        <div className="dashboard-info-center" style={{width: "60%", margin: "0 auto"}}>
           <div className="dashboard-info">
             {/* <div className="followerCard">
               <div className="followerCard-info">

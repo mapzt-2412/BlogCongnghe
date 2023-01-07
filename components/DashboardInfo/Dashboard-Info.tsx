@@ -60,7 +60,7 @@ const DashboardInfo = () => {
             <p>THÔNG TIN CÁ NHÂN</p>
           </div>
         </div>
-        <div className="dashboard-info-center">
+        <div className="dashboard-info-center" style={{width: "60%", margin: "0 auto"}}>
           <div className="dashboard-info">
             <div className="dashboard-info-username">
               <p>Tên đăng nhập</p>

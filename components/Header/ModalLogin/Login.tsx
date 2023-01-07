@@ -120,8 +120,8 @@ const Login = ({ setTab, setData, data }) => {
         />
         {isErrorPassword && <p>Mật khẩu phải từ 8 đến 15 ký tự</p>}
       </div>
-      <div className="modal-password">
-        <a href="#">Quên mật khẩu?</a>
+      <div className="modal-password" onClick={() => setTab("forgetPassword")}>
+        <p>Quên mật khẩu?</p>
       </div>
       <GoogleLogin
         onSuccess={(credentialResponse) => {
