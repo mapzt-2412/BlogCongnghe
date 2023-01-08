@@ -70,6 +70,11 @@
             font-family: $font-bold ,sans-serif;
         }
     }
+    .rightbar-content {
+        @media screen and (max-width: 768px) {
+            
+        }
+    }
     .see-more{
         text-align: right;
     }
@@ -126,6 +131,9 @@
 .news-item.left{
     padding-right: 8px;
     padding-left: 0px; 
+    @media screen and (max-width: 768px) {
+        
+    }
 }
 .news-item{
     padding-left: 8px; 

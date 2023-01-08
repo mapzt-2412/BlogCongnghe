@@ -63,12 +63,12 @@ const NotiItemDetail = ({ content }) => {
             value.result?.map((value, index) => (
               <>
                 {/* <div className="sub-title"> Video vi phạm </div> */}
-                <div className="noti-item-detail image-fault" key={index}>
-                  <div className="image-fault-image">
+                <div className="noti-item-detail word-fault" key={index}>
+                  {/* <div className="image-fault-image">
                     <video src={value.link} muted controls/>
-                  </div>
-                  <div className="image-fault-title">
-                    Video thuộc phạm vi bị cấm: {value.prediction}
+                  </div> */}
+                  <div className="noti-item-detail-content">
+                    Từ, ngữ thuộc phạm vi bị cấm: {value}
                   </div>
                 </div>
               </>

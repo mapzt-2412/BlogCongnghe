@@ -21,7 +21,8 @@ const Follower = ({type}) => {
       <div className="list-post-content">
         <div className="list-post-content-header">
           <div className="list-post-topic">
-            <p>NGƯỜI THEO DÕI ({data?.length})</p>
+            {type === "2" ? (<p>NGƯỜI ĐANG THEO DÕI ({console.log(data)})</p>) : (<p>NGƯỜI THEO DÕI ({console.log(data)})</p>)}
+            
           </div>
           <div className="list-post-sort search-field">
             <Search
@@ -34,7 +35,7 @@ const Follower = ({type}) => {
         <div className="list-post-content-center">
           <div className="followerCard-Group">
             {
-              data?.map((value, index) => (
+              data?.userFollowed?.map((value, index) => (
                 <div className="followerCard" key ={index}>
                 <div className="followerCard-info">
                   <AvatarDefaultSmall width={72} height={72}/>

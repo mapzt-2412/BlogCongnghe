@@ -19,6 +19,9 @@ const RegulationForum = () => {
                 <li>Chỉ chấp nhận 2 loại ngôn ngữ tiếng việt và tiếng anh.</li>
                 <li>Không được có nội dung sao chép từ những nội dung mà bạn không có quyền sử dụng.</li>
             </ul>
+            <p>2. Quy định về bài viết</p>
+            <span>Mỗi bài viết đều phải đáp ứng những tiêu chuẩn về bài viết trên nền tảng. Nếu vi phạm những tiêu chuẩn này thì tác giả có thể bị hạn chế tài khoản, cấm đăng bài và tạm ngưng tài khoản.</span>
+
           </div>
         </div>
       </div>

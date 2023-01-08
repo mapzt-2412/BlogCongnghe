@@ -66,7 +66,7 @@ const NotiItem = ({ content }) => {
             ))}
             {value.type === "Bad word fault" &&
             value.result?.map((value, index) => (
-              <><div className="sub-title" onClick={showModal}>Video vi phạm <IconArrowRightRed /></div>
+              <><div className="sub-title" onClick={showModal}>Nội dung chứa từ, ngữ vi phạm <IconArrowRightRed /></div>
                 
                 <Modal title="THÔNG BÁO" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
                 <NotiItemDetail content={content} />

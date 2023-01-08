@@ -65,7 +65,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (token) {
       PropertiesService.getBookMark(token).then((data) =>
-        setDataBookmark(data.data.data)
+        setDataBookmark(data.data.data.interactives)
       );
       PropertiesService.getDraftByUser(token).then((data) =>
         setDataDraft(data.data.data)
