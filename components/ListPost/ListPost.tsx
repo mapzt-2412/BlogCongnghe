@@ -7,7 +7,6 @@ import IconListSortActive from "../../assets/icon/IconListSortActive";
 import PostCardHorizontal from "./PostCard/PostCardHorizontal";
 import PostCard from "./PostCard/PostCard";
 import { Button, Card, List } from "antd";
-import PropertiesService from "../../services/properties.service";
 
 interface IListPostProps {
   data: object[];
@@ -29,44 +28,23 @@ const ListPost: FC<IListPostProps> = ({
 }) => {
   const [isList, setList] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-<<<<<<< HEAD
-  const [isVisible, setIsVisible] = useState(false);
-=======
   const [isVisible, setIsVisible] = useState(true);
->>>>>>> ce4daf0d62f352aa7d8a83b0d6333d694dc6fe91
   const changeLayout = () => {
     setList(!isList);
   };
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (data?.length < 5 ) {
+    if (data?.length < 5) {
       setIsVisible(false);
-    }else {
+    } else {
       setIsVisible(true);
     }
-  },[data]);
+  }, [data]);
 
   useEffect(() => {
     if (typeof window !== undefined) {
       if (window.innerWidth <= 768) {
         setIsMobile(true);
-=======
-    if (typeof window !== undefined) {
-      if (window.innerHeight <= 1080) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== undefined) {
-      if (window.innerWidth <= 768 || window.innerHeight <= 1080) {
-        setIsMobile(true);
-        setIsVisible(true);
->>>>>>> ce4daf0d62f352aa7d8a83b0d6333d694dc6fe91
       } else {
         setIsMobile(false);
       }

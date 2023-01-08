@@ -142,6 +142,7 @@ const Profile = (props) => {
         </div>
         {id !== getId() && (
           <div className="profile-user-button">
+            <Button onClick={handleOpenChatBox}>Theo dõi</Button>
             <Button onClick={handleOpenChatBox}>Nhắn tin</Button>
             <Button onClick={showModal}>Báo cáo người dùng</Button>
             <ModalReport

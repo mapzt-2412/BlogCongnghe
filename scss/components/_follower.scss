@@ -22,6 +22,7 @@
                 .followerCard-info {
                     display: flex;
                     .followerCard-details {
+                        cursor: pointer;
                         margin-left: 8px;
                         .details-name {
                             @include font-14;
