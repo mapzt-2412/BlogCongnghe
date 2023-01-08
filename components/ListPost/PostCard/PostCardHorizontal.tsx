@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { memo, FC } from "react";
 import Image from "next/image";
-import { Dropdown, Menu, Space, Typography } from "antd";
+import { Dropdown, Menu, Modal, Space, Typography } from "antd";
 import AvatarDefaultSmall from "../../../assets/icon/AvatarDefaultSmall";
 import IconLike from "../../../assets/icon/IconLike";
 import IconComment from "../../../assets/icon/IconComment";
@@ -15,8 +15,10 @@ import { ROUTE_CREATE_POST } from "../../../libs/constants";
 import Link from "next/link";
 import Route from "next/router";
 import PropertiesService from "../../../services/properties.service";
+import ModalConfirm from "../../ModalConfirm/ModalConfirm";
 
 const PostCardHorizontal = ({ data, type, deleteArticle, deleteDraft }) => {
+  const [isModalVisible, setIsModalVisble] = useState(false);
   const handleClick = ({ key }) => {
     if (key === "1") {
       if (type === "dashboard-article") {
@@ -25,13 +27,17 @@ const PostCardHorizontal = ({ data, type, deleteArticle, deleteDraft }) => {
         Route.push(ROUTE_CREATE_POST + `?draft=${data.id}`);
       }
     } else if (key === "2") {
-      if (type === "dashboard-article") {
-        deleteArticle(data?.id);
-      } else {
-        deleteDraft(data?.id);
-      }
+      setIsModalVisble(true);
     }
   };
+  const handleDelete = useCallback(() => {
+    if (type === "dashboard-article") {
+      deleteArticle(data?.id);
+    } else {
+      deleteDraft(data?.id);
+    }
+    setIsModalVisble(false);
+  }, [data?.id, deleteArticle, deleteDraft, type]);
   const menu = (
     <Menu
       selectable
@@ -111,6 +117,12 @@ const PostCardHorizontal = ({ data, type, deleteArticle, deleteDraft }) => {
             </div>
           </>
         )}
+        <ModalConfirm
+          isModalConfirmVisible={isModalVisible}
+          setIsModalConfirmVisible={setIsModalVisble}
+          type={"delete"}
+          callBack={handleDelete}
+        />
         {type && (
           <div className="post-more">
             <Dropdown overlay={menu}>

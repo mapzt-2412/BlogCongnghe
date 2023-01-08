@@ -15,6 +15,7 @@ import { ROUTE_HOME } from "../../../libs/constants";
 import NotificationArticle from "../../../components/DashboardInfo/NotificationArticle";
 import userService from "../../../services/user.service";
 import Level from "./level";
+import ShortVideo from "./shortVideo";
 
 const Dashboard = () => {
   const { id } = useRouter().query;
@@ -70,13 +71,12 @@ const Dashboard = () => {
       PropertiesService.getDraftByUser(token).then((data) =>
         setDataDraft(data.data.data)
       );
-      userService.getLevel(token).then((data) =>{
-        setLevel(data.data.data)
-      })
+      userService.getLevel(token).then((data) => {
+        setLevel(data.data.data);
+      });
     }
   }, [token]);
 
-  console.log(level)
   useEffect(() => {
     if (token) {
       if (page === 1) {
@@ -141,17 +141,18 @@ const Dashboard = () => {
               handleReadMore={handleReadMore}
             />
           )}
+          {key === "3" && <ShortVideo />}
+
+          {key === "4" && <DashboardInfo />}
           {key === "4" && <DashboardInfo />}
           {key === "5" && <DashboardPassword />}
-          {key === "6" && <Follower type={"2"} id={getId()}/>}
-          {key === "7" && <Follower type={"3"} id={getId()}/>}
+          {key === "6" && <Follower type={"2"} id={getId()} />}
+          {key === "7" && <Follower type={"3"} id={getId()} />}
           {key === "8" && (
             <ListPost data={dataBookmark} id={"Bài viết đã đăng"} />
           )}
           {key === "10" && <NotificationArticle />}
-          {
-            key === "9" && <Level level={level}/>
-          }
+          {key === "9" && <Level level={level} />}
         </div>
       </div>
     </div>

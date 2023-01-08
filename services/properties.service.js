@@ -40,7 +40,7 @@ class PropertiesService {
         for(let x in param){
             params += `&${x}=${param[x]}`
         }
-        return http.get(`/articles/story?limit=${DEFAULT_PAGE_SIZE}${params}`,{headers: {'Authorization': "Bearer " + token}})
+        return instanceNoSpiner.get(`/articles/story?${params}`,{headers: {'Authorization': "Bearer " + token}})
     }
     createVideo(data, token){
         return http.post("/articles/media", {headers: {'Authorization': "Bearer " + token}}, JSON.stringify(data))

@@ -13,7 +13,7 @@ import { ROUTE_SHORTVIDEO } from "../../libs/constants";
 import propertiesService from "../../services/properties.service";
 // import UploadVideo from "../components/CreatePost/UploadVideo";
 
-const ListShortVideo = ({ data, page, setPage, getStory }) => {
+const ListShortVideo = ({ data, page, setPage, getStory, type }) => {
   const { id } = useRouter().query;
   const ref = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,10 +44,13 @@ const ListShortVideo = ({ data, page, setPage, getStory }) => {
   return (
     <>
       <div className="list-short-video-wrapper">
-        <div className="create-short-video short-video" onClick={showModal}>
-          <IconAddShortVideo />
-          <span>Tạo bảng tin</span>
-        </div>
+        {!type && (
+          <div className="create-short-video short-video" onClick={showModal}>
+            <IconAddShortVideo />
+            <span>Tạo bảng tin</span>
+          </div>
+        )}
+
         <ModalUpload
           isModalVideoVisible={isModalOpen}
           setIsModalVideoVisible={setIsModalOpen}
@@ -59,6 +62,7 @@ const ListShortVideo = ({ data, page, setPage, getStory }) => {
             value={JSON.parse(value.content)}
             key={index}
             onClick={() => handleClick(value.id)}
+            type = {type}
           />
         ))}
       </div>

@@ -3,7 +3,7 @@ import { Player } from "video-react";
 import Image from "next/image";
 import AvatarDefaultSmall from "./../../assets/icon/AvatarDefaultSmall";
 
-const ShortVideoCard = ({ value,onClick }) => {
+const ShortVideoCard = ({ value,onClick, type }) => {
   const ref = useRef<HTMLVideoElement>();
   const handleMouseEnter = () => {
     ref?.current?.play();
@@ -23,7 +23,7 @@ const ShortVideoCard = ({ value,onClick }) => {
         src={value[0].data}
         fluid={false}
         width={'100%'}
-        height={225}
+        height={type ? 500 :225}
         ref={ref}
         muted={true}
       />

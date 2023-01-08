@@ -1,93 +1,106 @@
-.list-short-video-wrapper{
-    display: flex !important;
-    flex-wrap: wrap;
-    .create-short-video{
-        background: $color-primary;
-        color: $color--light;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        svg{
-            margin-bottom: 15px;
-        }
-    }
-    .short-video{
-        position: relative;
-        margin: 0px 8px;
-        width: calc((100% - 160px) / 10);
-        height: 225px;
-        border-radius: 10px;
-        img{
-            cursor: pointer;
-            border-radius: 10px;
-        }
-        .video-react{
-            cursor: pointer;
-            border-radius: 10px;
-            position: absolute;
-            background: none;
-            video{
-                z-index: -1;
-                border-radius: 10px;
-                outline: none;
-                border: none;
-                object-fit: cover;
-            }
-        }
-        &-avatar{
-            position: absolute;
-            top: 8px;
-            left: 8px;
-        }
-        &-author{
-            position: absolute;
-            bottom: 8px;
-            left: 8px;
-            color: $color--light;
-        }
-        .video-react-control-bar{
-            display: none;
-        }
-        .video-react-button{
-            display: none;
-        }
-    }
-}
-.carousel-next{
-    top: 20px;
-    right: 10px;
-    svg{
-        cursor: pointer;
-    }
+.list-short-video-wrapper {
+  display: flex !important;
+  flex-wrap: wrap;
+  .create-short-video {
+    background: $color-primary;
+    color: $color--light;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-    position: absolute;
-}
-.carousel-pre{
-    top: 20px;
-    left: 10px;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    svg{
-        cursor: pointer;
+    cursor: pointer;
+    svg {
+      margin-bottom: 15px;
     }
-    transform: rotate(180deg);
-}
-.carousel-button{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  }
+  .short-video {
     position: relative;
-    margin-bottom: 40px;
+    margin: 0px 8px;
+    width: calc((100% - 160px) / 10);
+    height: 225px;
+    border-radius: 10px;
+    img {
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    .video-react {
+      cursor: pointer;
+      border-radius: 10px;
+      position: absolute;
+      background: none;
+      video {
+        z-index: -1;
+        border-radius: 10px;
+        outline: none;
+        border: none;
+        object-fit: cover;
+      }
+    }
+    &-avatar {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+    &-author {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      color: $color--light;
+    }
+    .video-react-control-bar {
+      display: none;
+    }
+    .video-react-button {
+      display: none;
+    }
+  }
 }
-.noti{
-    width: 80%;
+.carousel-next {
+  top: 20px;
+  right: 10px;
+  svg {
+    cursor: pointer;
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+}
+.carousel-pre {
+  top: 20px;
+  left: 10px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    cursor: pointer;
+  }
+  transform: rotate(180deg);
+}
+.carousel-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-bottom: 40px;
+}
+.noti {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.list-post-container {
+
+  .list-short-video-wrapper {
+    margin-top: 20px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+  }
+  .short-video {
+    height: 500px;
+    width: 300px;
+  }
 }

@@ -27,7 +27,7 @@ const NewsFeeds = () => {
 
   const { shortVideoIds } = useContext(UserInfo);
   const getStory = useCallback(() => {
-    PropertiesService.getStory({ page: page }, getToken()).then((data) =>
+    PropertiesService.getStory({ page: page, limit: 5 }, getToken()).then((data) =>
       setData([...data.data.data.myStories, ...data.data.data.followingStories])
     );
   }, [page]);
