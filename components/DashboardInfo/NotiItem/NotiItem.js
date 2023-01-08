@@ -42,63 +42,6 @@ const NotiItem = ({ content }) => {
 
   return (
     <>
-<<<<<<< HEAD
-    {content.type === "error" && <div className="post-card-horizontal-container">
-        <div className="post-card-horizontal-image">
-          <Image
-            src={content.thumbnail}
-            width={282}
-            height={175}
-            layout="responsive"
-            alt="post-image"
-          />
-        </div>
-        <div className="post-card-horizontal-content">
-          <div className="notification-item">
-            <div className="notification-title">{content.articleTitle}</div>
-            <div className="notification-date">Ngày đăng: {[datePost.getDate(),datePost.getMonth()+1,datePost.getFullYear()].join('/')}</div>
-            <div className="notification-reason">Nguyên nhân:</div>
-            {content.result?.map((value, index) => (
-        <div key={index}>
-      
-          {value.type === "Image fault" &&
-            value.result?.map((value, index) => (
-              <><div className="sub-title" onClick={showModal}>Hình ảnh vi phạm <IconArrowRightRed /></div>
-               <Modal title="THÔNG BÁO" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-                <NotiItemDetail content={content} />
-      </Modal>
-              </>
-            ))}
-          {value.type === "Copyright fault" && (
-            <><div className="sub-title" onClick={showModal}>Nội dung vi phạm bản quyền <IconArrowRightRed /></div>
-              <Modal title="THÔNG BÁO" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-                <NotiItemDetail content={content} />
-      </Modal>
-            </>
-          )}
-          {value.type === "Video fault" &&
-            value.result?.map((value, index) => (
-              <><div className="sub-title" onClick={showModal}>Video vi phạm <IconArrowRightRed /></div>
-                
-                <Modal title="THÔNG BÁO" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-                <NotiItemDetail content={content} />
-      </Modal>
-              </>
-            ))}
-            {value.type === "Bad word fault" &&
-            value.result?.map((value, index) => (
-              <><div className="sub-title" onClick={showModal}>Nội dung chứa từ, ngữ vi phạm <IconArrowRightRed /></div>
-                
-                <Modal title="THÔNG BÁO" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-                <NotiItemDetail content={content} />
-      </Modal>
-              </>
-            ))}
-          
-        </div>
-      ))}
-            {/* <div className="notification-content">
-=======
       {content.type === "error" && (
         <div className="post-card-horizontal-container">
           <div className="post-card-horizontal-image">
@@ -196,7 +139,6 @@ const NotiItem = ({ content }) => {
                 </div>
               ))}
               {/* <div className="notification-content">
->>>>>>> ce4daf0d62f352aa7d8a83b0d6333d694dc6fe91
               {content.type === "error" && (
                 <div
                   className="view-detail"

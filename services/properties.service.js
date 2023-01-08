@@ -26,8 +26,8 @@ class PropertiesService {
     getArticleByUser(token, page){
         return http.get(`/users/my-articles?page=${page}&limit=${DEFAULT_PAGE_SIZE}`, {headers: {'Authorization': "Bearer " + token}})
     }
-    getArticleByUserId(id){
-        return http.get(`/users/${id}/list-articles-by-user`)
+    getArticleByUserId(id, page){
+        return http.get(`/users/${id}/list-articles-by-user?page=${page}&limit=${DEFAULT_PAGE_SIZE}`)
     }
     get3ArticlesByTopic(name){
         return http.get(`/articles?topic=${name}&limit=3`)
@@ -95,11 +95,11 @@ class PropertiesService {
         }
         return http.get(`/articles/${id}/comment`)
     }
-    getFollowed(token){
-        return http.get(`/users/followed`, {headers: {'Authorization': "Bearer " + token}} )
+    getFollowed(id, token){
+        return http.get(`/users/followed-by-user/${id}`, {headers: {'Authorization': "Bearer " + token}} )
     }
-    getFollowing(token){
-        return http.get(`/users/following`, {headers: {'Authorization': "Bearer " + token}} )
+    getFollowing(id, token){
+        return http.get(`/users/following-by-user/${id}`, {headers: {'Authorization': "Bearer " + token}} )
     }
     userFollow(data, token){
         return http.post(`/users/follow`, JSON.stringify(data),  {headers: {'Authorization': "Bearer " + token}} )

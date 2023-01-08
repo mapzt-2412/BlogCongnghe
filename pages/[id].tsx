@@ -1,4 +1,10 @@
-import React, { memo, useState, useEffect, useContext } from "react";
+import React, {
+  memo,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import Path from "../components/Path";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -11,20 +17,22 @@ import Follower from "../components/Follower/Follower";
 import ModalReport from "../components/ModalReport/ModalReport";
 import { UserInfo } from "./_app.js";
 import { ROUTE_HOME } from "../libs/constants";
+import userService from "../services/user.service";
 
 const Profile = (props) => {
   const { userInfo, setUserInfo, setChatBox } = useContext(UserInfo);
   const { id } = useRouter().query;
   const [value, setValue] = useState(3);
   const [token, setToken] = useState();
+  const [page, setPage] = useState(1);
   const [data, setData] = useState();
-  const [listPost, setListPost] = useState();
+  const [listPost, setListPost] = useState<any[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reportContent, setReportContent] = useState("");
   const [key, setKey] = useState("1");
   const [placement, SetPlacement] = useState("");
+  const [isFollow, setIsFollow] = useState(false);
 
-  console.log(userInfo);
   const placementChange = (e) => {
     SetPlacement(e.target.value);
   };
@@ -56,19 +64,22 @@ const Profile = (props) => {
   useEffect(() => {
     if (token) {
       if (id) {
-        PropertiesService.getUserInfo(id, token).then((data) =>
-          setUserInfo((pre) => ({ ...pre, data: data.data.data }))
-        );
-        PropertiesService.getArticleByUserId(id).then((data) =>
-          setListPost(data.data.data)
+        PropertiesService.getUserInfo(id, token).then((data) => {
+          setUserInfo((pre) => ({ ...pre, data: data.data.data }));
+          setIsFollow(data.data.data.isFollow);
+        });
+        PropertiesService.getArticleByUserId(id, page).then((data) =>
+          setListPost((pre) => [...pre, ...data.data.data])
         );
       }
     }
-  }, [token, id, setUserInfo]);
-
+  }, [token, id, setUserInfo, page]);
+  const handleReadMore = useCallback(() => {
+    setPage((pre) => pre + 1);
+  }, []);
   const handleReport = () => {
     PropertiesService.sendReportUser(
-      { userBeingReport: id, description: reportContent, type: placement },
+      { userReportedId: id, description: reportContent, type: placement },
       getToken()
     ).then((data) => {
       alert("Báo cáo thành công");
@@ -121,6 +132,17 @@ const Profile = (props) => {
   if (getToken() === false) {
     router.push(ROUTE_HOME);
   }
+  const handleToggleFollow = useCallback(() => {
+    if (isFollow) {
+      userService
+        .userUnFollow({ userFollowedId: id }, getToken())
+        .then(() => setIsFollow(false));
+      return;
+    }
+    userService
+      .userFollow({ userFollowedId: id }, getToken())
+      .then(() => setIsFollow(true));
+  }, [id, isFollow]);
   return (
     <div className="medium-container">
       <Path data={{ title: ["Trang cá nhân"], content: data?.username }} />
@@ -142,7 +164,9 @@ const Profile = (props) => {
         </div>
         {id !== getId() && (
           <div className="profile-user-button">
-            <Button onClick={handleOpenChatBox}>Theo dõi</Button>
+            <Button onClick={handleToggleFollow}>
+              {isFollow ? "Bỏ theo dõi" : "Theo dõi"}
+            </Button>
             <Button onClick={handleOpenChatBox}>Nhắn tin</Button>
             <Button onClick={showModal}>Báo cáo người dùng</Button>
             <ModalReport
@@ -161,7 +185,10 @@ const Profile = (props) => {
             ? userInfo?.data.nickname
             : userInfo?.data.username}
         </p>
-        <p><span className="slash">Cấp độ thành viên:</span> {renderLevel(userInfo?.data.score)}</p>
+        <p>
+          <span className="slash">Cấp độ thành viên:</span>{" "}
+          {renderLevel(userInfo?.data.score)}
+        </p>
         <div className="profile-user-contact">
           {contact.map((value, index) => (
             <div key={index} className="profile-user-contact-item">
@@ -197,10 +224,14 @@ const Profile = (props) => {
         </div>
         <div className="profile-list-post">
           {key === "1" && (
-            <ListPost data={listPost} id={"Danh sách bài viết"} />
+            <ListPost
+              data={listPost}
+              id={"Danh sách bài viết"}
+              handleReadMore={handleReadMore}
+            />
           )}
-          {key === "2" && <Follower type={"2"} />}
-          {key === "3" && <Follower type={"3"} />}
+          {key === "2" && <Follower type={"2"} id={id} />}
+          {key === "3" && <Follower type={"3"} id={id} />}
         </div>
       </div>
     </div>

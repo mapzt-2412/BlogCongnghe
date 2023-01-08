@@ -6,7 +6,7 @@ import Path from "../../../components/Path";
 import SidebarItem from "../../../components/SideBar/SidebarItem";
 import Sidebar from "../../../components/SideBar/Sidebar.json";
 import ListPost from "../../../components/ListPost/ListPost";
-import { getToken } from "../../../libs/common";
+import { getId, getToken } from "../../../libs/common";
 import PropertiesService from "../../../services/properties.service";
 import DashboardInfo from "../../../components/DashboardInfo/Dashboard-Info";
 import DashboardPassword from "../../../components/DashboardInfo/Dashboard-Password";
@@ -23,7 +23,7 @@ const Dashboard = () => {
   const [key, setKey] = useState("2");
   const [data, setData] = useState();
   const [dataBookmark, setDataBookmark] = useState();
-  const [dataDraft, setDataDraft] = useState();
+  const [dataDraft, setDataDraft] = useState([]);
   const [page, setPage] = useState(1);
   const [level, setLevel] = useState();
   const refDiv = useRef<HTMLElement>(null);
@@ -143,8 +143,8 @@ const Dashboard = () => {
           )}
           {key === "4" && <DashboardInfo />}
           {key === "5" && <DashboardPassword />}
-          {key === "6" && <Follower type={"2"} />}
-          {key === "7" && <Follower type={"3"} />}
+          {key === "6" && <Follower type={"2"} id={getId()}/>}
+          {key === "7" && <Follower type={"3"} id={getId()}/>}
           {key === "8" && (
             <ListPost data={dataBookmark} id={"Bài viết đã đăng"} />
           )}

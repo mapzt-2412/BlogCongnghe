@@ -21,7 +21,7 @@ const PostNews = () => {
             <p>8. Không được gửi bài xin key, xin phần mềm.</p>
             <p>9. Không được gửi bài cho key, cho phần mềm, chia sẻ key, ngoại trừ trường hợp Developer cần tặng phần mềm vui lòng liên hệ và phải được sự cho phép của BQT.</p>
             <p>10. Đối với các chuyên mục có sẵn mẫu, thành viên phải gởi bài theo mẫu qui định.</p>
-            <p>11. Khi muốn cám ơn người gởi bài, chỉ cần nhấn nút lệnh “Thích".</p>
+            <p>11. Khi muốn cám ơn người gởi bài, chỉ cần nhấn nút lệnh {'"Thích"'}.</p>
             <p>12. Bài trả lời không lạc đề, phải có tính xây dựng, nội dung rõ ràng.</p>
             <p>13. Thành viên Không được tự ý gửi bài viết có nội dung Khuyến mãi, Khuyến mại, hỗ trợ khách hàng tại tất cả các khu vực trên Diễn đàn mà chưa được phép của Ban Quản Trị. Tất cả các bài thuộc loại này muốn đưa lên Diễn đàn hay trang tin thành viên phải liên hệ với Ban Quản Trị để được hỗ trợ, xử lý.</p>
           </div>

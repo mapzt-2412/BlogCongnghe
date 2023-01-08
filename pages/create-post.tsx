@@ -76,7 +76,7 @@ const CreatePost = () => {
   const [isCreateDraft, setIsCreateDraft] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [loadding, setLoadding] = useState(false);
-  const [listImage, setListImage] = useState([]);
+  const [listImage, setListImage] = useState<string[]>([]);
   const [listVideo, setListVideo] = useState([]);
   const [key, setKey] = useState("");
   const [dataEditor, setDataEditor] = useState("");
@@ -252,7 +252,7 @@ const CreatePost = () => {
           ...pre,
           articleId: post && +post,
           topicId: data.data.data?.topic?.id,
-          tags: data.data.data?.tags.map(value => value.name),
+          tags: data.data.data?.tagDrafts ? data.data.data?.tagDrafts.map(value => value.name) : data.data.data?.tags?.map(value => value.name),
           thumbnail: data.data.data?.thumbnail,
           title: data.data.data?.title,
           description: data.data.data?.description,
@@ -468,7 +468,7 @@ const CreatePost = () => {
   };
 
   const handleKeyDown = (event) => {
-    if (reqData?.tags.length >= 4) {
+    if (reqData?.tags?.length >= 4) {
       return;
     }
     if (event.keyCode == 13) {
@@ -593,8 +593,8 @@ const CreatePost = () => {
                     value={value?.name}
                     key={index}
                     disabled={
-                      reqData.tags.length > 3
-                        ? reqData.tags.includes(value?.name)
+                      reqData.tags?.length > 3
+                        ? reqData.tags?.includes(value?.name)
                           ? false
                           : true
                         : false
@@ -746,7 +746,7 @@ const CreatePost = () => {
               <Row gutter={[16, 16]}>
                 {memu.map((value, index) => (
                   <Col className="create-post-memu-item" span={12} key={index}>
-                    <div className="memu-item-icon-wrapper" s>
+                    <div className="memu-item-icon-wrapper">
                       <div className="memu-item-icon" onClick={value.callBack}>
                         {value.lable}
                       </div>

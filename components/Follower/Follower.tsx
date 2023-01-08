@@ -6,27 +6,27 @@ import { getToken, renderLevel } from "../../libs/common";
 import Router from "next/router";
 import userService from "../../services/user.service";
 
-const Follower = ({ type }) => {
+const Follower = ({ type, id }) => {
   const [data, setData] = useState();
 
   useEffect(() => {
     if (type === "2") {
-      PropertiesService.getFollowed(getToken()).then((data) =>
+      PropertiesService.getFollowed(id, getToken()).then((data) =>
         setData(data.data.data.follower)
       );
     } else if (type === "3") {
-      PropertiesService.getFollowing(getToken()).then((data) =>
+      PropertiesService.getFollowing(id, getToken()).then((data) =>
         setData(data.data.data.userFollowed)
       );
     }
-  }, [type]);
+  }, [id, type]);
   const onSearch = (value: string) => console.log(value);
 
   const handleUnFollow = useCallback((id) => {
     userService
       .userUnFollow({ userFollowedId: id }, getToken())
       .then((data) =>
-        PropertiesService.getFollowing(getToken()).then((data) =>
+        PropertiesService.getFollowing(id, getToken()).then((data) =>
           setData(data.data.data.userFollowed)
         )
       );
@@ -36,8 +36,11 @@ const Follower = ({ type }) => {
       <div className="list-post-content">
         <div className="list-post-content-header">
           <div className="list-post-topic">
-            {type === "2" ? (<p>NGƯỜI ĐANG THEO DÕI ({console.log(data)})</p>) : (<p>NGƯỜI THEO DÕI ({console.log(data)})</p>)}
-            
+            {type === "2" ? (
+              <p>NGƯỜI ĐANG THEO DÕI ({data ? data.length : 0})</p>
+            ) : (
+              <p>NGƯỜI THEO DÕI ({data ? data.length : 0})</p>
+            )}
           </div>
           {/* <div className="list-post-sort search-field">
             <Search
@@ -63,14 +66,14 @@ const Follower = ({ type }) => {
                     </p>
                   </div>
                 </div>
-                {type === "3" && (
+                {/* {type === "3" && (
                   <button
                     className="btn-subcribe"
                     onClick={() => handleUnFollow(value.id)}
                   >
                     Bỏ theo dõi
                   </button>
-                )}
+                )} */}
               </div>
             ))}
           </div>
