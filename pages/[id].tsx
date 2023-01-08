@@ -25,7 +25,7 @@ const Profile = (props) => {
   const [placement, SetPlacement] = useState("");
 
   console.log(userInfo);
-  const placementChange = (e: RadioChangeEvent) => {
+  const placementChange = (e) => {
     SetPlacement(e.target.value);
   };
 

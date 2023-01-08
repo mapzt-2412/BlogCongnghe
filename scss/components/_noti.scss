@@ -1,5 +1,7 @@
 .noti-wrapper {
   width: 300px;
+  height: calc(100vh - 200px);
+  overflow: scroll;
   .noti-item {
     border-top: 1px solid $color--border;
     padding: 10px;

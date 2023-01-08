@@ -228,7 +228,6 @@ const Header = (props) => {
                   <IconNoti />
                 </div>
               </Popover>
-
               <div className="header-button header-login">
                 <Dropdown overlay={menu} placement="bottom">
                   <Space>

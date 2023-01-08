@@ -33,5 +33,16 @@ class UsersService {
       headers: { Authorization: "Bearer " + token },
     });
   }
+  userFollow(data, token) {
+    return http.post(`/users/follow`, JSON.stringify(data), {
+      headers: { Authorization: "Bearer " + token },
+    });
+  }
+
+  userUnFollow(data, token) {
+    return http.post(`/users/un-follow`, JSON.stringify(data), {
+      headers: { Authorization: "Bearer " + token },
+    });
+  }
 }
 export default new UsersService();

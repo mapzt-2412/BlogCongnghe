@@ -5,6 +5,7 @@ import IconWarning from './../../../assets/icon/IconWarning';
 import Link from 'next/link';
 import Marquee from "react-fast-marquee";
 import PropertiesService from "../../../services/properties.service";
+import articleService from "../../../services/article.service";
 
 const hotNews = [
     "Triển lãm di động toàn cầu MWC 2022",
@@ -14,7 +15,7 @@ const hotNews = [
 const HotNews = () => {
     const [data, setData] = useState();
     useEffect(()=>{
-        PropertiesService.getArticlesByTopic("News").then((data) => setData(data.data.data))
+        articleService.getArticlesByTopic("News").then((data) => setData(data.data.data))
     },[])
     return (
         <div className="hotnews-container">

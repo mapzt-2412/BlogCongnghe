@@ -14,7 +14,7 @@ import {
 import ListTopic from "./ListTopic/ListTopic";
 import ListTrend from "./ListTopic/ListTrend";
 import PropertiesService from "../../../services/properties.service";
-import { Dropdown, Menu, message, Space } from "antd";
+import { Dropdown, Menu, message, Popover, Space } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import IconSignin from "../../../assets/icon/IconSignin";
 import IconSignup from "../../../assets/icon/IconSignup";
@@ -172,11 +172,11 @@ const NavBar = ({
         <>
           <div className="header-button header-login">
             {/* <Dropdown overlay={menu} placement="bottom"> */}
-              <Space>
-                <Link href={`/${data?.id}`}>
-                  <AvatarDefaultSmall width={32} height={32} />
-                </Link>
-              </Space>
+            <Space>
+              <Link href={`/${data?.id}`}>
+                <AvatarDefaultSmall width={32} height={32} />
+              </Link>
+            </Space>
             {/* </Dropdown> */}
           </div>
           <Link href={"/create-post"}>
@@ -213,17 +213,21 @@ const NavBar = ({
           }}
         >
           {value.name ? (
-            <div
-              className={
-                router?.pathname === value?.route
-                  ? "navbar-title active"
-                  : "navbar-title"
-              }
-              onMouseEnter={() => onMouseEnter(value.name)}
-              onMouseOut={() => onMouseLeave(value.name)}
+            <Popover
+              content={<ListTrend title={"Danh sách chủ đề"} data={topics} />}
+              trigger="hover"
+              className="list-topic-popover"
             >
-              {value?.title}
-            </div>
+              <div
+                className={
+                  router?.pathname === value?.route
+                    ? "navbar-title active"
+                    : "navbar-title"
+                }
+              >
+                {value?.title}
+              </div>
+            </Popover>
           ) : (
             <div
               className={
@@ -237,13 +241,13 @@ const NavBar = ({
           )}
         </div>
       ))}
-      <div
+      {/* <div
         className={"dropdown-navbar " + (isShowTopic ? "show" : "hide")}
         onMouseEnter={() => setIsShowTopic(true)}
         onMouseLeave={() => setIsShowTopic(false)}
       >
         <ListTrend title={"Danh sách chủ đề"} data={topics} />
-      </div>
+      </div> */}
 
       {token ? (
         <div className="header-logout">

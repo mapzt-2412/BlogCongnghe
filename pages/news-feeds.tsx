@@ -20,15 +20,15 @@ import { useCallback } from "react";
 //   tabName: string;
 // }
 const NewsFeeds = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState<any>();
   const [page, setPage] = useState(1);
   const [pageIndex, setPageIndex] = useState(1);
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState<any[]>([]);
 
   const { shortVideoIds } = useContext(UserInfo);
   const getStory = useCallback(() => {
     PropertiesService.getStory({ page: page }, getToken()).then((data) =>
-      setData(data.data.data.myStories)
+      setData([...data.data.data.myStories, ...data.data.data.followingStories])
     );
   }, [page]);
   useEffect(() => {
@@ -38,8 +38,12 @@ const NewsFeeds = () => {
   useEffect(() => {
     articleService
       .getNewfeed(pageIndex, getToken())
-      .then((data) => setArticles(data.data.data));
+      .then((data) => setArticles((pre) => [...pre, ...data.data.data]));
   }, [pageIndex]);
+
+  const handleReadMore = useCallback(() => {
+    setPageIndex((pre) => pre + 1);
+  }, []);
 
   const router = useRouter();
   if (getToken() === false) {
@@ -49,9 +53,18 @@ const NewsFeeds = () => {
     <>
       <div className="main-container">
         <Path data={{ content: "Bảng tin" }} />
-        <ListShortVideo data={data} page={page} setPage={setPage} getStory={getStory}/>
+        <ListShortVideo
+          data={data}
+          page={page}
+          setPage={setPage}
+          getStory={getStory}
+        />
         <div className="post-detail-container">
-          <ListPost data={articles} id={"Bài viết dành cho bạn"} />
+          <ListPost
+            data={articles}
+            id={"Bài viết dành cho bạn"}
+            handleReadMore={handleReadMore}
+          />
         </div>
       </div>
       {/* {token ? (

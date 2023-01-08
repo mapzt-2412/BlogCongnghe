@@ -29,9 +29,6 @@ class PropertiesService {
     getArticleByUserId(id){
         return http.get(`/users/${id}/list-articles-by-user`)
     }
-    getArticlesByTopic(name, param){
-        return http.get(`/articles?topic=${name}&${param}`)
-    }
     get3ArticlesByTopic(name){
         return http.get(`/articles?topic=${name}&limit=3`)
     }

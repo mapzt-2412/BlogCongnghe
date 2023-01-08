@@ -20,6 +20,7 @@ import { ROUTE_NEWSFEEDS, ROUTE_SHORTVIDEO } from "./../../libs/constants";
 import ShortVideoContext, { Context } from "./../../components/Context/context";
 import { UserInfo } from "../_app";
 import PropertiesService from "../../services/properties.service";
+import propertiesService from "../../services/properties.service";
 
 const ShortVideo = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const ShortVideo = () => {
     time: "20200202",
   });
   const [url, setUrl] = useState({
-    data: ""
+    data: "",
   });
   const [interactives, setInteractives] = useState();
   const [comment, setComment] = useState();
@@ -85,7 +86,8 @@ const ShortVideo = () => {
         });
         setInteractives(data.data.data.interactives);
       });
-      PropertiesService.getComment(id).then((data) =>
+      console.log(id);
+      PropertiesService.getComment(id, getToken()).then((data) =>
         setComment(data.data.data)
       );
     }
@@ -162,14 +164,10 @@ const ShortVideo = () => {
           <div className="short-video-title">
             <span>{data.title}</span>
           </div>
-          <Interactive
-            like={data.like}
-            share={data.share}
-            comment={data.comment}
-          />
+          <Interactive dataInteractive={data} type={"short-video"} id={id} />
         </div>
         <div className="short-video-comment">
-          <ListComment />
+          <ListComment comment={comment} setComment={setComment} />
         </div>
       </div>
     </div>
