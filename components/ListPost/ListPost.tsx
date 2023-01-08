@@ -29,12 +29,17 @@ const ListPost: FC<IListPostProps> = ({
 }) => {
   const [isList, setList] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+<<<<<<< HEAD
   const [isVisible, setIsVisible] = useState(false);
+=======
+  const [isVisible, setIsVisible] = useState(true);
+>>>>>>> ce4daf0d62f352aa7d8a83b0d6333d694dc6fe91
   const changeLayout = () => {
     setList(!isList);
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     if (data?.length < 5 ) {
       setIsVisible(false);
     }else {
@@ -46,6 +51,22 @@ const ListPost: FC<IListPostProps> = ({
     if (typeof window !== undefined) {
       if (window.innerWidth <= 768) {
         setIsMobile(true);
+=======
+    if (typeof window !== undefined) {
+      if (window.innerHeight <= 1080) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      if (window.innerWidth <= 768 || window.innerHeight <= 1080) {
+        setIsMobile(true);
+        setIsVisible(true);
+>>>>>>> ce4daf0d62f352aa7d8a83b0d6333d694dc6fe91
       } else {
         setIsMobile(false);
       }

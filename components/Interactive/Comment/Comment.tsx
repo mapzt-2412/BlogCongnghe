@@ -61,8 +61,7 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
   };
 
   const handleInteractive = (message, author) => {
-    setRequestData({ ...requestData, parentsId: id });
-    console.log(requestData);
+    setRequestData({ ...requestData, parentsId: data?.id });
     if (message === "reply") {
       if (level === 1) {
         handleInteractiveLastChild(message, author);
@@ -103,7 +102,12 @@ const Comment = ({ data, level, handleInteractiveLastChild }) => {
         <div className="comment-avatar">
           {data.user.avatar ? (
             <div className="avatar-small">
-              <Image src={data.user.avatar} width={32} height={32} alt="avatar" />
+              <Image
+                src={data.user.avatar}
+                width={32}
+                height={32}
+                alt="avatar"
+              />
             </div>
           ) : (
             <AvatarDefaultSmall width={32} height={32} />

@@ -17,6 +17,8 @@ import showdown from "showdown";
 import Head from "next/head";
 import { spinnerService } from "../../services/spiner.service";
 import { Player } from "video-react";
+import articleService from "../../services/article.service";
+import userService from "../../services/user.service";
 
 const converter = new showdown.Converter();
 
@@ -93,6 +95,7 @@ const PostDetail = (props) => {
   const [data, setData] = useState();
   const [content, setContent] = useState([]);
   const [comment, setComment] = useState();
+  const [isFollow, setIsFollow] = useState(false);
   const [interactives, setInteractives] = useState();
 
   useEffect(() => {
@@ -102,6 +105,7 @@ const PostDetail = (props) => {
         setContent(JSON.parse(data.data.data.content));
         // setContent(data.data.data.content);
         setInteractives(data.data.data.interactives);
+        setIsFollow(data.data.data.isFollow);
       });
       PropertiesService.getComment(id, getToken()).then((data) =>
         setComment(data.data.data)
@@ -144,14 +148,19 @@ const PostDetail = (props) => {
     }
   };
   const handleFollow = () => {
-    PropertiesService.userFollow(
-      { userFollowedId: data.user.id },
-      getToken()
-    ).then((data) => {
-      console.log(data);
-    });
+    userService
+      .userFollow({ userFollowedId: data?.user.id }, getToken())
+      .then((data) => {
+        setIsFollow(true);
+      });
   };
-  console.log(props);
+  const handleUnFollow = () => {
+    userService
+      .userUnFollow({ userFollowedId: data?.user.id }, getToken())
+      .then((data) => {
+        setIsFollow(false);
+      });
+  };
 
   return (
     <>
@@ -207,9 +216,13 @@ const PostDetail = (props) => {
                 ? data?.user?.nickname
                 : "Người dùng hệ thống"}
             </Link>
-            {!data?.isFollow && (
+            {!isFollow ? (
               <Button type="primary" onClick={handleFollow}>
                 + Theo dõi
+              </Button>
+            ) : (
+              <Button type="primary" onClick={handleUnFollow}>
+                + Bỏ theo dõi
               </Button>
             )}
           </div>
@@ -237,7 +250,10 @@ const PostDetail = (props) => {
               <>{renderContent(value.type, value.data)}</>
             ))}
           </div>
-          <HotTags tags={data?.tags ? data?.tags : []} title={"DANH SÁCH TAGS"} />
+          <HotTags
+            tags={data?.tags ? data?.tags : []}
+            title={"DANH SÁCH TAGS"}
+          />
           <Interactive dataInteractive={data} id={id} />
         </div>
         <ListComment comment={comment} setComment={setComment} />

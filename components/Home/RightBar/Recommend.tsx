@@ -18,12 +18,13 @@ interface ArticlesProps {
 }
 const Recommend = () => {
   const [posts, setPosts] = useState<Array<ArticlesProps>>([]);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    articleService.getRecommend(getToken()).then((data) => {
+    articleService.getRecommend(page, getToken()).then((data) => {
       setPosts(data.data.data);
     });
-  }, []);
+  }, [page]);
 
   return (
     <RightBar title="BÀI VIẾT LIÊN QUAN">

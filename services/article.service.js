@@ -52,9 +52,30 @@ class ArticleService {
     );
   }
   getRecommend(page, token) {
-    return http.get(`/users/my-recommend-articles?page=${page}&limit=${DEFAULT_PAGE_SIZE}`, {
-      headers: { Authorization: "Bearer " + token },
-    });
+    return http.get(
+      `/users/my-recommend-articles?page=${page}&limit=${DEFAULT_PAGE_SIZE}`,
+      {
+        headers: { Authorization: "Bearer " + token },
+      }
+    );
+  }
+  getArticlesByTopic(name, param) {
+    let params = "";
+    for (let key in param) {
+      params = key + "=" + param[key] + "&";
+    }
+    return http.get(
+      `/articles?topic=${name}&limit=${DEFAULT_PAGE_SIZE}&${params}`
+    );
+  }
+  getArticlesByTag(name, param) {
+    let params = "";
+    for (let key in param) {
+      params = key + "=" + param[key] + "&";
+    }
+    return http.get(
+      `/articles?tag=${name}&limit=${DEFAULT_PAGE_SIZE}&${params}`
+    );
   }
 }
 export default new ArticleService();

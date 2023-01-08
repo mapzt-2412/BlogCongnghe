@@ -3,7 +3,7 @@ import React, { memo, useState } from "react";
 import Logo from "../../../assets/icon/Logo";
 import PropertiesService from "../../../services/properties.service";
 
-const forgetPassword = ({setTab}) => {
+const ForgetPassword = ({setTab}) => {
     const [data, setData] = useState();
     const handleChange = (e) => {
         setData({...data, [e.target.name]: e.target.value});
@@ -41,4 +41,4 @@ const forgetPassword = ({setTab}) => {
     </>
 }
 
-export default memo(forgetPassword);
+export default memo(ForgetPassword);

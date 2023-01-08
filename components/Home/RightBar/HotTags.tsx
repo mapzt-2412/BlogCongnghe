@@ -11,18 +11,23 @@ interface ITagsProps {
   title?: string;
 }
 
-const HotTags: FC<ITagsProps> = ({ title }) => {
+const HotTags: FC<ITagsProps> = ({ tags, title }) => {
   const [hotTags, setHotTags] = useState<Array<any>>([]);
   useEffect(() => {
-    articleService.gettags().then((data) => setHotTags(data.data.data));
-  }, []);
+    if (tags) {
+      setHotTags(tags);
+    } else {
+      articleService.gettags().then((data) => setHotTags(data.data.data));
+    }
+  }, [tags]);
+
   return (
     <RightBar title={title ? title : "TAG NỔI BẬT"}>
       <div className="tags">
         {hotTags?.slice(0, 10).map((value, index) => (
           <div className="link tag" key={index}>
             {value && (
-              <Link href={`/tags?id=${value.id}`}>
+              <Link href={`/list-post/tags?name=${value.name}`}>
                 {value.name ? `#${value.name}` : `#${value}`}
               </Link>
             )}

@@ -4,14 +4,14 @@ import RightBar from "./RightBar";
 import { Col, Row } from 'antd';
 import Image from 'next/image';
 import Link from "next/link";
-import PropertiesService from "../../../services/properties.service";
 import { SliceString } from '../../../libs/common';
 import { stringLengthTitle, stringLengthDescription } from '../../../libs/commonConstants';
+import articleService from "../../../services/article.service";
 
 const News = ({ news}) => {
   const [data, setData] = useState();
   useEffect(()=>{
-    PropertiesService.getArticlesByTopic("News","limit=4").then((data) => setData(data.data.data))
+    articleService.getArticlesByTopic("News","limit=4").then((data) => setData(data.data.data))
   },[])
   console.log(data)
   return (

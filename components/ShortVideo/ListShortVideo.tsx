@@ -1,8 +1,6 @@
-import { Col, Row, Carousel, Upload, UploadProps, message, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import { memo, useRef } from "react";
 import { getToken } from "../../libs/common";
-import ShortVideoContext from "../../pages/short-video/context";
 import UploadVideo from "../CreatePost/UploadVideo";
 import IconAddShortVideo from "./../../assets/icon/IconAddShortVideo";
 import IconNext from "./../../assets/icon/IconNext";
@@ -12,13 +10,16 @@ import { useContext } from "react";
 import { UserInfo } from "../../pages/_app";
 import { useRouter } from "next/router";
 import { ROUTE_SHORTVIDEO } from "../../libs/constants";
+import propertiesService from "../../services/properties.service";
 // import UploadVideo from "../components/CreatePost/UploadVideo";
 
 const ListShortVideo = ({ data, page, setPage, getStory }) => {
+  const { id } = useRouter().query;
   const ref = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { setShortVideoIds } = useContext(UserInfo);
   const [isLastPage, setIsLastPage] = useState(false);
+  const [comment, setComment] = useState([]);
 
   const route = useRouter();
   const showModal = () => {
