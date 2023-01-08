@@ -17,7 +17,7 @@ const News = ({ news}) => {
   return (
     <RightBar title="TIN TỨC">
       <Row>
-        {data?.map((value, index) => (
+        {data?.slice(0,4)?.map((value, index) => (
           <Col span={12} key={index}>
             <div className={"news-item " + (index % 2 === 0 ? "left" : "")}>
               <div className="news-image">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { memo, useState, useCallback, useEffect } from "react";
+import { memo, useState, useCallback, useEffect, useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -67,10 +67,14 @@ export default function BarChart({dataChart , type}) {
   };
 
   
-  const data = {
-    labels: Object.values(dataChart?.lables),
-    datasets: dataset,
-  }
-  console.log(dataset)
+  const data = useMemo(() => {
+    if(dataChart?.lables){
+      return {
+        labels: Object.values(dataChart?.lables),
+        datasets: dataset,
+      }
+    }
+  }, [dataChart?.lables, dataset])
+
   return <Bar options={options} data={data} />;
 }

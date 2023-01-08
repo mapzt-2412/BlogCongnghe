@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { memo } from "react";
 import { getToken } from "../../../libs/common";
-import { ROUTE_TREND } from "../../../libs/constants";
+import { ROUTE_RECOMMEND, ROUTE_TREND } from "../../../libs/constants";
 import articleService from "../../../services/article.service";
 import RightBar from "./RightBar";
 import Router from "next/router";
@@ -32,16 +32,18 @@ const Recommend = () => {
         <div
           className={"post-item "}
           key={index}
-          onClick={() => Router.push(`/post/${value.article.id}`)}
+          onClick={() =>
+            Router.push(`/post/${value.article ? value.article.id : value?.id}`)
+          }
         >
           <span>{index + 1 + "."}</span>
           <div className="post-title">
-            <p>{value.article.title}</p>
+            <p>{value.article ? value.article.title : value?.title}</p>
           </div>
         </div>
       ))}
       <div className="link see-more">
-        <Link href={ROUTE_TREND}>Xem thêm</Link>
+        <Link href={ROUTE_RECOMMEND}>Xem thêm</Link>
       </div>
     </RightBar>
   );

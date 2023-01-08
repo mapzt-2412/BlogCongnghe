@@ -253,6 +253,8 @@ const Content: FC<IContentProps> = ({
           console.log(error);
         });
     }
+    setIsRenderEditor(false);
+    setIsRenderEditorMarkdown(false);
     setIsModalContentVisible(false);
   };
 

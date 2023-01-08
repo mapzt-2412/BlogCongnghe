@@ -52,6 +52,11 @@ class ArticleService {
     );
   }
   getRecommend(page, token) {
+    if(!token){
+      return http.get(
+        `/articles?sortBy=score&sortOrder=DESC&limit=${DEFAULT_PAGE_SIZE}`
+      ); 
+    }
     return http.get(
       `/users/my-recommend-articles?page=${page}&limit=${DEFAULT_PAGE_SIZE}`,
       {

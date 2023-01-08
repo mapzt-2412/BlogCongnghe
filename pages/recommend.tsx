@@ -1,4 +1,5 @@
 import { Col, Row } from "antd";
+import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import { memo } from "react";
 import HotComments from "../components/Home/RightBar/HotComments";
@@ -6,9 +7,10 @@ import HotTags from "../components/Home/RightBar/HotTags";
 import ListPost from "../components/ListPost/ListPost";
 import Path from "../components/Path";
 import { getToken } from "../libs/common";
+import { ROUTE_TREND } from "../libs/constants";
 import articleService from "../services/article.service";
 
-const Trend = () => {
+const Recommend = () => {
   const [listTrends, setListTrends] = useState([]);
   const [page, setPage] = useState(1);
   useEffect(() => {
@@ -16,8 +18,10 @@ const Trend = () => {
       setListTrends(data.data.data.map((data) => data.article));
     });
   }, [page]);
-  console.log(listTrends);
-  
+  if (!getToken()) {
+    Router.push(ROUTE_TREND);
+    return null;
+  }
   return (
     <div className="main-container">
       <div className="list-post-header">
@@ -28,11 +32,11 @@ const Trend = () => {
           <ListPost data={listTrends} id={"Những nội dung liên quan"} />
         </Col>
         <Col span={8}>
-          <HotTags/>
-          <HotComments/>
+          <HotTags />
+          <HotComments />
         </Col>
       </Row>
     </div>
   );
 };
-export default memo(Trend);
+export default memo(Recommend);

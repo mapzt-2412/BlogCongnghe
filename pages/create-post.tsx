@@ -111,8 +111,8 @@ const CreatePost = () => {
         return {
           lable: (
             <ChartWrapper
-              type={data.typeChart}
-              dataTable={data}
+              type={data.data.typeChart}
+              dataTable={data.data}
               isModal={false}
             />
           ),

@@ -78,12 +78,6 @@ const Chart: FC<IChartProps> = ({
   );
   const handleOk = () => {
     if (addDataContent) {
-      // addData({
-        // lable: (
-        //   <ChartWrapper type={typeChart} dataTable={data} isTable={false} />
-        // ),
-        // title: "Biểu đồ",
-      // });
       addDataContent(
         {
           type: "chart",

@@ -66,10 +66,10 @@ const PostCardHorizontal = ({ data, type, deleteArticle, deleteDraft }) => {
           className="post-card-horizontal-title"
           onClick={() => Route.push(`/post/${data?.id}`)}
         >
-          <p>{data.title}</p>
+          <p>{data?.title}</p>
           <div className="post-card-horizontal-desc">
             {SliceString(
-              data.description ? data.description : "",
+              data?.description ? data.description : "",
               stringLengthDescription
             )}
           </div>
