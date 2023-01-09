@@ -128,8 +128,6 @@ const Profile = (props) => {
     },
   ];
 
-  const router = useRouter();
-
   const handleToggleFollow = useCallback(() => {
     if (isFollow) {
       userService

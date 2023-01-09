@@ -7,8 +7,9 @@ import HotTags from "../components/Home/RightBar/HotTags";
 import ListPost from "../components/ListPost/ListPost";
 import Path from "../components/Path";
 import { getToken } from "../libs/common";
-import { ROUTE_TREND } from "../libs/constants";
+import { ROUTE_HOME, ROUTE_TREND } from "../libs/constants";
 import articleService from "../services/article.service";
+import { useRouter } from "next/router";
 
 const Recommend = () => {
   const [listTrends, setListTrends] = useState([]);
@@ -18,7 +19,10 @@ const Recommend = () => {
       setListTrends(data.data.data.map((data) => data.article));
     });
   }, [page]);
-
+  const router = useRouter();
+  if (getToken() === false) {
+    router.push(ROUTE_TREND);
+  }
   return (
     <div className="main-container">
       <div className="list-post-header">
