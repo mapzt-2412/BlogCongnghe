@@ -129,9 +129,7 @@ const Profile = (props) => {
   ];
 
   const router = useRouter();
-  if (getToken() === false) {
-    router.push(ROUTE_HOME);
-  }
+
   const handleToggleFollow = useCallback(() => {
     if (isFollow) {
       userService
