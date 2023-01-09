@@ -224,6 +224,7 @@ const NavBar = ({
                     ? "navbar-title active"
                     : "navbar-title"
                 }
+                onClick={() => router.push(`./list-post/${value?.title}`)}
               >
                 {value?.title}
               </div>

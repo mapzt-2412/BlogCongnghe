@@ -7,30 +7,6 @@ import Path from "../../components/Path";
 import { useRouter } from "next/router";
 import articleService from "../../services/article.service";
 
-const tags = ["IOS", "IOS", "IOS", "IOS", "IOS", "IOS", "IOS"];
-const comments = [
-  {
-    content:
-      "Mình thích mấy mẫu của Devilcase, mà dòng P6 thì Devilcase chỉ làm có 1 mẫu, đơn điệu quá. Trên Shoppee với Lazada thì đa số toàn ốp đểu.",
-    reply: "2",
-  },
-  {
-    content:
-      "Thân thiện với môi trường là cách họ.....bán hàng thôi. Sp nào trên quả đất này được sinh ra mà không ảnh hưởng đến môi trường? Sử dụng điện và thải ra chất thải... Samsung tôi nhớ lúc ra S4 thì cái hộp nó chả khác gì hộp cạc tông xấu quắc với lí do là tái chế và giảm......thân thiện với môi trường. Bây giờ thì sao? Sam nó hết thân thiện MT rồi. Hộp in có màu săc.. và bỏ củ sạc cũng viện cớ là giảm bớt rác thải.....tin nó mới lạ. Hahahaha",
-    reply: "5",
-  },
-  {
-    content:
-      "Mình thích mấy mẫu của Devilcase, mà dòng P6 thì Devilcase chỉ làm có 1 mẫu, đơn điệu quá. Trên Shoppee với Lazada thì đa số toàn ốp đểu.",
-    reply: "1",
-  },
-  {
-    content:
-      "Mình thích mấy mẫu của Devilcase, mà dòng P6 thì Devilcase chỉ làm có 1 mẫu, đơn điệu quá. Trên Shoppee với Lazada thì đa số toàn ốp đểu.",
-    reply: "2",
-  },
-];
-
 const ListTopicByPost = () => {
   const { id, name } = useRouter().query;
   const [data, setData] = useState<any[]>([]);
@@ -38,7 +14,7 @@ const ListTopicByPost = () => {
   const handleReadMore = useCallback(() => {
     setPage((pre) => pre + 1);
   }, []);
-  console.log(useRouter());
+
   useEffect(() => {
     if (name) {
       articleService
@@ -64,8 +40,8 @@ const ListTopicByPost = () => {
           />
         </Col>
         <Col span={8}>
-          <HotTags tags={tags} />
-          <HotComments comments={comments} />
+          <HotTags/>
+          <HotComments />
         </Col>
       </Row>
     </div>
