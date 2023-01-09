@@ -14,7 +14,7 @@ class PropertiesService {
     });
   }
   getUserInfo(data, token) {
-    if (token) {
+    if (!token) {
       return http.get(`/users/${data}/info`);
     }
     return http.get(`/users/${data}/info`, {
