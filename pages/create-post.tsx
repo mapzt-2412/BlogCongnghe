@@ -40,6 +40,8 @@ import { genHexString, getToken } from "../libs/common";
 import Router, { useRouter } from "next/router";
 import Image from "next/image";
 import ChartWrapper from "../components/CreatePost/Chart/ChartWrapper";
+import IconChart from "../assets/icon/IconChart";
+
 const { Option } = Select;
 const { TextArea } = Input;
 const MapBox = dynamic(() => import("../components/CreatePost/Map"), {
@@ -408,8 +410,8 @@ const CreatePost = () => {
     //   callBack: () => showModalVote(),
     // },
     {
-      lable: <IconTable />,
-      title: "Bảng",
+      lable: <IconChart />,
+      title: "Biểu đồ",
       callBack: () => showModalChart(),
     },
     {
