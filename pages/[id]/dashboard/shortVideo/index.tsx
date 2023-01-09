@@ -4,7 +4,7 @@ import dashboard from "..";
 import ListShortVideo from "../../../../components/ShortVideo/ListShortVideo";
 import { getToken } from "../../../../libs/common";
 import propertiesService from "../../../../services/properties.service";
-import { Context } from "./Context";
+import { DashBoardContext } from "../../../../components/Context/context";
 
 const ShortVideo = () => {
   const [data, setData] = useState<any>();
@@ -34,7 +34,7 @@ const ShortVideo = () => {
     getStory();
   }, [getStory]);
   return (
-    <Context.Provider value={{ deleteArticle, handleChangeId, id }}>
+    <DashBoardContext.Provider value={{ deleteArticle, handleChangeId, id }}>
       <div className="list-post-container">
         <div className="list-post-content">
           <div className="list-post-content-header">
@@ -52,7 +52,7 @@ const ShortVideo = () => {
           />
         </div>
       </div>
-    </Context.Provider>
+    </DashBoardContext.Provider>
   );
 };
 export default memo(ShortVideo);

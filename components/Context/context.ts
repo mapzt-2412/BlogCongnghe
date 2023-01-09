@@ -7,4 +7,13 @@ export const Context = createContext({
 
 const ShortVideoContext = () => useContext(Context);
 
+interface IContextProps {
+    deleteArticle: () => void;
+    handleChangeId: (id: string) => void;
+    id: number;
+  }
+export const DashBoardContext = createContext({} as IContextProps);
+  
+export const useDashBoardContext = () => useContext(DashBoardContext);
+
 export default ShortVideoContext;

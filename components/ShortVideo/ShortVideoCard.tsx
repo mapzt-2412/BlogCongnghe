@@ -7,11 +7,11 @@ import { Dropdown, Menu, Space } from "antd";
 import IconMoreHorizontal from "../../assets/icon/IconMoreHorizontal";
 import propertiesService from "../../services/properties.service";
 import { getToken } from "../../libs/common";
-import useShortVideoContext from "../../pages/[id]/dashboard/shortVideo/Context";
+import { useDashBoardContext } from "../../components/Context/context";
 
-const ShortVideoCard = ({ value, onClick, type, id , avatar}) => {
+const ShortVideoCard = ({ value, onClick, type, id, avatar }) => {
   const [isModalVisible, setIsModalVisble] = useState(false);
-  const { handleChangeId, deleteArticle } = useShortVideoContext();
+  const { handleChangeId, deleteArticle } = useDashBoardContext();
   const ref = useRef<HTMLVideoElement>();
   const handleMouseEnter = () => {
     ref?.current?.play();
@@ -79,12 +79,7 @@ const ShortVideoCard = ({ value, onClick, type, id , avatar}) => {
       <div className="short-video-avatar">
         {avatar ? (
           <div className="avatar-medium">
-            <Image
-              src={avatar}
-              width={36}
-              height={36}
-              alt="avatar"
-            />
+            <Image src={avatar} width={36} height={36} alt="avatar" />
           </div>
         ) : (
           <AvatarDefaultSmall width={36} height={36} />
