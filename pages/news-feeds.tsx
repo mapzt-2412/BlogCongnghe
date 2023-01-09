@@ -24,11 +24,18 @@ const NewsFeeds = () => {
   const [page, setPage] = useState(1);
   const [pageIndex, setPageIndex] = useState(1);
   const [articles, setArticles] = useState<any[]>([]);
+  const [myInfor, setMyInfor] = useState<any>();
 
   const { shortVideoIds } = useContext(UserInfo);
   const getStory = useCallback(() => {
-    PropertiesService.getStory({ page: page, limit: 5 }, getToken()).then((data) =>
-      setData([...data.data.data.myStories, ...data.data.data.followingStories])
+    PropertiesService.getStory({ page: page, limit: 5 }, getToken()).then(
+      (data) => {
+        setData([
+          ...data.data.data.myStories,
+          ...data.data.data.followingStories,
+        ]);
+        setMyInfor(data.data.data.myInfo);
+      }
     );
   }, [page]);
   useEffect(() => {
@@ -58,6 +65,8 @@ const NewsFeeds = () => {
           page={page}
           setPage={setPage}
           getStory={getStory}
+          type={undefined}
+          myInfor={myInfor}
         />
         <div className="post-detail-container">
           <ListPost

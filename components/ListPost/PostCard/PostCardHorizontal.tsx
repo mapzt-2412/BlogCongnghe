@@ -122,6 +122,8 @@ const PostCardHorizontal = ({ data, type, deleteArticle, deleteDraft }) => {
           setIsModalConfirmVisible={setIsModalVisble}
           type={"delete"}
           callBack={handleDelete}
+          reqData={undefined}
+          draftID={undefined}
         />
         {type && (
           <div className="post-more">

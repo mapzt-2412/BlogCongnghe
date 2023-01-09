@@ -13,7 +13,7 @@ import { ROUTE_SHORTVIDEO } from "../../libs/constants";
 import propertiesService from "../../services/properties.service";
 // import UploadVideo from "../components/CreatePost/UploadVideo";
 
-const ListShortVideo = ({ data, page, setPage, getStory, type }) => {
+const ListShortVideo = ({ data, page, setPage, getStory, type, myInfor }) => {
   const { id } = useRouter().query;
   const ref = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,9 +60,11 @@ const ListShortVideo = ({ data, page, setPage, getStory, type }) => {
         {data?.map((value, index) => (
           <ShortVideoCard
             value={JSON.parse(value.content)}
+            id={value.id}
             key={index}
             onClick={() => handleClick(value.id)}
             type = {type}
+            avatar = {value?.user?.avatar ? value?.user?.avatar: myInfor?.avatar}
           />
         ))}
       </div>
