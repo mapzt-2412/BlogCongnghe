@@ -62,18 +62,16 @@ const Profile = (props) => {
   };
 
   useEffect(() => {
-    if (token) {
-      if (id) {
-        PropertiesService.getUserInfo(id, token).then((data) => {
-          setUserInfo((pre) => ({ ...pre, data: data.data.data }));
-          setIsFollow(data.data.data.isFollow);
-        });
-        PropertiesService.getArticleByUserId(id, page).then((data) =>
-          setListPost((pre) => [...pre, ...data.data.data])
-        );
-      }
+    PropertiesService.getUserInfo(id, token).then((data) => {
+      setUserInfo((pre) => ({ ...pre, data: data.data.data }));
+      setIsFollow(data.data.data.isFollow);
+    });
+    if (id) {
+      PropertiesService.getArticleByUserId(id, page).then((data) =>
+        setListPost((pre) => [...pre, ...data.data.data])
+      );
     }
-  }, [token, id, setUserInfo, page]);
+  }, [id, setUserInfo, page, token]);
   const handleReadMore = useCallback(() => {
     setPage((pre) => pre + 1);
   }, []);
