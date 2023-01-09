@@ -122,7 +122,7 @@ const NotiItem = ({ content }) => {
                     value.result?.map((value, index) => (
                       <>
                         <div className="sub-title" onClick={showModal}>
-                          Video vi phạm <IconArrowRightRed />
+                          Từ ngữ vi phạm <IconArrowRightRed />
                         </div>
 
                         <Modal
