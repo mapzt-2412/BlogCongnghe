@@ -20,7 +20,6 @@ const Recommend = () => {
   }, [page]);
   if (!getToken()) {
     Router.push(ROUTE_TREND);
-    return null;
   }
   return (
     <div className="main-container">
