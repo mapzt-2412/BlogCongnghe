@@ -18,10 +18,7 @@ const Recommend = () => {
       setListTrends(data.data.data.map((data) => data.article));
     });
   }, [page]);
-  if (!getToken()) {
-    Router.push(ROUTE_TREND);
-    return <></>;
-  }
+
   return (
     <div className="main-container">
       <div className="list-post-header">
